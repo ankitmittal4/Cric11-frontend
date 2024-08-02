@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Contests = () => {
   const [contests, setContests] = useState([]);
@@ -17,6 +18,7 @@ const Contests = () => {
           entry: "49",
           spots: "200",
           spotsLeft: "123",
+          time: "Today 07:00 PM",
         },
         {
           _id: "2",
@@ -25,6 +27,7 @@ const Contests = () => {
           entry: "49",
           spots: "2000",
           spotsLeft: "983",
+          time: "Today 09:00 PM",
         },
         {
           _id: "3",
@@ -33,6 +36,7 @@ const Contests = () => {
           entry: "10",
           spots: "100",
           spotsLeft: "98",
+          time: "Today 04:00 PM",
         },
         {
           _id: "4",
@@ -41,6 +45,7 @@ const Contests = () => {
           entry: "20",
           spots: "50",
           spotsLeft: "32",
+          time: "Today 02:00 PM",
         },
       ];
       setContests(response);
@@ -55,13 +60,15 @@ const Contests = () => {
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {contests.map((contest) => (
-          <div
+          <Link
+            to={`/contests/${contest._id}`}
             key={contest._id}
-            className=" p-4 rounded-lg shadow-md border-2 border-gray-400 bg-gray-50"
+            className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-400 bg-gray-50"
           >
-            <h2 className="text-xl font-bold text-center text-gray-600">
+            <h2 className="text-xl font-bold text-center text-gray-600 mb-1 ">
               {contest.name}
             </h2>
+            <p className="text-center  text-xs text-red-600">{contest.time}</p>
             <div className="flex justify-between">
               <p className="text-black mt-4">
                 Prize Pool:{" "}
@@ -84,7 +91,7 @@ const Contests = () => {
                 </span>
               </p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
@@ -92,3 +99,10 @@ const Contests = () => {
 };
 
 export default Contests;
+
+{
+  /* <div
+            key={contest._id}
+            className=" "
+          > */
+}
