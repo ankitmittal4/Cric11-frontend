@@ -25,7 +25,7 @@ const NavBar = () => {
               }`
             }
           >
-            User Teams
+            User Contests
           </NavLink>
           <NavLink
             to="/players"

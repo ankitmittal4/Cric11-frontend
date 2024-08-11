@@ -13,6 +13,7 @@ import Matches from "./components/Matches";
 import Teams from "./components/Teams";
 import ContestDetails from "./components/ContestDetails";
 import Admin from "./components/Admin/Admin";
+import UserContestDetails from "./components/UserContestDetails";
 
 const AppContent = () => {
   const location = useLocation();
@@ -27,7 +28,9 @@ const AppContent = () => {
             path="/"
             element={<h1 className="text-2xl font-bold">Welcome to Cric11</h1>}
           />
+          <Route path="/user-teams" element={<Home />} />
           <Route path="/user-teams" element={<UserTeams />} />
+          <Route path="/user-teams/:id" element={<UserContestDetails />} />
           <Route path="/players" element={<Players />} />
           <Route path="/contests" element={<Contests />} />
           <Route path="/matches" element={<Matches />} />
