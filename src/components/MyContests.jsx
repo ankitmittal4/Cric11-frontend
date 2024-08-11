@@ -59,7 +59,7 @@ const UserTeams = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {contests.map((contest) => (
           <Link
-            to={`/user-teams/${contest._id}`}
+            to={`/my-contests/${contest._id}`}
             key={contest._id}
             className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-400 bg-gray-50"
           >
