@@ -24,8 +24,8 @@ const WalletBalance = () => {
 
   return (
     <div className="text-white ml-16 font-bold">
-      <FontAwesomeIcon icon={faWallet} className="text-white text-2xl" /> ₹
-      {balance}
+      <FontAwesomeIcon icon={faWallet} className="text-white text-2xl" />{" "}
+      <span className="">₹{balance}</span>
     </div>
   );
 };

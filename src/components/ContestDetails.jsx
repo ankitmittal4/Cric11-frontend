@@ -252,7 +252,7 @@ const ContestDetails = () => {
 
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded mt-4 mx-auto block"
+              className="bg-green-600 text-white px-4 py-2 rounded mt-10 mb-11 mx-auto block hover:bg-green-700"
             >
               Submit Team
             </button>
@@ -265,7 +265,6 @@ const ContestDetails = () => {
                   Team Preview
                 </h2>
 
-                {/* Row 1: 2 players centered */}
                 <div className="flex justify-center gap-24 mt-8 mb-7">
                   {selectedPlayerIds.slice(0, 2).map((id) => {
                     const player = players.find((p) => p._id === id);
@@ -285,7 +284,7 @@ const ContestDetails = () => {
                             (VC)
                           </span>
                         )}
-                        <span className="block text-white px-4 rounded-sm py-px bg-red-600 text-sm">
+                        <span className="block text-white px-6 rounded-sm py-px bg-red-600 text-sm">
                           {player.name}
                         </span>
                       </div>

@@ -63,7 +63,7 @@ const Home = () => {
           <Link
             to={`/${contest._id}`}
             key={contest._id}
-            className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-400 bg-gray-50"
+            className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-gray-200"
           >
             <h2 className="text-xl font-bold text-center text-gray-600 mb-1 ">
               {contest.name}
