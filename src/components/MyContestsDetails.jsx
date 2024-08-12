@@ -66,26 +66,24 @@ const UserContestDetails = () => {
         <div className="md:w-1/2 p-4">
           <h2 className="text-xl font-bold">Contest Details</h2>
           <p className="text-black mt-4">
-            Prize Pool:{" "}
-            <span className="font-semibold">₹{contest.prizePool}</span>
-          </p>
-          <p className="text-black mt-4">
-            Entry: <span className="font-semibold">₹{contest.entry}</span>
-          </p>
-          <p className="text-black mt-4">
-            Spots: <span className="font-semibold">{contest.spots}</span>
-          </p>
-          <p className="text-black mt-4">
-            Spots Left:{" "}
-            <span className="text-red-500 font-bold">{contest.spotsLeft}</span>
-          </p>
-          <p className="text-black mt-4">
             Time: <span className="font-semibold">{contest.time}</span>
+          </p>
+          <p className="text-black mt-4">
+            Prize Pool:{" "}
+            <span className="font-semibold text-red-600">
+              ₹{contest.prizePool}
+            </span>
+          </p>
+          <p className="text-black mt-4">
+            Entry:{" "}
+            <span className="font-semibold text-green-700">
+              ₹{contest.entry}
+            </span>
           </p>
         </div>
         <div className="md:w-1/2">
           <h2 className="text-xl font-bold text-center mb-7">Select Your 11</h2>
-          <form className="">
+          {/* <form className="">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {players.map((player) => (
                 <div key={player._id} className="flex items-center mb-2">
@@ -108,7 +106,7 @@ const UserContestDetails = () => {
             >
               Submit Team
             </button>
-          </form>
+          </form> */}
         </div>
       </div>
     </div>

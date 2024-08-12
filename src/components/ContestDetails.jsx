@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const ContestDetails = () => {
   const { id } = useParams(); // Get the contest ID from the URL
@@ -12,11 +14,6 @@ const ContestDetails = () => {
   const [selectedPlayerIds, setSelectedPlayerIds] = useState([]);
   const [captainId, setCaptainId] = useState(null);
   const [viceCaptainId, setViceCaptainId] = useState(null);
-
-  // const [submittedTeam, setSubmittedTeam] = useState(null);
-  // const [isTeamSubmit, setIsTeamSubmit] = useState(false);
-  // const [isSubmitted, setIsSubmitted] = useState(false);
-  // const [submittedTeam, setSubmittedTeam] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -62,12 +59,34 @@ const ContestDetails = () => {
   //   setIsTeamSubmit(true);
   // };
 
+  //TODO: Validation on submit
   const handleSubmitTeam = (e) => {
     e.preventDefault();
+    //validation for captain and vc present
+    if (selectedPlayerIds.length < 11) {
+      setError("Select exactly 11 players");
+      return;
+    }
+    if (!captainId || !selectedPlayerIds.includes(captainId)) {
+      setError("Captain is mandatory");
+      return;
+    }
+    if (!viceCaptainId || !selectedPlayerIds.includes(viceCaptainId)) {
+      setError("Vice-Captain is mandatory");
+      return;
+    }
+    // if () {
+    //   setError("Captain is not in playing 11");
+    //   return;
+    // }
+    // if () {
+    //   setError("Vice-Captain is not in playing 11");
+    //   return;
+    // }
     setIsModalOpen(true);
   };
 
-  const closeModel = () => {
+  const closeModal = () => {
     setIsModalOpen(false);
   };
 
@@ -105,15 +124,15 @@ const ContestDetails = () => {
         { _id: "8", name: "Dube", role: "All-rounder" },
         { _id: "9", name: "Jasprit", role: "Bowler" },
         { _id: "10", name: "Arshdeep", role: "Bowler" },
-        { _id: "11", name: "A", role: "Bowler" },
-        { _id: "12", name: "B", role: "Bowler" },
-        { _id: "13", name: "C", role: "Bowler" },
-        { _id: "14", name: "D", role: "Bowler" },
-        { _id: "15", name: "e", role: "Bowler" },
-        { _id: "16", name: "f", role: "Bowler" },
-        { _id: "17", name: "g", role: "Bowler" },
-        { _id: "18", name: "j", role: "Bowler" },
-        { _id: "19", name: "u", role: "Bowler" },
+        { _id: "11", name: "Quinton", role: "Bowler" },
+        { _id: "12", name: "Kane Williamsin", role: "Bowler" },
+        { _id: "13", name: "NickyP", role: "Bowler" },
+        { _id: "14", name: "Steven Smith", role: "Bowler" },
+        { _id: "15", name: "Starc", role: "Bowler" },
+        { _id: "16", name: "Cummins", role: "Bowler" },
+        { _id: "17", name: "Stokes", role: "Bowler" },
+        { _id: "18", name: "Jofra", role: "Bowler" },
+        { _id: "19", name: "Miller", role: "Bowler" },
         // Add more players as needed
       ];
       setPlayers(playersResponse);
@@ -234,39 +253,92 @@ const ContestDetails = () => {
             <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded mt-4 mx-auto block"
-              // onClick={handleSubmitTeam()}-
             >
               Submit Team
             </button>
           </form>
+
           {isModalOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-              <div className="bg-white p-6 rounded-lg w-full max-w-lg">
-                <h2 className="text-xl font-bold mb-4">Team Preview</h2>
-                <ul>
-                  {selectedPlayerIds.map((id) => {
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-green-500 p-6 rounded-lg w-full max-w-lg">
+                <h2 className="text-xl font-bold mb-4 text-center text-gray-800">
+                  Team Preview
+                </h2>
+
+                {/* Row 1: 2 players centered */}
+                <div className="flex justify-center gap-24 mt-8 mb-7">
+                  {selectedPlayerIds.slice(0, 2).map((id) => {
                     const player = players.find((p) => p._id === id);
                     return (
-                      <li key={player._id} className="text-black">
-                        {player.name}
-                        {captainId === player._id && " (Captain)"}
-                        {viceCaptainId === player._id && " (Vice-Captain)"}
-                      </li>
+                      <div key={player._id} className="text-center">
+                        <FontAwesomeIcon
+                          icon={faUser}
+                          className="text-green-900 text-3xl"
+                        />{" "}
+                        {captainId === player._id && (
+                          <span className="text-sm text-black font-semibold">
+                            (C)
+                          </span>
+                        )}
+                        {viceCaptainId === player._id && (
+                          <span className="text-sm font-semibold text-black">
+                            (VC)
+                          </span>
+                        )}
+                        <span className="block text-white px-4 rounded-sm py-px bg-red-600 text-sm">
+                          {player.name}
+                        </span>
+                      </div>
                     );
                   })}
-                </ul>
-                <button
-                  className="bg-green-500 text-white px-4 py-2 rounded mt-4 mx-auto block"
-                  // onClick={}
-                >
-                  Join Contest
-                </button>
-                <button
-                  className="bg-red-500 text-white px-4 py-2 rounded mt-4 mx-auto block"
-                  onClick={closeModel}
-                >
-                  Close
-                </button>
+                </div>
+
+                {[2, 5, 8].map((startIdx, index) => (
+                  <div key={index} className="grid grid-cols-3 gap-20 mt-12 ">
+                    {selectedPlayerIds
+                      .slice(startIdx, startIdx + 3)
+                      .map((id) => {
+                        const player = players.find((p) => p._id === id);
+                        return (
+                          <div key={player._id} className="text-center">
+                            <FontAwesomeIcon
+                              icon={faUser}
+                              className="text-green-900 text-3xl"
+                            />{" "}
+                            {captainId === player._id && (
+                              <span className="text-sm text-black font-semibold">
+                                (C)
+                              </span>
+                            )}
+                            {viceCaptainId === player._id && (
+                              <span className="text-sm font-semibold text-black">
+                                (VC)
+                              </span>
+                            )}
+                            <span className="block text-white rounded-sm py-px bg-red-600 text-sm">
+                              {player.name}
+                            </span>
+                          </div>
+                        );
+                      })}
+                  </div>
+                ))}
+
+                <hr className="mt-10 "></hr>
+                <div className="flex mt-5">
+                  <button
+                    className="bg-green-800 text-white px-4 py-2 rounded mt-4 mx-auto block hover:bg-green-700 "
+                    // onClick={handleJoinContest}
+                  >
+                    Join Contest
+                  </button>
+                  <button
+                    className="bg-red-700 text-white px-5 py-2 rounded mt-4 mx-auto block hover:bg-red-600"
+                    onClick={closeModal}
+                  >
+                    Back
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -276,19 +348,3 @@ const ContestDetails = () => {
   );
 };
 export default ContestDetails;
-
-//FIXME:
-
-//               <div className="mt-4">
-//                 <p>Selected Players: {selectedPlayerIds.length} / 11</p>
-//                 <p>
-//                   Captain:{" "}
-//                   {players.find((player) => player._id === captainId)?.name ||
-//                     "None"}
-//                 </p>
-//                 <p>
-//                   Vice Captain:{" "}
-//                   {players.find((player) => player._id === viceCaptainId)
-//                     ?.name || "None"}
-//                 </p>
-//               </div>
