@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-
+import axios from "axios";
 const CreateContest = () => {
   const { matchId } = useParams();
   const [entryFee, setEntryFee] = useState("");
@@ -17,13 +17,17 @@ const CreateContest = () => {
       matchId,
       entryFee,
       prizePool,
-      totalSpots,
+      maxParticipants: totalSpots,
     };
 
     try {
-      const response = await axios.post("/api/create-contest", contestData);
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/contests/create",
+        contestData
+      );
 
       // Handle successful creation
+      // console.log(response);
       alert("Contest created successfully!");
     } catch (error) {
       // Handle errors
