@@ -96,46 +96,19 @@ const ContestDetails = () => {
 
   useEffect(() => {
     const fetchContestDetails = async () => {
-      // const response = await axios.get(`/api/contests/${id}`);
-      // setContest(response.data);
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/contests/get",
+        { id }
+      );
+      console.log("response: ", response.data.data);
 
-      // Mock data for demonstration
-      const response = {
-        _id: id,
-        name: "India vs sri-Lanka",
-        prizePool: "10000",
-        entry: "49",
-        spots: "200",
-        spotsLeft: "123",
-        time: "Today 07:00 PM",
-        description: "Detailed information about the contest",
-      };
-      setContest(response);
+      setContest(response.data.data);
 
-      // Fetch players for team selection (mock data)
-      const playersResponse = [
-        { _id: "1", name: "Rohit", role: "Batsman" },
-        { _id: "2", name: "Virat", role: "Batsman" },
-        { _id: "3", name: "KL Rahul", role: "Batsman" },
-        { _id: "4", name: "Jaiswal", role: "Batsman" },
-        { _id: "5", name: "Sky", role: "Batsman" },
-        { _id: "6", name: "Hardik", role: "All-rounder" },
-        { _id: "7", name: "Rinku", role: "Batsman" },
-        { _id: "8", name: "Dube", role: "All-rounder" },
-        { _id: "9", name: "Jasprit", role: "Bowler" },
-        { _id: "10", name: "Arshdeep", role: "Bowler" },
-        { _id: "11", name: "Quinton", role: "Bowler" },
-        { _id: "12", name: "Kane Williamsin", role: "Bowler" },
-        { _id: "13", name: "NickyP", role: "Bowler" },
-        { _id: "14", name: "Steven Smith", role: "Bowler" },
-        { _id: "15", name: "Starc", role: "Bowler" },
-        { _id: "16", name: "Cummins", role: "Bowler" },
-        { _id: "17", name: "Stokes", role: "Bowler" },
-        { _id: "18", name: "Jofra", role: "Bowler" },
-        { _id: "19", name: "Miller", role: "Bowler" },
-        // Add more players as needed
-      ];
-      setPlayers(playersResponse);
+      // Fetch (squad)players for team selection
+      const playersResponse1 = response.data.data.squadRef.squad[0].players;
+      const playersResponse2 = response.data.data.squadRef.squad[1].players;
+      const combinedSquad = playersResponse1.concat(playersResponse2);
+      setPlayers(combinedSquad);
     };
 
     fetchContestDetails();
@@ -146,31 +119,50 @@ const ContestDetails = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6 text-gray-600 text-center">
-        {contest.name}
+        {contest.matchRef.name}
       </h1>
       {/* <p className="mb-4 text-gray-700">{contest.description}</p> */}
       <div className="flex flex-col md:flex-row">
-        <div className="md:w-1/2 p-4">
-          <h2 className="text-xl font-bold">Contest Details</h2>
+        <div className="md:w-1/2 p-4 text-xl">
+          <h2 className="text-2xl font-bold">Contest Details:</h2>
+          <p className="text-black mt-4">
+            Match Type:{" "}
+            <span className="font-semibold uppercase text-blue-600">
+              {contest.matchRef.matchType}
+            </span>
+          </p>
+          <p className="text-black mt-4">
+            Date:{" "}
+            <span className="font-semibold text-orange-600">
+              {contest.matchRef.date.split("-").reverse().join("-")}
+            </span>
+          </p>
+          <p className="text-black mt-4">
+            Start Time(IST):{" "}
+            <span className="font-semibold text-orange-600">
+              {contest.matchRef.startTime}
+            </span>
+          </p>
           <p className="text-black mt-4">
             Prize Pool:{" "}
-            <span className="font-semibold">₹{contest.prizePool}</span>
+            <span className="font-semibold text-red-600">
+              ₹{contest.prizePool}
+            </span>
           </p>
           <p className="text-black mt-4">
-            Entry: <span className="font-semibold">₹{contest.entry}</span>
+            Entry:{" "}
+            <span className="font-semibold text-green-600">
+              ₹{contest.entryFee}
+            </span>
           </p>
           <p className="text-black mt-4">
-            Spots: <span className="font-semibold">{contest.spots}</span>
-          </p>
-          <p className="text-black mt-4">
-            Spots Left:{" "}
-            <span className="text-red-500 font-bold">{contest.spotsLeft}</span>
-          </p>
-          <p className="text-black mt-4">
-            Time: <span className="font-semibold">{contest.time}</span>
+            Spots:{" "}
+            <span className="font-semibold text-red-600">
+              {contest.maxParticipants}
+            </span>
           </p>
         </div>
-        <div className="md:w-1/2">
+        <div className="md:w-2/3">
           <h2 className="text-xl font-bold text-center mb-7">
             Selected Players: {selectedPlayerIds.length} / 11
           </h2>
@@ -179,7 +171,7 @@ const ContestDetails = () => {
               <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
                 <thead>
                   <tr className="text-left border-b-2 bg-slate-200">
-                    <th className="py-2 text-md px-4 w-44">Player Name</th>
+                    <th className="py-2 text-md px-4 w-56">Player Name</th>
                     <th className="px-4 ">Role</th>
                     <th className="py-2 px-4">Captain (C)</th>
                     <th className="py-2 px-4">Vice-Captain (VC)</th>

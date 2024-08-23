@@ -19,10 +19,10 @@ const Sidebar = () => (
       </li>
       <li className="mb-3">
         <Link
-          to="products"
+          to="contests"
           className="block p-1 px-3 rounded-lg hover:bg-gray-600"
         >
-          Products
+          Contests
         </Link>
       </li>
       <li className="mb-3">
