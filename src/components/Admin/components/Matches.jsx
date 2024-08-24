@@ -18,7 +18,13 @@ const Matches = () => {
     setLoading(true);
 
     const upcomingMatchesApiEndpoint = "cricScore";
-    const apiKey = "d74596ad-412b-4ff0-81f7-d040557e2098";
+
+    // const apiKey = "514f076f-7982-4057-af93-a67492703940";
+    // const apiKey = "46bdd8c8-e5a0-4e69-b610-3d78d92ee081";
+    // const apiKey = "f526c20d-e2b2-4410-9f53-20c008f311df";
+
+    // const apiKey = "b07addfd-8d5b-45e5-8c6c-3e8170c93f4c";
+    const apiKey = "4ef4f3fd-defa-4095-9983-13f81c289499";
     const upcomingMatchesApiUrl = `https://api.cricapi.com/v1/${upcomingMatchesApiEndpoint}?apikey=${apiKey}`;
     const upcomingMatches = await axios.get(upcomingMatchesApiUrl);
     if (
