@@ -52,7 +52,7 @@ const LoginForm = () => {
         setErrorMsg(false);
 
         dispatch(setToken(token));
-        localStorage.setItem("token", token);
+        localStorage.setItem("accessToken", token);
 
         dispatch(setActiveUser(username));
         localStorage.setItem("username", username);

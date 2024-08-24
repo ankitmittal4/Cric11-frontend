@@ -47,18 +47,6 @@ const ContestDetails = () => {
 
   const isPlayerSelected = (playerId) => selectedPlayerIds.includes(playerId);
 
-  // const handleSubmitTeam = (e) => {
-  //   e.preventDefault();
-  //   setSubmittedTeam({
-  //     selectedPlayers: selectedPlayerIds,
-  //     captain: selectedPlayerIds.find((player) => captainId === player._id),
-  //     viceCaptain: selectedPlayerIds.find(
-  //       (player) => viceCaptainId === player._id
-  //     ),
-  //   });
-  //   setIsTeamSubmit(true);
-  // };
-
   //TODO: Validation on submit
   const handleSubmitTeam = (e) => {
     e.preventDefault();
@@ -92,6 +80,35 @@ const ContestDetails = () => {
 
   const closeErrorPopup = () => {
     setError("");
+  };
+  const handleJoinContest = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    console.log("accessToken: ", accessToken);
+    const contestData = {
+      contestId: id,
+      players: selectedPlayerIds,
+      captain: captainId,
+      viceCaptain: viceCaptainId,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/user-contest/create",
+        contestData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      console.log("Joined contest: ", response);
+      alert("Contest Joined successfully!");
+    } catch (error) {
+      alert("Failed! Contest Not Joined...");
+
+      console.log(error.response?.data?.message || "Failed to create contest");
+    }
   };
 
   useEffect(() => {
@@ -319,7 +336,7 @@ const ContestDetails = () => {
                 <div className="flex mt-5">
                   <button
                     className="bg-green-800 text-white px-4 py-2 rounded mt-4 mx-auto block hover:bg-green-700 "
-                    // onClick={handleJoinContest}
+                    onClick={handleJoinContest}
                   >
                     Join Contest
                   </button>
