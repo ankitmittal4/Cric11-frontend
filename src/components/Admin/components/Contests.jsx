@@ -15,6 +15,12 @@ const Contests = () => {
     fetchContests();
   }, []);
 
+  const deleteContest = async (id) => {
+    console.log("deleted id: ", id);
+    const response = await axios.delete(
+      "http://localhost:8000/api/v1/contests/delete"
+    );
+  };
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6 text-white">Created Contests</h1>
@@ -49,9 +55,12 @@ const Contests = () => {
                 Spots:{" "}
                 <span className="font-semibold">{contest.maxParticipants}</span>
               </p>
-              {/* <p className="text-black mt-4">
-                Left Spots: <span className="text-red-500 font-bold">{12}</span>
-              </p> */}
+              <button
+                onClick={() => deleteContest(contest._id)}
+                className="text-white bg-red-600 px-5 py-1 rounded-md mt-4 hover:bg-red-700"
+              >
+                Delete
+              </button>
             </div>
           </Link>
         ))}
