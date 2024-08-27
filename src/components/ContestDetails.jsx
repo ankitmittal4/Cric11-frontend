@@ -117,13 +117,14 @@ const ContestDetails = () => {
         "http://localhost:8000/api/v1/contests/get",
         { id }
       );
-      console.log("response: ", response.data.data);
+      // console.log("response: ", response.data.data);
 
       setContest(response.data.data);
 
       // Fetch (squad)players for team selection
       const playersResponse1 = response.data.data.squadRef.squad[0].players;
       const playersResponse2 = response.data.data.squadRef.squad[1].players;
+      // console.log("combinedSquad: ", playersResponse1);
       const combinedSquad = playersResponse1.concat(playersResponse2);
       setPlayers(combinedSquad);
     };

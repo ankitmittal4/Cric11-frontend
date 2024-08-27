@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const Contests = () => {
   const [contests, setContests] = useState([]);
-
   useEffect(() => {
     const fetchContests = async () => {
       const response = await axios.get(
@@ -16,10 +15,23 @@ const Contests = () => {
   }, []);
 
   const deleteContest = async (id) => {
-    console.log("deleted id: ", id);
-    const response = await axios.delete(
-      "http://localhost:8000/api/v1/contests/delete"
-    );
+    try {
+      const response = await axios.delete(
+        "http://localhost:8000/api/v1/contests/delete/",
+        {
+          data: { id },
+        }
+      );
+      if (response.status === 200) {
+        setContests((prevContests) =>
+          prevContests.filter((contest) => contest._id !== id)
+        );
+        alert("Contest deleted Successfully");
+      }
+    } catch (error) {
+      console.log("Error while deleting contest: ", error);
+      alert("Failed to delete contest. Please try again.");
+    }
   };
   return (
     <div className="container mx-auto p-4">
