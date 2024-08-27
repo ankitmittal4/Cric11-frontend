@@ -46,11 +46,31 @@ const Contests = () => {
             <h2 className="text-xl font-bold text-center text-gray-900 mb-1 ">
               {contest.match.name}
             </h2>
-            <p className="text-center  text-xs text-red-600 font-semibold">
-              {contest.match.date.split("-").reverse().join("-")}
-              <br></br>
-              {contest.match.startTime}
-            </p>
+            <div className="flex justify-between mt-4 mb-1">
+              {contest.match.teamBImg ? (
+                <img
+                  src={contest.match.teamBImg}
+                  alt="A"
+                  className="your-css-class h-9"
+                />
+              ) : (
+                <p></p>
+              )}
+              <p className="text-center  text-xs text-red-600 font-bold">
+                {contest.match.date.split("-").reverse().join("-")}
+                <br></br>
+                {contest.match.startTime}
+              </p>
+              {contest.match.teamAImg ? (
+                <img
+                  src={contest.match.teamAImg}
+                  alt="B"
+                  className="your-css-class h-9"
+                />
+              ) : (
+                <p></p>
+              )}
+            </div>
             <div className="flex justify-between">
               <p className="text-black mt-4">
                 Prize Pool:{" "}

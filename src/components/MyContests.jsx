@@ -24,7 +24,7 @@ const UserTeams = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6 text-gray-600">User Contests</h1>
+      <h1 className="text-2xl font-bold mb-6 text-gray-600">My Contests</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {contests.length === 0 ? (
           <div className="flex justify-center col-span-full">
@@ -42,11 +42,31 @@ const UserTeams = () => {
               <h2 className="text-xl font-bold text-center text-gray-600 mb-1 ">
                 {contest.matchDetails.name}
               </h2>
-              <p className="text-center  text-xs text-red-600 font-bold">
-                {contest.matchDetails.date.split("-").reverse().join("-")}
-                <br></br>
-                {contest.matchDetails.startTime}
-              </p>
+              <div className="flex justify-between mt-4 mb-1">
+                {contest.matchDetails.teamBImg ? (
+                  <img
+                    src={contest.matchDetails.teamBImg}
+                    alt="A"
+                    className="your-css-class h-9"
+                  />
+                ) : (
+                  <p></p>
+                )}
+                <p className="text-center  text-xs text-red-600 font-bold">
+                  {contest.matchDetails.date.split("-").reverse().join("-")}
+                  <br></br>
+                  {contest.matchDetails.startTime}
+                </p>
+                {contest.matchDetails.teamAImg ? (
+                  <img
+                    src={contest.matchDetails.teamAImg}
+                    alt="B"
+                    className="your-css-class h-9"
+                  />
+                ) : (
+                  <p></p>
+                )}
+              </div>
               <div className="flex justify-between">
                 <p className="text-black mt-4">
                   Prize Pool:{" "}
