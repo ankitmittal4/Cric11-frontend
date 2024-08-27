@@ -184,16 +184,16 @@ const UserContestDetails = () => {
                         icon={faUser}
                         className="text-green-800 text-3xl"
                       />{" "}
-                      {/* {player.isCaptain && (
+                      {player._id === contest.captain && (
                         <span className="text-sm text-black font-semibold">
                           (C)
                         </span>
                       )}
-                      {player.isVC && (
+                      {player._id === contest.viceCaptain && (
                         <span className="text-sm font-semibold text-black">
                           (VC)
                         </span>
-                      )} */}
+                      )}
                       <span className="block text-white px-6 rounded-sm py-px bg-red-600 text-sm">
                         {player.name}
                       </span>
@@ -211,16 +211,16 @@ const UserContestDetails = () => {
                           icon={faUser}
                           className="text-green-800 text-3xl"
                         />{" "}
-                        {/* {player.isCaptain && (
+                        {player._id === contest.captain && (
                           <span className="text-sm text-black font-semibold">
                             (C)
                           </span>
                         )}
-                        {player.isVC && (
+                        {player._id === contest.viceCaptain && (
                           <span className="text-sm font-semibold text-black">
                             (VC)
                           </span>
-                        )} */}
+                        )}
                         <span className="block text-white rounded-sm py-px bg-red-600 text-sm">
                           {player.name}
                         </span>

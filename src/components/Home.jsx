@@ -10,7 +10,7 @@ const Home = () => {
       const response = await axios.get(
         "http://localhost:8000/api/v1/contests/all"
       );
-      // console.log("response.data: ", response.data.data);
+      console.log("response.data: ", response.data.data);
       setContests(response.data.data);
     };
     fetchContests();
@@ -31,6 +31,13 @@ const Home = () => {
             <h2 className="text-xl font-bold text-center text-gray-600 mb-1 ">
               {contest.match.name}
             </h2>
+            <span>
+              <img
+                src={contest.match.t1img}
+                alt="Description of the image"
+                className="your-css-class"
+              />
+            </span>
             <p className="text-center  text-xs text-red-600 font-bold">
               {contest.match.date.split("-").reverse().join("-")}
               <br></br>

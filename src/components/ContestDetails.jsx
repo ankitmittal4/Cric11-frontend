@@ -3,9 +3,11 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const ContestDetails = () => {
   const { id } = useParams(); // Get the contest ID from the URL
+  const navigate = useNavigate();
   const [contest, setContest] = useState(null);
   const [players, setPlayers] = useState([]); // Assuming you want to select players
 
@@ -101,9 +103,11 @@ const ContestDetails = () => {
           },
         }
       );
-
-      console.log("Joined contest: ", response);
-      alert("Contest Joined successfully!");
+      if (response.data.statusCode === 200) {
+        navigate("/my-contests");
+        // console.log("Joined contest: ", response);
+        alert("Contest Joined successfully!");
+      }
     } catch (error) {
       alert("Failed! Contest Not Joined...");
 
@@ -269,8 +273,8 @@ const ContestDetails = () => {
           </form>
 
           {isModalOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-green-500 p-6 rounded-lg w-full max-w-lg">
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 overflow-y-auto">
+              <div className="relative bg-green-500 p-6 rounded-lg w-full max-w-lg mx-4 my-4 ">
                 <h2 className="text-xl font-bold mb-4 text-center text-gray-800">
                   Team Preview
                 </h2>
@@ -303,7 +307,7 @@ const ContestDetails = () => {
                 </div>
 
                 {[2, 5, 8].map((startIdx, index) => (
-                  <div key={index} className="grid grid-cols-3 gap-20 mt-12 ">
+                  <div key={index} className="grid grid-cols-3 gap-20 mt-12">
                     {selectedPlayerIds
                       .slice(startIdx, startIdx + 3)
                       .map((id) => {
@@ -333,10 +337,10 @@ const ContestDetails = () => {
                   </div>
                 ))}
 
-                <hr className="mt-10 "></hr>
+                <hr className="mt-10" />
                 <div className="flex mt-5">
                   <button
-                    className="bg-green-800 text-white px-4 py-2 rounded mt-4 mx-auto block hover:bg-green-700 "
+                    className="bg-green-800 text-white px-4 py-2 rounded mt-4 mx-auto block hover:bg-green-700"
                     onClick={handleJoinContest}
                   >
                     Join Contest

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const CreateContest = () => {
   const { matchId } = useParams();
   const [entryFee, setEntryFee] = useState("");
   const [prizePool, setPrizePool] = useState("");
   const [totalSpots, setTotalSpots] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,9 +28,12 @@ const CreateContest = () => {
         contestData
       );
 
+      if (response.data.statusCode === 200) {
+        alert("Contest created successfully!");
+        navigate("/admin/dashboard/contests");
+      }
       // Handle successful creation
       // console.log(response);
-      alert("Contest created successfully!");
     } catch (error) {
       // Handle errors
       setErrorMessage(
