@@ -85,7 +85,7 @@ const ContestDetails = () => {
   };
   const handleJoinContest = async () => {
     const accessToken = localStorage.getItem("accessToken");
-    console.log("accessToken: ", accessToken);
+    // console.log("accessToken: ", accessToken);
     const contestData = {
       contestId: id,
       players: selectedPlayerIds,

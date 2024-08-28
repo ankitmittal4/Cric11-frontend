@@ -24,7 +24,7 @@ const UserContestDetails = () => {
         }
       );
       setContest(response.data.data[0]);
-      console.log(response.data.data[0]);
+      // console.log(response.data.data[0]);
 
       // Fetch players for team selection (mock data)
       // const playersResponse = [
@@ -110,10 +110,10 @@ const UserContestDetails = () => {
       // setPlayers(playersResponse);
 
       setPlayers(response.data.data[0].user11);
-      console.log(
-        "response.data.data[0].user11 :",
-        response.data.data[0].user11
-      );
+      // console.log(
+      //   "response.data.data[0].user11 :",
+      //   response.data.data[0].user11
+      // );
     };
 
     fetchContestDetails();
