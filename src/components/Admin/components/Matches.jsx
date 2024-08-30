@@ -10,8 +10,14 @@ const Matches = () => {
   const [loading, setLoading] = useState(false);
   const limit = 10;
   const navigate = useNavigate();
-  const handleCreateContest = (matchId) => {
-    navigate(`create-contest/${matchId}`);
+  const handleCreateContest = (matchId, t1, t2) => {
+    // console.log("matchId: ", matchId);
+    // console.log(t1, ":", t2);
+    const matchDetails = {
+      t1,
+      t2,
+    };
+    navigate(`create-contest/${matchId}`, { state: matchDetails });
   };
 
   const fetchMatches = async (page) => {
@@ -117,7 +123,9 @@ const Matches = () => {
                   <tr
                     key={match.id}
                     className="text-md hover:bg-gray-700 cursor-pointer"
-                    onClick={() => handleCreateContest(match.id)}
+                    onClick={() =>
+                      handleCreateContest(match.id, match.t1, match.t2)
+                    }
                   >
                     <td className="py-2 px-4">{match.t1}</td>
                     <td className="py-2">{match.t2}</td>

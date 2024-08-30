@@ -126,8 +126,8 @@ const ContestDetails = () => {
       setContest(response.data.data);
 
       // Fetch (squad)players for team selection
-      const playersResponse1 = response.data.data.squadRef.squad[0].players;
-      const playersResponse2 = response.data.data.squadRef.squad[1].players;
+      const playersResponse1 = response.data.data.squadDetails.squad[0].players;
+      const playersResponse2 = response.data.data.squadDetails.squad[1].players;
       // console.log("combinedSquad: ", playersResponse1);
       const combinedSquad = playersResponse1.concat(playersResponse2);
       setPlayers(combinedSquad);
@@ -141,7 +141,7 @@ const ContestDetails = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6 text-gray-600 text-center">
-        {contest.matchRef.name}
+        {contest.matchDetails.name}
       </h1>
       {/* <p className="mb-4 text-gray-700">{contest.description}</p> */}
       <div className="flex flex-col md:flex-row">
@@ -150,19 +150,19 @@ const ContestDetails = () => {
           <p className="text-black mt-4">
             Match Type:{" "}
             <span className="font-semibold uppercase text-blue-600">
-              {contest.matchRef.matchType}
+              {contest.matchDetails.matchType}
             </span>
           </p>
           <p className="text-black mt-4">
             Date:{" "}
             <span className="font-semibold text-orange-600">
-              {contest.matchRef.date.split("-").reverse().join("-")}
+              {contest.matchDetails.date.split("-").reverse().join("-")}
             </span>
           </p>
           <p className="text-black mt-4">
             Start Time(IST):{" "}
             <span className="font-semibold text-orange-600">
-              {contest.matchRef.startTime}
+              {contest.matchDetails.startTime}
             </span>
           </p>
           <p className="text-black mt-4">
