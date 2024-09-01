@@ -94,6 +94,7 @@ const ContestDetails = () => {
     };
 
     try {
+      // console.log("user contest id: ", response.data.data._id);
       const response = await axios.post(
         "http://localhost:8000/api/v1/user-contest/create",
         contestData,
@@ -105,9 +106,18 @@ const ContestDetails = () => {
       );
       if (response.data.statusCode === 200) {
         navigate("/my-contests");
-        // console.log("Joined contest: ", response);
         alert("Contest Joined successfully!");
       }
+
+      const opponentData = {
+        user_id: response.data.data._id,
+        contestId: id,
+      };
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/opponent/create",
+        opponentData
+      );
+      console.log("Create opponent res: ", res);
     } catch (error) {
       alert("Failed! Contest Not Joined...");
 
