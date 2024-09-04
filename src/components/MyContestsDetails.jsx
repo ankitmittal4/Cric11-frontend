@@ -23,6 +23,29 @@ const UserContestDetails = () => {
           },
         }
       );
+
+      const matchDateAndTime = `${response.data.data[0].matchDetails.date}T${response.data.data[0].matchDetails.startTime}`;
+      const date = new Date();
+      const offsetIST = 5.5 * 60 * 60 * 1000;
+      const istTime = new Date(date.getTime() + offsetIST);
+      const currentDateAndTime = istTime.toISOString().slice(0, 19);
+      if (currentDateAndTime >= matchDateAndTime) {
+        // setTimeout : run api after every 5 minutes
+        //api call for match score
+        //update api
+        const res = await axios.post(
+          "http://localhost:8000/api/v1/user-contest/get",
+          {
+            id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+      }
+
       setContest(response.data.data[0]);
       // console.log(response.data.data[0]);
 
