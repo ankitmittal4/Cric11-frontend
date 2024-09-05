@@ -24,26 +24,34 @@ const UserContestDetails = () => {
         }
       );
 
+      //id : contestId from params
+      //userid: from response.data.data[0].userId
+      const { userId } = response.data.data[0];
+      // console.log("response: ", response.data.data[0].userId);
+      //api to search for opponent of this userId and contestId
+
       const matchDateAndTime = `${response.data.data[0].matchDetails.date}T${response.data.data[0].matchDetails.startTime}`;
       const date = new Date();
       const offsetIST = 5.5 * 60 * 60 * 1000;
       const istTime = new Date(date.getTime() + offsetIST);
       const currentDateAndTime = istTime.toISOString().slice(0, 19);
+
+      //FIXME:if : match started or ended
       if (currentDateAndTime >= matchDateAndTime) {
         // setTimeout : run api after every 5 minutes
         //api call for match score
         //update api
-        const res = await axios.post(
-          "http://localhost:8000/api/v1/user-contest/get",
-          {
-            id,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        // const res = await axios.post(
+        //   "http://localhost:8000/api/v1/user-contest/get",
+        //   {
+        //     id,
+        //   },
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${accessToken}`,
+        //     },
+        //   }
+        // );
       }
 
       setContest(response.data.data[0]);
