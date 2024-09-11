@@ -21,6 +21,7 @@ const Home = () => {
   const istTime = new Date(date.getTime() + offsetIST);
   const istFormatted = istTime.toISOString().slice(0, 19);
   // console.log(istFormatted);
+  // console.log(contests[33].match.date, "T", contests[33].match.startTime);
   // console.log(localeDateTime);
   // console.log("IsGreater: ", istFormatted > "2024-08-28T17:30:00");
   // "2024-08-28T16:09:33.303Z"
@@ -37,9 +38,6 @@ const Home = () => {
             {
               const formattedIST = `${contest.match.date}T${contest.match.startTime}`;
               return istFormatted < formattedIST;
-            }
-            {
-              /* return localeDateTime > formattedIST; */
             }
           })
           .map((contest) => (

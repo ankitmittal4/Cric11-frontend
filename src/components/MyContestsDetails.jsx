@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const UserContestDetails = () => {
-  const { id } = useParams(); // Get the contest ID that user has joined from the URL
+  const { id } = useParams();
   const [contest, setContest] = useState(null);
   const [players, setPlayers] = useState([]); // Assuming you want to select players
 
@@ -24,11 +24,7 @@ const UserContestDetails = () => {
         }
       );
 
-      //id : contestId from params
-      //userid: from response.data.data[0].userId
-      const { userId } = response.data.data[0];
-      // console.log("response: ", response.data.data[0].userId);
-      //api to search for opponent of this userId and contestId
+      const { userId, contestId } = response.data.data[0];
 
       const matchDateAndTime = `${response.data.data[0].matchDetails.date}T${response.data.data[0].matchDetails.startTime}`;
       const date = new Date();
@@ -37,114 +33,27 @@ const UserContestDetails = () => {
       const currentDateAndTime = istTime.toISOString().slice(0, 19);
 
       //FIXME:if : match started or ended
-      if (currentDateAndTime >= matchDateAndTime) {
-        // setTimeout : run api after every 5 minutes
-        //api call for match score
-        //update api
-        // const res = await axios.post(
-        //   "http://localhost:8000/api/v1/user-contest/get",
-        //   {
-        //     id,
-        //   },
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${accessToken}`,
-        //     },
-        //   }
-        // );
-      }
-
+      // if (1) {
+      // if (currentDateAndTime >= matchDateAndTime) {
+      // setTimeout : run api after every 5 minutes
+      //api call for match score
+      //update api
+      // }
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/opponent/get",
+        {
+          contestId: contestId,
+          user_id: userId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       setContest(response.data.data[0]);
-      // console.log(response.data.data[0]);
-
-      // Fetch players for team selection (mock data)
-      // const playersResponse = [
-      //   {
-      //     _id: "1",
-      //     name: "Rohit",
-      //     role: "Batsman",
-      //     isCaptain: true,
-      //     isVC: false,
-      //   },
-      //   {
-      //     _id: "2",
-      //     name: "Virat",
-      //     role: "Batsman",
-      //     isCaptain: false,
-      //     isVC: false,
-      //   },
-      //   {
-      //     _id: "3",
-      //     name: "KL Rahul",
-      //     role: "Batsman",
-      //     isCaptain: false,
-      //     isVC: false,
-      //   },
-      //   {
-      //     _id: "4",
-      //     name: "Jaiswal",
-      //     role: "Batsman",
-      //     isCaptain: false,
-      //     isVC: false,
-      //   },
-      //   {
-      //     _id: "5",
-      //     name: "Sky",
-      //     role: "Batsman",
-      //     isCaptain: false,
-      //     isVC: true,
-      //   },
-      //   {
-      //     _id: "6",
-      //     name: "Hardik",
-      //     role: "All-rounder",
-      //     isCaptain: false,
-      //     isVC: false,
-      //   },
-      //   {
-      //     _id: "7",
-      //     name: "Rinku",
-      //     role: "Batsman",
-      //     isCaptain: false,
-      //     isVC: false,
-      //   },
-      //   {
-      //     _id: "8",
-      //     name: "Dube",
-      //     role: "All-rounder",
-      //     isCaptain: false,
-      //     isVC: false,
-      //   },
-      //   {
-      //     _id: "9",
-      //     name: "Jasprit",
-      //     role: "Bowler",
-      //     isCaptain: false,
-      //     isVC: false,
-      //   },
-      //   {
-      //     _id: "10",
-      //     name: "Arshdeep",
-      //     role: "Bowler",
-      //     isCaptain: false,
-      //     isVC: false,
-      //   },
-      //   {
-      //     _id: "11",
-      //     name: "Steven Smith",
-      //     role: "Bowler",
-      //     isCaptain: false,
-      //     isVC: false,
-      //   },
-      //   // Add more players as needed
-      // ];
-      // setPlayers(playersResponse);
 
       setPlayers(response.data.data[0].user11);
-      // console.log(
-      //   "response.data.data[0].user11 :",
-      //   response.data.data[0].user11
-      // );
     };
 
     fetchContestDetails();
