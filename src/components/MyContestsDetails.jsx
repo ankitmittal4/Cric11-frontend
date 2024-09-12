@@ -7,7 +7,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 const UserContestDetails = () => {
   const { id } = useParams();
   const [contest, setContest] = useState(null);
-  const [players, setPlayers] = useState([]); // Assuming you want to select players
+  const [players, setPlayers] = useState([]);
 
   useEffect(() => {
     const fetchContestDetails = async () => {
@@ -51,6 +51,10 @@ const UserContestDetails = () => {
           },
         }
       );
+      // console.log(res.data.data);
+      const opponentUserId = res.data.data.opponent;
+      console.log(opponentUserId);
+
       setContest(response.data.data[0]);
 
       setPlayers(response.data.data[0].user11);
