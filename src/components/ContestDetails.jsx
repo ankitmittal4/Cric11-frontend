@@ -141,7 +141,7 @@ const ContestDetails = () => {
       const combinedSquad = playersResponse1.concat(playersResponse2);
       setPlayers(combinedSquad);
     };
-
+    //fetch contest details
     fetchContestDetails();
   }, [id]);
 
