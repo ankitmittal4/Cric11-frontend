@@ -25,7 +25,6 @@ const Home = () => {
     // console.log(localeDateTime);
     // console.log("IsGreater: ", istFormatted > "2024-08-28T17:30:00");
     // "2024-08-28T16:09:33.303Z"
-    // "2024-08-28T16:09:33.303Z"
 
     return (
         <div className="container mx-auto p-4">
