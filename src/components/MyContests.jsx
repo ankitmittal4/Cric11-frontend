@@ -21,6 +21,8 @@ const UserTeams = () => {
         };
         fetchContests();
     }, []);
+    const curTime = new Date();
+    // console.log('Time:', curTime);
 
     return (
         <div className="container mx-auto p-4">
@@ -94,6 +96,17 @@ const UserTeams = () => {
                                     </span>
                                 </p>
                             </div>
+                            {new Date(
+                                `${contest.matchDetails.date}T${contest.matchDetails.startTime}`,
+                            ) < curTime ? (
+                                <div className="flex justify-center text-orange-500">
+                                    Match Ended
+                                </div>
+                            ) : (
+                                <div className="flex justify-center text-orange-500">
+                                    Match not started
+                                </div>
+                            )}
                         </Link>
                     ))
                 )}
