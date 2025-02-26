@@ -3,17 +3,21 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { API_URL } from '../../Constants';
 
 const UserContestDetails = () => {
     const { id } = useParams();
     const [contest, setContest] = useState(null);
     const [players, setPlayers] = useState([]);
 
+    const [opponentContest, setOpponentContest] = useState(null);
+    const [opponentPlayers, setOpponentPlayers] = useState([]);
+
     useEffect(() => {
         const fetchContestDetails = async () => {
             const accessToken = localStorage.getItem('accessToken');
             const response = await axios.post(
-                'http://localhost:8000/api/v1/user-contest/get',
+                `${API_URL}/user-contest/get`,
                 {
                     id,
                 },
@@ -23,48 +27,80 @@ const UserContestDetails = () => {
                     },
                 },
             );
-
+            console.log('User Response: ', response.data.data);
+            //FIXME: opponent code
             const { userId, contestId } = response.data.data[0];
+            // console.log(userId, ':', contestId);
+            const matchDateAndTime = new Date(
+                `${response.data.data[0].matchDetails.date}T${response.data.data[0].matchDetails.startTime}`,
+            );
+            const curTime = new Date();
 
-            const matchDateAndTime = `${response.data.data[0].matchDetails.date}T${response.data.data[0].matchDetails.startTime}`;
-            const date = new Date();
-            const offsetIST = 5.5 * 60 * 60 * 1000;
-            const istTime = new Date(date.getTime() + offsetIST);
-            const currentDateAndTime = istTime.toISOString().slice(0, 19);
-
-            //FIXME:if : match started or ended
             // if (1) {
             // if (currentDateAndTime >= matchDateAndTime) {
             // setTimeout : run api after every 5 minutes
             //api call for match score
             //update api
             // }
-            console.log('User id: ', userId);
-            console.log('ContestId: ', contestId);
-            // const res = await axios.post(
-            //     'http://localhost:8000/api/v1/opponent/get',
-            //     {
-            //         contestId: contestId,
-            //         user_id: userId,
-            //     },
-            //     {
-            //         headers: {
-            //             Authorization: `Bearer ${accessToken}`,
-            //         },
-            //     },
-            // );
-            // // console.log(res.data.data);
-            // const opponentUserId = res.data.data.opponent;
-            // console.log(opponentUserId);
+            // console.log(matchDateAndTime, '***', curTime);
+            if (matchDateAndTime <= curTime) {
+                console.log('Match Started or ended');
+                try {
+                    const res = await axios.post(
+                        `${API_URL}/opponent/get`,
+                        {
+                            contestId: contestId,
+                            userContestId: id,
+                        },
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        },
+                    );
+                    // console.log(res.data.data);
+                    const opponentUserId = res.data.data.opponent;
+                    console.log('+++++++++');
+                    console.log(opponentUserId);
+                    if (opponentUserId) {
+                        try {
+                            const opponentResponse = await axios.post(
+                                `${API_URL}/user-contest/get`,
+                                {
+                                    id: opponentUserId,
+                                    // userId: opponentUserId,
+                                },
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${accessToken}`,
+                                    },
+                                },
+                            );
+                            console.log(
+                                'opponentResponse: ',
+                                opponentResponse.data.data,
+                            );
+                            setOpponentContest(opponentResponse.data.data[0]);
+                            setOpponentPlayers(
+                                opponentResponse.data.data[0].user11,
+                            );
+                        } catch {
+                            console.log('Error: Opponent data not found');
+                        }
+                    }
+                } catch {
+                    console.log('Error: Opponent not found');
+                }
+            }
 
             setContest(response.data.data[0]);
-
             setPlayers(response.data.data[0].user11);
         };
 
         fetchContestDetails();
     }, [id]);
-
+    // console.log('user Contests: ', contest);
+    // console.log('Opponent Contests: ', opponentContest);
     if (!contest) return <p>Loading...</p>;
 
     return (
@@ -117,13 +153,17 @@ const UserContestDetails = () => {
                     </p>
                     <p className="text-black mt-4  text-xl">
                         Rank:{' '}
-                        <span className="font-semibold text-blue-700">{7}</span>
+                        <span className="font-semibold text-blue-700">
+                            {contest.result}
+                        </span>
                     </p>
                 </div>
                 <div className="md:w-1/2">
                     <h2 className="text-xl font-bold text-center mb-1 text-green-500">
                         Total Points:{' '}
-                        <span className="text-3xl text-green-600">{728}</span>
+                        <span className="text-3xl text-green-600">
+                            {contest.points}
+                        </span>
                     </h2>
                     <div className="  bg-opacity-50 flex items-center justify-center z-50">
                         <div className="bg-green-500 p-6 rounded-lg w-full max-w-lg">
@@ -198,6 +238,92 @@ const UserContestDetails = () => {
                         </div>
                     </div>
                 </div>
+
+                {opponentPlayers.length != 0 && (
+                    <div className="md:w-1/2">
+                        <h2 className="text-xl font-bold text-center mb-1 text-green-500">
+                            Total Opponent Points:{' '}
+                            <span className="text-3xl text-green-600">
+                                {contest.points}
+                            </span>
+                        </h2>
+                        <div className="  bg-opacity-50 flex items-center justify-center z-50">
+                            <div className="bg-green-500 p-6 rounded-lg w-full max-w-lg">
+                                <div className="flex justify-center gap-24 mt-8 mb-7">
+                                    {opponentPlayers
+                                        .slice(0, 2)
+                                        .map((player) => {
+                                            return (
+                                                <div
+                                                    key={player._id}
+                                                    className="text-center"
+                                                >
+                                                    <FontAwesomeIcon
+                                                        icon={faUser}
+                                                        className="text-green-800 text-3xl"
+                                                    />{' '}
+                                                    {player._id ===
+                                                        contest.captain && (
+                                                        <span className="text-sm text-black font-semibold">
+                                                            (C)
+                                                        </span>
+                                                    )}
+                                                    {player._id ===
+                                                        contest.viceCaptain && (
+                                                        <span className="text-sm font-semibold text-black">
+                                                            (VC)
+                                                        </span>
+                                                    )}
+                                                    <span className="block text-white px-6 rounded-sm py-px bg-red-600 text-sm">
+                                                        {player.name}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
+                                </div>
+
+                                {[2, 5, 8].map((startIdx, index) => (
+                                    <div
+                                        key={index}
+                                        className="grid grid-cols-3 gap-20 mt-16 "
+                                    >
+                                        {opponentPlayers
+                                            .slice(startIdx, startIdx + 3)
+                                            .map((player) => {
+                                                return (
+                                                    <div
+                                                        key={player._id}
+                                                        className="text-center"
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faUser}
+                                                            className="text-green-800 text-3xl"
+                                                        />{' '}
+                                                        {player._id ===
+                                                            opponentContest.captain && (
+                                                            <span className="text-sm text-black font-semibold">
+                                                                (C)
+                                                            </span>
+                                                        )}
+                                                        {player._id ===
+                                                            opponentContest.viceCaptain && (
+                                                            <span className="text-sm font-semibold text-black">
+                                                                (VC)
+                                                            </span>
+                                                        )}
+                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm">
+                                                            {player.name}
+                                                        </span>
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+                                ))}
+                                <div className="mt-10"></div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
