@@ -62,13 +62,13 @@ const UserContestDetails = () => {
                     const opponentUserId = res.data.data.opponent;
                     console.log('+++++++++');
                     console.log(opponentUserId);
+                    //NOTE: get opponent details
                     if (opponentUserId) {
                         try {
                             const opponentResponse = await axios.post(
                                 `${API_URL}/user-contest/get`,
                                 {
                                     id: opponentUserId,
-                                    // userId: opponentUserId,
                                 },
                                 {
                                     headers: {
@@ -84,6 +84,8 @@ const UserContestDetails = () => {
                             setOpponentPlayers(
                                 opponentResponse.data.data[0].user11,
                             );
+
+                            //NOTE: Find points and result of both users
                         } catch {
                             console.log('Error: Opponent data not found');
                         }
@@ -171,19 +173,19 @@ const UserContestDetails = () => {
                                 {players.slice(0, 2).map((player) => {
                                     return (
                                         <div
-                                            key={player._id}
+                                            key={player.id}
                                             className="text-center"
                                         >
                                             <FontAwesomeIcon
                                                 icon={faUser}
                                                 className="text-green-800 text-3xl"
                                             />{' '}
-                                            {player._id === contest.captain && (
+                                            {player.id === contest.captain && (
                                                 <span className="text-sm text-black font-semibold">
                                                     (C)
                                                 </span>
                                             )}
-                                            {player._id ===
+                                            {player.id ===
                                                 contest.viceCaptain && (
                                                 <span className="text-sm font-semibold text-black">
                                                     (VC)
@@ -207,20 +209,20 @@ const UserContestDetails = () => {
                                         .map((player) => {
                                             return (
                                                 <div
-                                                    key={player._id}
+                                                    key={player.id}
                                                     className="text-center"
                                                 >
                                                     <FontAwesomeIcon
                                                         icon={faUser}
                                                         className="text-green-800 text-3xl"
                                                     />{' '}
-                                                    {player._id ===
+                                                    {player.id ===
                                                         contest.captain && (
                                                         <span className="text-sm text-black font-semibold">
                                                             (C)
                                                         </span>
                                                     )}
-                                                    {player._id ===
+                                                    {player.id ===
                                                         contest.viceCaptain && (
                                                         <span className="text-sm font-semibold text-black">
                                                             (VC)
@@ -255,20 +257,20 @@ const UserContestDetails = () => {
                                         .map((player) => {
                                             return (
                                                 <div
-                                                    key={player._id}
+                                                    key={player.id}
                                                     className="text-center"
                                                 >
                                                     <FontAwesomeIcon
                                                         icon={faUser}
                                                         className="text-green-800 text-3xl"
                                                     />{' '}
-                                                    {player._id ===
+                                                    {player.id ===
                                                         contest.captain && (
                                                         <span className="text-sm text-black font-semibold">
                                                             (C)
                                                         </span>
                                                     )}
-                                                    {player._id ===
+                                                    {player.id ===
                                                         contest.viceCaptain && (
                                                         <span className="text-sm font-semibold text-black">
                                                             (VC)
@@ -292,20 +294,20 @@ const UserContestDetails = () => {
                                             .map((player) => {
                                                 return (
                                                     <div
-                                                        key={player._id}
+                                                        key={player.id}
                                                         className="text-center"
                                                     >
                                                         <FontAwesomeIcon
                                                             icon={faUser}
                                                             className="text-green-800 text-3xl"
                                                         />{' '}
-                                                        {player._id ===
+                                                        {player.id ===
                                                             opponentContest.captain && (
                                                             <span className="text-sm text-black font-semibold">
                                                                 (C)
                                                             </span>
                                                         )}
-                                                        {player._id ===
+                                                        {player.id ===
                                                             opponentContest.viceCaptain && (
                                                             <span className="text-sm font-semibold text-black">
                                                                 (VC)
