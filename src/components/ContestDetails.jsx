@@ -227,16 +227,14 @@ const ContestDetails = () => {
                                 <tbody>
                                     {players.map((player) => (
                                         <tr
-                                            key={player._id}
+                                            key={player.id}
                                             className={`cursor-pointer  ${
-                                                isPlayerSelected(player._id)
+                                                isPlayerSelected(player.id)
                                                     ? 'bg-yellow-100'
                                                     : 'hover:bg-fuchsia-100'
                                             }`}
                                             onClick={() =>
-                                                handlePlayerSelection(
-                                                    player._id,
-                                                )
+                                                handlePlayerSelection(player.id)
                                             }
                                             // onClick={handlePlayerSelection(player._id)}
                                         >
@@ -250,25 +248,25 @@ const ContestDetails = () => {
                                                 <input
                                                     type="radio"
                                                     name="captain"
-                                                    value={player._id}
+                                                    value={player.id}
                                                     checked={
-                                                        captainId === player._id
+                                                        captainId === player.id
                                                     }
                                                     onClick={(e) =>
                                                         e.stopPropagation()
                                                     }
                                                     onChange={() =>
                                                         handleCaptainChange(
-                                                            player._id,
+                                                            player.id,
                                                         )
                                                     }
                                                     className="h-4 w-4"
                                                     disabled={
                                                         !isPlayerSelected(
-                                                            player._id,
+                                                            player.id,
                                                         ) ||
                                                         viceCaptainId ===
-                                                            player._id
+                                                            player.id
                                                     }
                                                 />
                                             </td>
@@ -276,25 +274,25 @@ const ContestDetails = () => {
                                                 <input
                                                     type="radio"
                                                     name="viceCaptain"
-                                                    value={player._id}
+                                                    value={player.id}
                                                     checked={
                                                         viceCaptainId ===
-                                                        player._id
+                                                        player.id
                                                     }
                                                     onClick={(e) =>
                                                         e.stopPropagation()
                                                     }
                                                     onChange={() =>
                                                         handleViceCaptainChange(
-                                                            player._id,
+                                                            player.id,
                                                         )
                                                     }
                                                     className="h-4 w-4"
                                                     disabled={
                                                         !isPlayerSelected(
-                                                            player._id,
+                                                            player.id,
                                                         ) ||
-                                                        captainId === player._id
+                                                        captainId === player.id
                                                     }
                                                 />
                                             </td>
@@ -339,24 +337,24 @@ const ContestDetails = () => {
                                 <div className="flex justify-center gap-24 mt-8 mb-7">
                                     {selectedPlayerIds.slice(0, 2).map((id) => {
                                         const player = players.find(
-                                            (p) => p._id === id,
+                                            (p) => p.id === id,
                                         );
                                         return (
                                             <div
-                                                key={player._id}
+                                                key={player.id}
                                                 className="text-center"
                                             >
                                                 <FontAwesomeIcon
                                                     icon={faUser}
                                                     className="text-green-900 text-3xl"
                                                 />{' '}
-                                                {captainId === player._id && (
+                                                {captainId === player.id && (
                                                     <span className="text-sm text-black font-semibold">
                                                         (C)
                                                     </span>
                                                 )}
                                                 {viceCaptainId ===
-                                                    player._id && (
+                                                    player.id && (
                                                     <span className="text-sm font-semibold text-black">
                                                         (VC)
                                                     </span>
@@ -378,11 +376,11 @@ const ContestDetails = () => {
                                             .slice(startIdx, startIdx + 3)
                                             .map((id) => {
                                                 const player = players.find(
-                                                    (p) => p._id === id,
+                                                    (p) => p.id === id,
                                                 );
                                                 return (
                                                     <div
-                                                        key={player._id}
+                                                        key={player.id}
                                                         className="text-center"
                                                     >
                                                         <FontAwesomeIcon
@@ -390,13 +388,13 @@ const ContestDetails = () => {
                                                             className="text-green-900 text-3xl"
                                                         />{' '}
                                                         {captainId ===
-                                                            player._id && (
+                                                            player.id && (
                                                             <span className="text-sm text-black font-semibold">
                                                                 (C)
                                                             </span>
                                                         )}
                                                         {viceCaptainId ===
-                                                            player._id && (
+                                                            player.id && (
                                                             <span className="text-sm font-semibold text-black">
                                                                 (VC)
                                                             </span>
