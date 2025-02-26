@@ -110,7 +110,7 @@ const ContestDetails = () => {
             }
 
             const opponentData = {
-                user_id: response.data.data.userId,
+                userContestId: response.data.data._id,
                 contestId: id,
             };
             const res = await axios.post(
