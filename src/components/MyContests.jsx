@@ -22,7 +22,7 @@ const UserTeams = () => {
         fetchContests();
     }, []);
     const curTime = new Date();
-    // console.log('Time:', curTime);
+    console.log('Time:', contests);
 
     return (
         <div className="container mx-auto p-4">
