@@ -59,16 +59,16 @@ const UserContestDetails = () => {
                         },
                     );
                     // console.log(res.data.data);
-                    const opponentUserId = res.data.data.opponent;
+                    const opponentUserContestId = res.data.data.opponent;
                     console.log('+++++++++');
-                    console.log(opponentUserId);
+                    console.log(opponentUserContestId);
                     //NOTE: get opponent details
-                    if (opponentUserId) {
+                    if (opponentUserContestId) {
                         try {
                             const opponentResponse = await axios.post(
                                 `${API_URL}/user-contest/get`,
                                 {
-                                    id: opponentUserId,
+                                    id: opponentUserContestId,
                                 },
                                 {
                                     headers: {
@@ -85,7 +85,39 @@ const UserContestDetails = () => {
                                 opponentResponse.data.data[0].user11,
                             );
 
-                            //NOTE: Find points and result of both users
+                            //NOTE: Find points and result of both user and opponent
+                            //user points
+                            const userRes = await axios.post(
+                                `${API_URL}/user-contest/update`,
+                                {
+                                    id,
+                                },
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${accessToken}`,
+                                    },
+                                },
+                            );
+                            console.log(
+                                'User points Response: ',
+                                userRes.data.data,
+                            );
+                            //opponent points
+                            const opponentRes = await axios.post(
+                                `${API_URL}/user-contest/update`,
+                                {
+                                    id: opponentUserContestId,
+                                },
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${accessToken}`,
+                                    },
+                                },
+                            );
+                            console.log(
+                                'Opponent points Response: ',
+                                opponentRes.data.data,
+                            );
                         } catch {
                             console.log('Error: Opponent data not found');
                         }
