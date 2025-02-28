@@ -43,13 +43,6 @@ const UserContestDetails = () => {
                 );
                 const curTime = new Date();
 
-                // if (1) {
-                // if (currentDateAndTime >= matchDateAndTime) {
-                // setTimeout : run api after every 5 minutes
-                //api call for match score
-                //update api
-                // }
-                // console.log(matchDateAndTime, '***', curTime);
                 if (matchDateAndTime <= curTime) {
                     console.log('Match Started or ended');
                     try {
@@ -85,40 +78,39 @@ const UserContestDetails = () => {
                                         },
                                     },
                                 );
-                                console.log(
-                                    'User points Response: ',
-                                    userRes.data.data,
-                                );
-                                // console.log(
-                                //     'ANKIT:',
-                                //     userRes.data.data.userContest[0],
-                                // );
-                                // setContest(userRes.data.data.userContest[0]);
-                                // setPlayers(
-                                //     userRes.data.data.userContest[0].user11,
-                                // );
 
-                                const opponentResponse = await axios.post(
-                                    `${API_URL}/user-contest/get`,
-                                    {
-                                        id: opponentUserContestId,
-                                    },
-                                    {
-                                        headers: {
-                                            Authorization: `Bearer ${accessToken}`,
-                                        },
-                                    },
-                                );
-                                console.log(
-                                    'opponentResponse: ',
-                                    opponentResponse.data.data,
+                                setContest(userRes.data.data.userContest[0]);
+                                setPlayers(
+                                    userRes.data.data.userContest[0].user11,
                                 );
                                 setOpponentContest(
-                                    opponentResponse.data.data[0],
+                                    userRes.data.data.opponentContest[0],
                                 );
                                 setOpponentPlayers(
-                                    opponentResponse.data.data[0].user11,
+                                    userRes.data.data.opponentContest[0].user11,
                                 );
+
+                                // const opponentResponse = await axios.post(
+                                //     `${API_URL}/user-contest/get`,
+                                //     {
+                                //         id: opponentUserContestId,
+                                //     },
+                                //     {
+                                //         headers: {
+                                //             Authorization: `Bearer ${accessToken}`,
+                                //         },
+                                //     },
+                                // );
+                                // console.log(
+                                //     'opponentResponse: ',
+                                //     opponentResponse.data.data,
+                                // );
+                                // setOpponentContest(
+                                //     opponentResponse.data.data[0],
+                                // );
+                                // setOpponentPlayers(
+                                //     opponentResponse.data.data[0].user11,
+                                // );
                             } catch {
                                 console.log('Error: Opponent data not found');
                             }
