@@ -18,7 +18,6 @@ const UserContestDetails = () => {
         if (!hasFetchded.current) {
             hasFetchded.current = true;
 
-            console.log('-----------------------STARTS--------------------');
             const fetchContestDetails = async () => {
                 const accessToken = localStorage.getItem('accessToken');
                 const response = await axios.post(
@@ -32,19 +31,17 @@ const UserContestDetails = () => {
                         },
                     },
                 );
-                console.log('User Response: ', response.data.data);
+                // console.log('User Response: ', response.data.data);
                 setContest(response.data.data[0]);
                 setPlayers(response.data.data[0].user11);
-                //FIXME: opponent code
                 const { userId, contestId } = response.data.data[0];
-                // console.log(userId, ':', contestId);
                 const matchDateAndTime = new Date(
                     `${response.data.data[0].matchDetails.date}T${response.data.data[0].matchDetails.startTime}`,
                 );
                 const curTime = new Date();
 
                 if (matchDateAndTime <= curTime) {
-                    console.log('Match Started or ended');
+                    // console.log('Match Started or ended');
                     try {
                         const res = await axios.post(
                             `${API_URL}/opponent/get`,
@@ -58,10 +55,8 @@ const UserContestDetails = () => {
                                 },
                             },
                         );
-                        // console.log(res.data.data);
                         const opponentUserContestId = res.data.data.opponent;
-                        console.log('+++++++++');
-                        console.log(opponentUserContestId);
+                        // console.log(opponentUserContestId);
                         //NOTE: get opponent details
                         if (opponentUserContestId) {
                             try {
@@ -78,7 +73,14 @@ const UserContestDetails = () => {
                                         },
                                     },
                                 );
-
+                                console.log(
+                                    'user points: ',
+                                    userRes.data.data.userContest[0].points,
+                                );
+                                console.log(
+                                    'opponent points: ',
+                                    userRes.data.data.opponentContest[0].points,
+                                );
                                 setContest(userRes.data.data.userContest[0]);
                                 setPlayers(
                                     userRes.data.data.userContest[0].user11,
@@ -125,7 +127,6 @@ const UserContestDetails = () => {
             };
 
             fetchContestDetails();
-            console.log('-----------------------ENDS--------------------');
         }
     }, [id]);
     // console.log('user Contests: ', contest);
