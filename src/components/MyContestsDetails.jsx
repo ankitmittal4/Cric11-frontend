@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,125 +13,128 @@ const UserContestDetails = () => {
     const [opponentContest, setOpponentContest] = useState(null);
     const [opponentPlayers, setOpponentPlayers] = useState([]);
 
+    const hasFetchded = useRef(false);
     useEffect(() => {
-        const fetchContestDetails = async () => {
-            const accessToken = localStorage.getItem('accessToken');
-            const response = await axios.post(
-                `${API_URL}/user-contest/get`,
-                {
-                    id,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
+        if (!hasFetchded.current) {
+            hasFetchded.current = true;
+
+            console.log('-----------------------STARTS--------------------');
+            const fetchContestDetails = async () => {
+                const accessToken = localStorage.getItem('accessToken');
+                const response = await axios.post(
+                    `${API_URL}/user-contest/get`,
+                    {
+                        id,
                     },
-                },
-            );
-            console.log('User Response: ', response.data.data);
-            //FIXME: opponent code
-            const { userId, contestId } = response.data.data[0];
-            // console.log(userId, ':', contestId);
-            const matchDateAndTime = new Date(
-                `${response.data.data[0].matchDetails.date}T${response.data.data[0].matchDetails.startTime}`,
-            );
-            const curTime = new Date();
-
-            // if (1) {
-            // if (currentDateAndTime >= matchDateAndTime) {
-            // setTimeout : run api after every 5 minutes
-            //api call for match score
-            //update api
-            // }
-            // console.log(matchDateAndTime, '***', curTime);
-            if (matchDateAndTime <= curTime) {
-                console.log('Match Started or ended');
-                try {
-                    const res = await axios.post(
-                        `${API_URL}/opponent/get`,
-                        {
-                            contestId: contestId,
-                            userContestId: id,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
                         },
-                        {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
+                    },
+                );
+                console.log('User Response: ', response.data.data);
+                setContest(response.data.data[0]);
+                setPlayers(response.data.data[0].user11);
+                //FIXME: opponent code
+                const { userId, contestId } = response.data.data[0];
+                // console.log(userId, ':', contestId);
+                const matchDateAndTime = new Date(
+                    `${response.data.data[0].matchDetails.date}T${response.data.data[0].matchDetails.startTime}`,
+                );
+                const curTime = new Date();
+
+                // if (1) {
+                // if (currentDateAndTime >= matchDateAndTime) {
+                // setTimeout : run api after every 5 minutes
+                //api call for match score
+                //update api
+                // }
+                // console.log(matchDateAndTime, '***', curTime);
+                if (matchDateAndTime <= curTime) {
+                    console.log('Match Started or ended');
+                    try {
+                        const res = await axios.post(
+                            `${API_URL}/opponent/get`,
+                            {
+                                contestId: contestId,
+                                userContestId: id,
                             },
-                        },
-                    );
-                    // console.log(res.data.data);
-                    const opponentUserContestId = res.data.data.opponent;
-                    console.log('+++++++++');
-                    console.log(opponentUserContestId);
-                    //NOTE: get opponent details
-                    if (opponentUserContestId) {
-                        try {
-                            const opponentResponse = await axios.post(
-                                `${API_URL}/user-contest/get`,
-                                {
-                                    id: opponentUserContestId,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${accessToken}`,
                                 },
-                                {
-                                    headers: {
-                                        Authorization: `Bearer ${accessToken}`,
+                            },
+                        );
+                        // console.log(res.data.data);
+                        const opponentUserContestId = res.data.data.opponent;
+                        console.log('+++++++++');
+                        console.log(opponentUserContestId);
+                        //NOTE: get opponent details
+                        if (opponentUserContestId) {
+                            try {
+                                //NOTE: Find points and result of both user and opponent
+                                const userRes = await axios.post(
+                                    `${API_URL}/user-contest/update`,
+                                    {
+                                        id,
+                                        opponentId: opponentUserContestId,
                                     },
-                                },
-                            );
-                            console.log(
-                                'opponentResponse: ',
-                                opponentResponse.data.data,
-                            );
-                            setOpponentContest(opponentResponse.data.data[0]);
-                            setOpponentPlayers(
-                                opponentResponse.data.data[0].user11,
-                            );
+                                    {
+                                        headers: {
+                                            Authorization: `Bearer ${accessToken}`,
+                                        },
+                                    },
+                                );
+                                console.log(
+                                    'User points Response: ',
+                                    userRes.data.data,
+                                );
+                                // console.log(
+                                //     'ANKIT:',
+                                //     userRes.data.data.userContest[0],
+                                // );
+                                // setContest(userRes.data.data.userContest[0]);
+                                // setPlayers(
+                                //     userRes.data.data.userContest[0].user11,
+                                // );
 
-                            //NOTE: Find points and result of both user and opponent
-                            //user points
-                            const userRes = await axios.post(
-                                `${API_URL}/user-contest/update`,
-                                {
-                                    id,
-                                },
-                                {
-                                    headers: {
-                                        Authorization: `Bearer ${accessToken}`,
+                                const opponentResponse = await axios.post(
+                                    `${API_URL}/user-contest/get`,
+                                    {
+                                        id: opponentUserContestId,
                                     },
-                                },
-                            );
-                            console.log(
-                                'User points Response: ',
-                                userRes.data.data,
-                            );
-                            //opponent points
-                            const opponentRes = await axios.post(
-                                `${API_URL}/user-contest/update`,
-                                {
-                                    id: opponentUserContestId,
-                                },
-                                {
-                                    headers: {
-                                        Authorization: `Bearer ${accessToken}`,
+                                    {
+                                        headers: {
+                                            Authorization: `Bearer ${accessToken}`,
+                                        },
                                     },
-                                },
-                            );
-                            console.log(
-                                'Opponent points Response: ',
-                                opponentRes.data.data,
-                            );
-                        } catch {
-                            console.log('Error: Opponent data not found');
+                                );
+                                console.log(
+                                    'opponentResponse: ',
+                                    opponentResponse.data.data,
+                                );
+                                setOpponentContest(
+                                    opponentResponse.data.data[0],
+                                );
+                                setOpponentPlayers(
+                                    opponentResponse.data.data[0].user11,
+                                );
+                            } catch {
+                                console.log('Error: Opponent data not found');
+                            }
                         }
+                    } catch {
+                        console.log('Error: Opponent not found');
                     }
-                } catch {
-                    console.log('Error: Opponent not found');
                 }
-            }
 
-            setContest(response.data.data[0]);
-            setPlayers(response.data.data[0].user11);
-        };
+                // setContest(response.data.data[0]);
+                // setPlayers(response.data.data[0].user11);
+            };
 
-        fetchContestDetails();
+            fetchContestDetails();
+            console.log('-----------------------ENDS--------------------');
+        }
     }, [id]);
     // console.log('user Contests: ', contest);
     // console.log('Opponent Contests: ', opponentContest);
@@ -278,7 +281,7 @@ const UserContestDetails = () => {
                         <h2 className="text-xl font-bold text-center mb-1 text-green-500">
                             Total Opponent Points:{' '}
                             <span className="text-3xl text-green-600">
-                                {contest.points}
+                                {opponentContest.points}
                             </span>
                         </h2>
                         <div className="  bg-opacity-50 flex items-center justify-center z-50">
@@ -297,13 +300,13 @@ const UserContestDetails = () => {
                                                         className="text-green-800 text-3xl"
                                                     />{' '}
                                                     {player.id ===
-                                                        contest.captain && (
+                                                        opponentContest.captain && (
                                                         <span className="text-sm text-black font-semibold">
                                                             (C)
                                                         </span>
                                                     )}
                                                     {player.id ===
-                                                        contest.viceCaptain && (
+                                                        opponentContest.viceCaptain && (
                                                         <span className="text-sm font-semibold text-black">
                                                             (VC)
                                                         </span>
