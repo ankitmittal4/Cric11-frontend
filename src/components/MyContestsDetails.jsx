@@ -75,44 +75,28 @@ const UserContestDetails = () => {
                                 );
                                 console.log(
                                     'user points: ',
-                                    userRes.data.data.userContest[0].points,
+                                    userRes.data.data.updatedUserContest[0]
+                                        .points,
                                 );
                                 console.log(
                                     'opponent points: ',
-                                    userRes.data.data.opponentContest[0].points,
+                                    userRes.data.data.updatedOpponentContest[0]
+                                        .points,
                                 );
-                                setContest(userRes.data.data.userContest[0]);
+                                setContest(
+                                    userRes.data.data.updatedUserContest[0],
+                                );
                                 setPlayers(
-                                    userRes.data.data.userContest[0].user11,
+                                    userRes.data.data.updatedUserContest[0]
+                                        .user11,
                                 );
                                 setOpponentContest(
-                                    userRes.data.data.opponentContest[0],
+                                    userRes.data.data.updatedOpponentContest[0],
                                 );
                                 setOpponentPlayers(
-                                    userRes.data.data.opponentContest[0].user11,
+                                    userRes.data.data.updatedOpponentContest[0]
+                                        .user11,
                                 );
-
-                                // const opponentResponse = await axios.post(
-                                //     `${API_URL}/user-contest/get`,
-                                //     {
-                                //         id: opponentUserContestId,
-                                //     },
-                                //     {
-                                //         headers: {
-                                //             Authorization: `Bearer ${accessToken}`,
-                                //         },
-                                //     },
-                                // );
-                                // console.log(
-                                //     'opponentResponse: ',
-                                //     opponentResponse.data.data,
-                                // );
-                                // setOpponentContest(
-                                //     opponentResponse.data.data[0],
-                                // );
-                                // setOpponentPlayers(
-                                //     opponentResponse.data.data[0].user11,
-                                // );
                             } catch {
                                 console.log('Error: Opponent data not found');
                             }
