@@ -113,6 +113,8 @@ const UserContestDetails = () => {
             fetchContestDetails();
         }
     }, [id]);
+
+    const handleUpdateTeam = () => {};
     // console.log('user Contests: ', contest);
     // console.log('Opponent Contests: ', opponentContest);
     if (!contest) return <p>Loading...</p>;
@@ -248,13 +250,20 @@ const UserContestDetails = () => {
                                         })}
                                 </div>
                             ))}
-                            <div className="mt-10"></div>
                         </div>
+                    </div>
+                    <div className="flex justify-center">
+                        <button
+                            onClick={handleUpdateTeam}
+                            className=" bg-green-600 hover:bg-green-500 text-white rounded-md p-2 mt-2 "
+                        >
+                            Update Team
+                        </button>
                     </div>
                 </div>
 
                 {opponentPlayers.length != 0 && (
-                    <div className="md:w-1/2">
+                    <div className="md:w-1/2 ml-5">
                         <h2 className="text-xl font-bold text-center mb-1 text-green-500">
                             Total Opponent Points:{' '}
                             <span className="text-3xl text-green-600">
