@@ -31,6 +31,7 @@ const ContestDetails = () => {
             }
             return prev;
         });
+        // console.log('!!!! -> ', selectedPlayerIds);
     };
 
     const handleCaptainChange = (playerId) => {
@@ -65,14 +66,7 @@ const ContestDetails = () => {
             setError('Vice-Captain is mandatory');
             return;
         }
-        // if () {
-        //   setError("Captain is not in playing 11");
-        //   return;
-        // }
-        // if () {
-        //   setError("Vice-Captain is not in playing 11");
-        //   return;
-        // }
+
         setIsModalOpen(true);
     };
 
