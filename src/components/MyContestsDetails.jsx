@@ -643,7 +643,7 @@ const UserContestDetails = () => {
                     </div>
                 )}
                 {opponentPlayers.length != 0 && (
-                    <div className="md:w-1/2 ml-5">
+                    <div className="md:w-1/2 ml-5 ">
                         <h2 className="text-xl font-bold text-center mb-1 text-green-500">
                             Total Opponent Points:{' '}
                             <span className="text-3xl text-green-600">
@@ -722,7 +722,6 @@ const UserContestDetails = () => {
                                             })}
                                     </div>
                                 ))}
-                                <div className="mt-10"></div>
                             </div>
                         </div>
                     </div>
