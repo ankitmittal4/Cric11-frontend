@@ -15,14 +15,14 @@ const UserTeams = () => {
                     },
                 },
             );
-            // console.log(response.data.data);
+            console.log(response.data.data);
 
             setContests(response.data.data);
         };
         fetchContests();
     }, []);
     const curTime = new Date();
-    console.log('Time:', contests);
+    // console.log('Time:', contests);
 
     return (
         <div className="container mx-auto p-4">
@@ -96,12 +96,17 @@ const UserTeams = () => {
                                     </span>
                                 </p>
                             </div>
-                            {new Date(
-                                `${contest.matchDetails.date}T${contest.matchDetails.startTime}`,
-                            ) < curTime ? (
-                                <div className="flex justify-center text-orange-500">
-                                    Match Ended
-                                </div>
+
+                            {contest.matchDetails.matchStarted ? (
+                                contest.matchDetails.matchEnded ? (
+                                    <div className="flex justify-center text-orange-500">
+                                        Match Ended
+                                    </div>
+                                ) : (
+                                    <div className="flex justify-center text-orange-500">
+                                        Match Ongoing
+                                    </div>
+                                )
                             ) : (
                                 <div className="flex justify-center text-orange-500">
                                     Match not started
