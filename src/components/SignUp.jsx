@@ -8,18 +8,35 @@ import {
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import frameBg from '../assets/frameBg.png';
+import axios from 'axios';
+import { API_URL } from '../../Constants';
 
 const SignUp = () => {
-    const loginSchema = Yup.object({
+    const navigate = useNavigate();
+    const validationSchema = Yup.object({
+        username: Yup.string()
+            .required('Enter username')
+            .matches(
+                /^[^A-Z\s]+$/,
+                'Username must not contains capital letters and space',
+            ),
+        fullName: Yup.string().required('Enter Full Name'),
         email: Yup.string()
-            // .email("Invalid email")
-            // .matches(
-            //   /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
-            //   "Only Gmail addresses are allowed"
-            // )
-            .required('Email is required'),
-        password: Yup.string().required('Password is required'),
+            .email('Invalid email')
+            .matches(
+                /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+                'Only Gmail addresses are allowed',
+            )
+            .required('Enter Email'),
+        password: Yup.string()
+            .min(6, 'Password must be at least 6 characters')
+            .required('Enter Password'),
+        confirmPassword: Yup.string()
+            .oneOf([Yup.ref('password'), null], 'Passwords must match')
+            .required('Required'),
     });
+
+    const [isSignUpSuccess, setIsSignUpSuccess] = useState(false);
 
     const {
         values,
@@ -31,12 +48,34 @@ const SignUp = () => {
         setFieldValue,
         setValues,
     } = useFormik({
-        initialValues: { email: '', password: '' },
-        validationSchema: loginSchema,
+        initialValues: {
+            username: '',
+            fullName: '',
+            email: '',
+            password: '',
+        },
+        validationSchema: validationSchema,
 
-        onSubmit: (values, action) => {
-            // setHomepage(true);
-            // dispatch(login(values));
+        onSubmit: async (values, action) => {
+            const data = {
+                username: values.username,
+                fullName: values.fullName,
+                email: values.email,
+                password: values.password,
+            };
+            // console.log('Data: ', data);
+            try {
+                const res = await axios.post(`${API_URL}/users/register`, data);
+                navigate('/signin');
+                action.resetForm();
+            } catch (error) {
+                console.error('Login failed:', error);
+                action.setErrors({
+                    submit: error.response?.data?.message || 'Signup failed',
+                });
+            } finally {
+                action.setSubmitting(false);
+            }
         },
     });
 
@@ -63,84 +102,57 @@ const SignUp = () => {
                         <div className="flex mb-4 space-x-4">
                             <div className="w-1/2">
                                 <label
-                                    htmlFor="firstName"
+                                    htmlFor="username"
                                     className="block text-sm  text-black-600/80"
                                 >
-                                    First Name
+                                    Username
                                 </label>
                                 <input
                                     type="text"
-                                    id="firstName"
-                                    name="firstName"
+                                    id="username"
+                                    name="username"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    value={values.firstName}
+                                    value={values.username}
                                     className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${
-                                        touched.firstName && errors.firstName
+                                        touched.username && errors.username
                                             ? 'border-red-500'
                                             : 'border-gray-500'
                                     }`}
                                 />
-                                {touched.firstName && errors.firstName && (
+                                {touched.username && errors.username && (
                                     <p className="text-xs italic text-red-500">
-                                        {errors.firstName}
+                                        {errors.username}
                                     </p>
                                 )}
                             </div>
 
                             <div className="w-1/2">
                                 <label
-                                    htmlFor="lastName"
+                                    htmlFor="fullName"
                                     className="block text-sm  text-black-600/80"
                                 >
-                                    Last Name
+                                    Full Name
                                 </label>
                                 <input
                                     type="text"
-                                    id="lastName"
-                                    name="lastName"
+                                    id="fullName"
+                                    name="fullName"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    value={values.lastName}
+                                    value={values.fullName}
                                     className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${
-                                        touched.lastName && errors.lastName
+                                        touched.fullName && errors.fullName
                                             ? 'border-red-500'
                                             : 'border-gray-500'
                                     }`}
                                 />
-                                {touched.lastName && errors.lastName && (
+                                {touched.fullName && errors.fullName && (
                                     <p className="text-xs italic text-red-500">
-                                        {errors.lastName}
+                                        {errors.fullName}
                                     </p>
                                 )}
                             </div>
-                        </div>
-
-                        <div className="mb-4">
-                            <label
-                                htmlFor="phoneNumber"
-                                className="block text-sm  text-black-600/80"
-                            >
-                                Phone Number
-                            </label>
-                            <input
-                                type="text"
-                                id="phoneNumber"
-                                name="phoneNumber"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.phoneNumber}
-                                className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${
-                                    touched.phoneNumber && errors.phoneNumber
-                                        ? 'border-red-500'
-                                        : 'border-gray-500'
-                                }`}
-                            />
-                            {touched.phoneNumber && errors.phoneNumber && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.phoneNumber}
-                                </p>
-                            )}
                         </div>
 
                         <div className="mb-4">
@@ -235,6 +247,11 @@ const SignUp = () => {
                         >
                             Register
                         </button>
+                        {errors.submit && (
+                            <div className="text-red-500 mx-auto text-center mt-3">
+                                {errors.submit}
+                            </div>
+                        )}
                     </form>
 
                     <p className="mt-4 text-center text-black">
