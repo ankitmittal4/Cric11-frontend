@@ -138,10 +138,22 @@ const ContestDetails = () => {
             // console.log("combinedSquad: ", playersResponse1);
             const combinedSquad = playersResponse1.concat(playersResponse2);
             setPlayers(combinedSquad);
+            console.log('Players: ', players);
         };
         //fetch contest details
         fetchContestDetails();
     }, [id]);
+
+    const rolePriority = {
+        'WK-Batsman': 1,
+        Batsman: 2,
+        Bowler: 3,
+        'Batting Allrounder': 4,
+        'Bowling Allrounder': 5,
+    };
+    const sortedPlayers = players.sort((a, b) => {
+        return rolePriority[a.role] - rolePriority[b.role];
+    });
 
     if (!contest)
         return (
@@ -199,7 +211,7 @@ const ContestDetails = () => {
                         </span>
                     </p>
                 </div>
-                <div className="md:w-2/3">
+                <div className="md:w-[90%]">
                     <h2 className="text-xl font-bold text-center mb-7">
                         Selected Players: {selectedPlayerIds.length} / 11
                     </h2>
@@ -211,6 +223,9 @@ const ContestDetails = () => {
                             <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
                                 <thead>
                                     <tr className="text-left border-b-2 bg-slate-200">
+                                        <th className="py-2 text-md px-4 w-40">
+                                            Country
+                                        </th>
                                         <th className="py-2 text-md px-4 w-56">
                                             Player Name
                                         </th>
@@ -224,7 +239,7 @@ const ContestDetails = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {players.map((player) => (
+                                    {sortedPlayers.map((player) => (
                                         <tr
                                             key={player.id}
                                             className={`cursor-pointer  ${
@@ -235,8 +250,10 @@ const ContestDetails = () => {
                                             onClick={() =>
                                                 handlePlayerSelection(player.id)
                                             }
-                                            // onClick={handlePlayerSelection(player._id)}
                                         >
+                                            <td className="py-2 px-4 border-b">
+                                                {player.country}
+                                            </td>
                                             <td className="py-2 px-4 border-b">
                                                 {player.name}
                                             </td>
