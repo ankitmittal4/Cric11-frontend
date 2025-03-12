@@ -8,15 +8,23 @@ import {
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import frameBg from '../assets/frameBg.png';
+import axios from 'axios';
+import { API_URL } from '../../Constants';
 
 const SignIn = () => {
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (localStorage.getItem('accessToken')) {
+            navigate('/');
+        }
+    }, []);
     const loginSchema = Yup.object({
         email: Yup.string()
-            // .email("Invalid email")
-            // .matches(
-            //   /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
-            //   "Only Gmail addresses are allowed"
-            // )
+            .email('Invalid email')
+            .matches(
+                /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+                'Only Gmail addresses are allowed',
+            )
             .required('Email is required'),
         password: Yup.string().required('Password is required'),
     });
@@ -34,9 +42,26 @@ const SignIn = () => {
         initialValues: { email: '', password: '' },
         validationSchema: loginSchema,
 
-        onSubmit: (values, action) => {
-            // setHomepage(true);
-            // dispatch(login(values));
+        onSubmit: async (values, action) => {
+            const data = {
+                email: values.email,
+                password: values.password,
+            };
+            console.log('Data: ', data);
+            try {
+                const res = await axios.post(`${API_URL}/users/login`, data);
+                console.log('Response: ', res.data.data.accessToken);
+                localStorage.setItem('accessToken', res.data.data.accessToken);
+                navigate('/');
+                action.resetForm();
+            } catch (error) {
+                console.error('Login failed:', error);
+                action.setErrors({
+                    submit: error.response?.data?.message || 'Login failed',
+                });
+            } finally {
+                action.setSubmitting(false);
+            }
         },
     });
     return (
@@ -55,7 +80,7 @@ const SignIn = () => {
                         Hi, Welcome
                     </h2>
                     <p className="mb-6 text-sm text-left">
-                        Welcome back You;ve been missed!
+                        {"Welcome back You've been missed!"}
                     </p>
 
                     <form>
@@ -110,6 +135,11 @@ const SignIn = () => {
                             {/* {isLoading === true ? 'Loading...' : 'Login'} */}
                             Login
                         </button>
+                        {errors.submit && (
+                            <div className="text-red-500 mx-auto text-center mt-3">
+                                {errors.submit}
+                            </div>
+                        )}
                     </form>
 
                     <p className="mt-4 text-center text-black">
