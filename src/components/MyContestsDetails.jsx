@@ -348,7 +348,13 @@ const UserContestDetails = () => {
                             </span>
                         </h2>
                         <div className="bg-opacity-50 flex items-center justify-center z-50">
-                            <div className="bg-green-500 p-6 rounded-lg w-full max-w-lg">
+                            <div
+                                className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
+                                style={{
+                                    backgroundImage: `url(${ground})`,
+                                    backgroundSize: '99% 96%',
+                                }}
+                            >
                                 <div className="flex justify-center gap-24 mt-8 mb-7">
                                     {players.slice(0, 2).map((player) => {
                                         return (
@@ -356,24 +362,29 @@ const UserContestDetails = () => {
                                                 key={player.id}
                                                 className="text-center"
                                             >
-                                                <FontAwesomeIcon
-                                                    icon={faUser}
-                                                    className="text-green-800 text-3xl"
-                                                />{' '}
-                                                {player.id ===
-                                                    contest.captain && (
-                                                    <span className="text-sm text-black font-semibold">
-                                                        (C)
-                                                    </span>
-                                                )}
-                                                {player.id ===
-                                                    contest.viceCaptain && (
-                                                    <span className="text-sm font-semibold text-black">
-                                                        (VC)
-                                                    </span>
-                                                )}
-                                                <span className="block text-white px-6 rounded-sm py-px bg-red-600 text-sm">
-                                                    {player.name}
+                                                <div className="relative">
+                                                    {player.id ===
+                                                        contest.captain && (
+                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                            C
+                                                        </span>
+                                                    )}
+                                                    {player.id ===
+                                                        contest.viceCaptain && (
+                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                            VC
+                                                        </span>
+                                                    )}
+                                                    <FontAwesomeIcon
+                                                        icon={faUser}
+                                                        className="text-green-900 text-3xl"
+                                                    />{' '}
+                                                </div>
+                                                <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                    {formatName(
+                                                        player.name,
+                                                        85,
+                                                    )}
                                                 </span>
                                             </div>
                                         );
@@ -393,24 +404,29 @@ const UserContestDetails = () => {
                                                         key={player.id}
                                                         className="text-center"
                                                     >
-                                                        <FontAwesomeIcon
-                                                            icon={faUser}
-                                                            className="text-green-800 text-3xl"
-                                                        />{' '}
-                                                        {player.id ===
-                                                            contest.captain && (
-                                                            <span className="text-sm text-black font-semibold">
-                                                                (C)
-                                                            </span>
-                                                        )}
-                                                        {player.id ===
-                                                            contest.viceCaptain && (
-                                                            <span className="text-sm font-semibold text-black">
-                                                                (VC)
-                                                            </span>
-                                                        )}
-                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm">
-                                                            {player.name}
+                                                        <div className="relative">
+                                                            {player.id ===
+                                                                contest.captain && (
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                    C
+                                                                </span>
+                                                            )}
+                                                            {player.id ===
+                                                                contest.viceCaptain && (
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                    VC
+                                                                </span>
+                                                            )}
+                                                            <FontAwesomeIcon
+                                                                icon={faUser}
+                                                                className="text-green-900 text-3xl"
+                                                            />{' '}
+                                                        </div>
+                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto">
+                                                            {formatName(
+                                                                player.name,
+                                                                70,
+                                                            )}
                                                         </span>
                                                     </div>
                                                 );
@@ -697,7 +713,13 @@ const UserContestDetails = () => {
                             </span>
                         </h2>
                         <div className="  bg-opacity-50 flex items-center justify-center z-50">
-                            <div className="bg-green-500 p-6 rounded-lg w-full max-w-lg">
+                            <div
+                                className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
+                                style={{
+                                    backgroundImage: `url(${ground})`,
+                                    backgroundSize: '99% 96%',
+                                }}
+                            >
                                 <div className="flex justify-center gap-24 mt-8 mb-7">
                                     {opponentPlayers
                                         .slice(0, 2)
@@ -707,24 +729,29 @@ const UserContestDetails = () => {
                                                     key={player.id}
                                                     className="text-center"
                                                 >
-                                                    <FontAwesomeIcon
-                                                        icon={faUser}
-                                                        className="text-green-800 text-3xl"
-                                                    />{' '}
-                                                    {player.id ===
-                                                        opponentContest.captain && (
-                                                        <span className="text-sm text-black font-semibold">
-                                                            (C)
-                                                        </span>
-                                                    )}
-                                                    {player.id ===
-                                                        opponentContest.viceCaptain && (
-                                                        <span className="text-sm font-semibold text-black">
-                                                            (VC)
-                                                        </span>
-                                                    )}
-                                                    <span className="block text-white px-6 rounded-sm py-px bg-red-600 text-sm">
-                                                        {player.name}
+                                                    <div className="relative">
+                                                        {player.id ===
+                                                            opponentContest.captain && (
+                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                C
+                                                            </span>
+                                                        )}
+                                                        {player.id ===
+                                                            opponentContest.viceCaptain && (
+                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                VC
+                                                            </span>
+                                                        )}
+                                                        <FontAwesomeIcon
+                                                            icon={faUser}
+                                                            className="text-green-900 text-3xl"
+                                                        />{' '}
+                                                    </div>
+                                                    <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                        {formatName(
+                                                            player.name,
+                                                            85,
+                                                        )}
                                                     </span>
                                                 </div>
                                             );
@@ -744,24 +771,30 @@ const UserContestDetails = () => {
                                                         key={player.id}
                                                         className="text-center"
                                                     >
-                                                        <FontAwesomeIcon
-                                                            icon={faUser}
-                                                            className="text-green-800 text-3xl"
-                                                        />{' '}
-                                                        {player.id ===
-                                                            opponentContest.captain && (
-                                                            <span className="text-sm text-black font-semibold">
-                                                                (C)
-                                                            </span>
-                                                        )}
-                                                        {player.id ===
-                                                            opponentContest.viceCaptain && (
-                                                            <span className="text-sm font-semibold text-black">
-                                                                (VC)
-                                                            </span>
-                                                        )}
-                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm">
-                                                            {player.name}
+                                                        <div className="relative">
+                                                            {player.id ===
+                                                                opponentContest.captain && (
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                    C
+                                                                </span>
+                                                            )}
+                                                            {player.id ===
+                                                                opponentContest.viceCaptain && (
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                    VC
+                                                                </span>
+                                                            )}
+                                                            <FontAwesomeIcon
+                                                                icon={faUser}
+                                                                className="text-green-900 text-3xl"
+                                                            />
+                                                        </div>
+
+                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto">
+                                                            {formatName(
+                                                                player.name,
+                                                                70,
+                                                            )}
                                                         </span>
                                                     </div>
                                                 );
