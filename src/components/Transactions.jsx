@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
@@ -128,6 +129,15 @@ const TransactionCard = ({ transaction }) => {
             </div>
         </div>
     );
+};
+TransactionCard.propTypes = {
+    transaction: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        amount: PropTypes.number.isRequired,
+        type: PropTypes.oneOf(['credit', 'debit']).isRequired,
+        date: PropTypes.string.isRequired,
+        status: PropTypes.oneOf(['success', 'failed', 'pending']).isRequired,
+    }).isRequired,
 };
 
 export default Transactions;
