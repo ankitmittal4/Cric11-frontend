@@ -357,13 +357,13 @@ const UserContestDetails = () => {
                         </h2>
                         <div className="bg-opacity-50 flex items-center justify-center z-50">
                             <div
-                                className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
+                                className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full"
                                 style={{
                                     backgroundImage: `url(${ground})`,
                                     backgroundSize: '99% 96%',
                                 }}
                             >
-                                <div className="flex justify-center gap-24 mt-8 mb-7">
+                                <div className="flex justify-center gap-24 mt-7 mb-7">
                                     {players.slice(0, 2).map((player) => {
                                         return (
                                             <div
@@ -399,48 +399,52 @@ const UserContestDetails = () => {
                                     })}
                                 </div>
 
-                                {[2, 5, 8].map((startIdx, index) => (
-                                    <div
-                                        key={index}
-                                        className="grid grid-cols-3 gap-20 mt-16 "
-                                    >
-                                        {players
-                                            .slice(startIdx, startIdx + 3)
-                                            .map((player) => {
-                                                return (
-                                                    <div
-                                                        key={player.id}
-                                                        className="text-center"
-                                                    >
-                                                        <div className="relative">
-                                                            {player.id ===
-                                                                contest.captain && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                    C
-                                                                </span>
-                                                            )}
-                                                            {player.id ===
-                                                                contest.viceCaptain && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                    VC
-                                                                </span>
-                                                            )}
-                                                            <FontAwesomeIcon
-                                                                icon={faUser}
-                                                                className="text-green-900 text-3xl"
-                                                            />{' '}
+                                <div className="mb-10">
+                                    {[2, 5, 8].map((startIdx, index) => (
+                                        <div
+                                            key={index}
+                                            className="grid grid-cols-3 gap-20 mt-16"
+                                        >
+                                            {players
+                                                .slice(startIdx, startIdx + 3)
+                                                .map((player) => {
+                                                    return (
+                                                        <div
+                                                            key={player.id}
+                                                            className="text-center"
+                                                        >
+                                                            <div className="relative">
+                                                                {player.id ===
+                                                                    contest.captain && (
+                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                        C
+                                                                    </span>
+                                                                )}
+                                                                {player.id ===
+                                                                    contest.viceCaptain && (
+                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                        VC
+                                                                    </span>
+                                                                )}
+                                                                <FontAwesomeIcon
+                                                                    icon={
+                                                                        faUser
+                                                                    }
+                                                                    className="text-green-900 text-3xl"
+                                                                />{' '}
+                                                            </div>
+                                                            <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto px-1">
+                                                                {formatName(
+                                                                    player.name,
+                                                                    70,
+                                                                )}
+                                                            </span>
                                                         </div>
-                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto px-1">
-                                                            {formatName(
-                                                                player.name,
-                                                                70,
-                                                            )}
-                                                        </span>
-                                                    </div>
-                                                );
-                                            })}
-                                    </div>
-                                ))}
+                                                    );
+                                                })}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                         {!isMatchStarted && (
