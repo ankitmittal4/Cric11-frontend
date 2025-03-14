@@ -6,6 +6,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../Constants';
 import ground from '../assets/ground.jpg';
+import Popup from '../features/Popup';
 
 const UserContestDetails = () => {
     const { id } = useParams();
@@ -15,6 +16,9 @@ const UserContestDetails = () => {
 
     const [opponentContest, setOpponentContest] = useState(null);
     const [opponentPlayers, setOpponentPlayers] = useState([]);
+
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [popupMessage, setPopupMessage] = useState('');
 
     //Update team before start useStates
     const [playersSelection, setPlayersSelection] = useState([]);
@@ -216,8 +220,9 @@ const UserContestDetails = () => {
             setPlayers(response.data.data[0].user11);
 
             if (response.data.statusCode === 200) {
-                // navigate(`/my-contests/${id}`);
-                alert('Contest Updated successfully!');
+                // alert('Contest Updated successfully!');
+                setPopupMessage('Contest Updated successfully!');
+                setIsPopupVisible(true);
                 setIsUpdate(false);
             }
         } catch (error) {
@@ -227,6 +232,9 @@ const UserContestDetails = () => {
                 error.response?.data?.message || 'Failed to update contest',
             );
         }
+    };
+    const closePopup = () => {
+        setIsPopupVisible(false); // Hide the popup
     };
 
     //TODO: Validation on submit
@@ -365,13 +373,13 @@ const UserContestDetails = () => {
                                                 <div className="relative">
                                                     {player.id ===
                                                         contest.captain && (
-                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
                                                             C
                                                         </span>
                                                     )}
                                                     {player.id ===
                                                         contest.viceCaptain && (
-                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
                                                             VC
                                                         </span>
                                                     )}
@@ -422,7 +430,7 @@ const UserContestDetails = () => {
                                                                 className="text-green-900 text-3xl"
                                                             />{' '}
                                                         </div>
-                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto">
+                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto px-1">
                                                             {formatName(
                                                                 player.name,
                                                                 70,
@@ -608,13 +616,13 @@ const UserContestDetails = () => {
                                                         <div className="relative">
                                                             {captainId ===
                                                                 player.id && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                     C
                                                                 </span>
                                                             )}
                                                             {viceCaptainId ===
                                                                 player.id && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                     VC
                                                                 </span>
                                                             )}
@@ -672,7 +680,7 @@ const UserContestDetails = () => {
                                                                 />
                                                             </div>
 
-                                                            <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto">
+                                                            <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto px-1">
                                                                 {formatName(
                                                                     player.name,
                                                                     70,
@@ -732,13 +740,13 @@ const UserContestDetails = () => {
                                                     <div className="relative">
                                                         {player.id ===
                                                             opponentContest.captain && (
-                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                 C
                                                             </span>
                                                         )}
                                                         {player.id ===
                                                             opponentContest.viceCaptain && (
-                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                 VC
                                                             </span>
                                                         )}
@@ -790,7 +798,7 @@ const UserContestDetails = () => {
                                                             />
                                                         </div>
 
-                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto">
+                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto px-1">
                                                             {formatName(
                                                                 player.name,
                                                                 70,
@@ -806,6 +814,12 @@ const UserContestDetails = () => {
                     </div>
                 )}
             </div>
+            {isPopupVisible && (
+                <Popup
+                    message={popupMessage}
+                    onClose={closePopup}
+                />
+            )}
         </div>
     );
 };
