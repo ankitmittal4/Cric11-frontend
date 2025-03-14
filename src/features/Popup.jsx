@@ -1,5 +1,6 @@
 import React from 'react';
 import check from '../assets/check.png';
+import PropTypes from 'prop-types';
 
 const Popup = ({ message, onClose }) => {
     return (
@@ -24,6 +25,10 @@ const Popup = ({ message, onClose }) => {
     );
 };
 
+Popup.propTypes = {
+    message: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+};
 export default Popup;
 
 //NOTE: Popup Implementation
