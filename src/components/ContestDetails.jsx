@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import ground from '../assets/ground.jpg';
+import Popup from '../features/Popup';
 
 const ContestDetails = () => {
     const { id } = useParams(); // Get the contest ID from the URL
@@ -19,6 +20,9 @@ const ContestDetails = () => {
     const [viceCaptainId, setViceCaptainId] = useState(null);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [popupMessage, setPopupMessage] = useState('');
 
     const handlePlayerSelection = (playerId) => {
         setSelectedPlayerIds((prev) => {
@@ -100,8 +104,10 @@ const ContestDetails = () => {
                 },
             );
             if (response.data.statusCode === 200) {
-                navigate('/my-contests');
-                alert('Contest Joined successfully!');
+                // navigate('/my-contests');
+                // alert('Contest Joined successfully!');
+                setPopupMessage('Contest Joined Successfully!');
+                setIsPopupVisible(true);
             }
 
             const opponentData = {
@@ -120,6 +126,10 @@ const ContestDetails = () => {
                 error.response?.data?.message || 'Failed to create contest',
             );
         }
+    };
+    const closePopup = () => {
+        setIsPopupVisible(false); // Hide the popup
+        navigate('/my-contests');
     };
 
     useEffect(() => {
@@ -487,6 +497,12 @@ const ContestDetails = () => {
                     )}
                 </div>
             </div>
+            {isPopupVisible && (
+                <Popup
+                    message={popupMessage}
+                    onClose={closePopup}
+                />
+            )}
         </div>
     );
 };
