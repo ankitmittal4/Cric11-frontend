@@ -221,7 +221,7 @@ const UserContestDetails = () => {
 
             if (response.data.statusCode === 200) {
                 // alert('Contest Updated successfully!');
-                setPopupMessage('Contest Updated successfully!');
+                setPopupMessage('Contest Updated Successfully!');
                 setIsPopupVisible(true);
                 setIsUpdate(false);
             }

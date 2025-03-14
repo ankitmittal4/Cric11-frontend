@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import ground from '../assets/ground.jpg';
+
 const ContestDetails = () => {
     const { id } = useParams(); // Get the contest ID from the URL
     const navigate = useNavigate();

@@ -25,3 +25,27 @@ const Popup = ({ message, onClose }) => {
 };
 
 export default Popup;
+
+//NOTE: Popup Implementation
+/*
+
+import Popup from '../features/Popup';
+
+const [isPopupVisible, setIsPopupVisible] = useState(false);
+const [popupMessage, setPopupMessage] = useState('');
+
+setPopupMessage('Contest Updated successfully!');
+setIsPopupVisible(true);
+
+const closePopup = () => {
+    setIsPopupVisible(false); // Hide the popup
+};
+
+{isPopupVisible && (
+    <Popup
+        message={popupMessage}
+        onClose={closePopup}
+    />
+)}
+
+*/
