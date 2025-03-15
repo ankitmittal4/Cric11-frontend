@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../../../Constants';
 import Popup from '../../../features/Popup';
 
 const Contests = () => {
@@ -11,9 +12,7 @@ const Contests = () => {
 
     useEffect(() => {
         const fetchContests = async () => {
-            const response = await axios.get(
-                'http://localhost:8000/api/v1/contests/all',
-            );
+            const response = await axios.get(`${API_URL}/contests/all`);
             setContests(response.data.data);
         };
         fetchContests();
@@ -21,12 +20,9 @@ const Contests = () => {
 
     const deleteContest = async (id) => {
         try {
-            const response = await axios.delete(
-                'http://localhost:8000/api/v1/contests/delete/',
-                {
-                    data: { id },
-                },
-            );
+            const response = await axios.delete(`${API_URL}/contests/delete/`, {
+                data: { id },
+            });
             if (response.status === 200) {
                 setTimeout(() => {
                     setContests((prevContests) =>

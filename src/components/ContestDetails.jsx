@@ -6,6 +6,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import ground from '../assets/ground.jpg';
 import Popup from '../features/Popup';
+import { API_URL } from '../../Constants';
 
 const ContestDetails = () => {
     const { id } = useParams(); // Get the contest ID from the URL
@@ -95,7 +96,7 @@ const ContestDetails = () => {
         try {
             // console.log("user contest id: ", response.data.data._id);
             const response = await axios.post(
-                'http://localhost:8000/api/v1/user-contest/create',
+                `${API_URL}/user-contest/create`,
                 contestData,
                 {
                     headers: {
@@ -115,7 +116,7 @@ const ContestDetails = () => {
                 contestId: id,
             };
             const res = await axios.post(
-                'http://localhost:8000/api/v1/opponent/create',
+                `${API_URL}/opponent/create`,
                 opponentData,
             );
             console.log('Create opponent res: ', res);
@@ -134,10 +135,9 @@ const ContestDetails = () => {
 
     useEffect(() => {
         const fetchContestDetails = async () => {
-            const response = await axios.post(
-                'http://localhost:8000/api/v1/contests/get',
-                { id },
-            );
+            const response = await axios.post(`${API_URL}/contests/get`, {
+                id,
+            });
 
             setContest(response.data.data);
 

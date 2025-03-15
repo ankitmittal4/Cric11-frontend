@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../Constants';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -12,9 +13,7 @@ const Home = () => {
             navigate('/signin');
         }
         const fetchContests = async () => {
-            const response = await axios.get(
-                'http://localhost:8000/api/v1/contests/all',
-            );
+            const response = await axios.get(`${API_URL}/contests/all`);
             // console.log("response.data: ", response.data.data);
             setContests(response.data.data);
         };

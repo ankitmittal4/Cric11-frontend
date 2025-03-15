@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import { API_URL } from '../../Constants';
 const UserTeams = () => {
     const [contests, setContests] = useState([]);
     useEffect(() => {
         const fetchContests = async () => {
             const accessToken = localStorage.getItem('accessToken');
-            const response = await axios.get(
-                'http://localhost:8000/api/v1/user-contest/all',
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
+            const response = await axios.get(`${API_URL}/user-contest/all`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
                 },
-            );
+            });
             console.log(response.data.data);
 
             setContests(response.data.data);

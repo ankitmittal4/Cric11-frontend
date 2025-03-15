@@ -136,10 +136,7 @@ const UserContestDetails = () => {
         setIsUpdate(true);
         setIsModalOpen(false);
         const id = contest.contestId;
-        const response = await axios.post(
-            'http://localhost:8000/api/v1/contests/get',
-            { id },
-        );
+        const response = await axios.post(`${API_URL}/contests/get`, { id });
 
         // setContest(response.data.data);
 
@@ -207,7 +204,7 @@ const UserContestDetails = () => {
         try {
             // console.log("user contest id: ", response.data.data._id);
             const response = await axios.post(
-                'http://localhost:8000/api/v1/user-contest/update-team',
+                `${API_URL}/user-contest/update-team`,
                 contestData,
                 {
                     headers: {

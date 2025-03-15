@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Popup from '../../../features/Popup';
+import { API_URL } from '../../../../Constants';
+
 const CreateContest = () => {
     const { matchId } = useParams();
     const location = useLocation();
@@ -35,7 +37,7 @@ const CreateContest = () => {
 
         try {
             const response = await axios.post(
-                'http://localhost:8000/api/v1/contests/create',
+                `${API_URL}/contests/create`,
                 contestData,
             );
             setLoading(false);
