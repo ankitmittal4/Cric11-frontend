@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API_URL } from '../../Constants';
 import PropTypes from 'prop-types';
+import { format, toZonedTime } from 'date-fns-tz';
 
 const Transactions = () => {
+    const accessToken = localStorage.getItem('accessToken');
     const [transactions, setTransactions] = useState([]);
     const [walletBalance, setWalletBalance] = useState(1000); // Example wallet balance
 
@@ -10,48 +13,16 @@ const Transactions = () => {
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
-                // const response = await axios.get(
-                //     'https://api.example.com/transactions',
-                // );
-                // id, amount, type, date, status
-                const response = [
+                const response = await axios.get(
+                    `${API_URL}/transactions/all`,
                     {
-                        id: 12391,
-                        amount: 2122,
-                        type: 'Debit',
-                        date: '1-2-2003',
-                        status: 'success',
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
                     },
-                    {
-                        id: 12391,
-                        amount: 2122,
-                        type: 'credit',
-                        date: '1-2-2003',
-                        status: 'failed',
-                    },
-                    {
-                        id: 12391,
-                        amount: 2122,
-                        type: 'Debit',
-                        date: '1-2-2003',
-                        status: 'pending',
-                    },
-                    {
-                        id: 12391,
-                        amount: 2122,
-                        type: 'Debit',
-                        date: '1-2-2003',
-                        status: 'success',
-                    },
-                    {
-                        id: 12391,
-                        amount: 2122,
-                        type: 'Debit',
-                        date: '1-2-2003',
-                        status: 'success',
-                    },
-                ];
-                setTransactions(response);
+                );
+
+                setTransactions(response.data.data);
             } catch (error) {
                 console.error('Error fetching transactions:', error);
             }
@@ -76,12 +47,14 @@ const Transactions = () => {
                 {transactions.length > 0 ? (
                     transactions.map((transaction) => (
                         <TransactionCard
-                            key={transaction.id}
+                            key={transaction._id}
                             transaction={transaction}
                         />
                     ))
                 ) : (
-                    <p className="text-gray-500">No transactions found.</p>
+                    <p className="text-gray-500 text-center">
+                        No transactions found.
+                    </p>
                 )}
             </div>
         </div>
@@ -90,20 +63,28 @@ const Transactions = () => {
 
 // Transaction Card Component
 const TransactionCard = ({ transaction }) => {
-    const { id, amount, type, date, status } = transaction;
+    const { _id, amount, transactionType, transactionStatus, createdAt } =
+        transaction;
+    const istDate = toZonedTime(createdAt, 'Asia/Kolkata');
+    const formattedDate = format(istDate, 'dd/MM/yyyy', {
+        timeZone: 'Asia/Kolkata',
+    });
+    const formattedTime = format(istDate, 'hh:mm:ss a', {
+        timeZone: 'Asia/Kolkata',
+    });
 
     return (
         <div className="bg-slate-100 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
             <div className="flex justify-between items-center">
                 <div>
                     <p className="text-gray-600 text-sm">
-                        Transaction ID: {id}
+                        Transaction ID: {_id}
                     </p>
                     <p className="text-lg font-semibold">
                         Amount:{' '}
                         <span
                             className={
-                                type === 'credit'
+                                transactionType === 'credit'
                                     ? 'text-green-600'
                                     : 'text-red-600'
                             }
@@ -113,30 +94,33 @@ const TransactionCard = ({ transaction }) => {
                     </p>
                 </div>
                 <div className="text-right">
-                    <p className="text-gray-600 text-sm">{date}</p>
+                    <p className="text-gray-600 text-sm">{formattedDate}</p>
+                    <p className="text-gray-600 text-sm">{formattedTime}</p>
                     <p
                         className={`text-sm font-semibold ${
-                            status === 'success'
+                            transactionStatus === 'success'
                                 ? 'text-green-600'
-                                : status === 'pending'
+                                : transactionStatus === 'pending'
                                 ? 'text-yellow-600'
                                 : 'text-red-600'
                         }`}
                     >
-                        {status}
+                        {transactionStatus}
                     </p>
                 </div>
             </div>
         </div>
     );
 };
+
 TransactionCard.propTypes = {
     transaction: PropTypes.shape({
-        id: PropTypes.string.isRequired,
+        _id: PropTypes.string.isRequired,
         amount: PropTypes.number.isRequired,
-        type: PropTypes.oneOf(['credit', 'debit']).isRequired,
-        date: PropTypes.string.isRequired,
-        status: PropTypes.oneOf(['success', 'failed', 'pending']).isRequired,
+        transactionType: PropTypes.oneOf(['Deposit', 'Withdraw']).isRequired,
+        transactionStatus: PropTypes.oneOf(['Success', 'Failed', 'Pending'])
+            .isRequired,
+        createdAt: PropTypes.string.isRequired,
     }).isRequired,
 };
 
