@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../Constants';
+import { format, toZonedTime } from 'date-fns-tz';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -21,14 +22,9 @@ const Home = () => {
     }, []);
 
     const date = new Date();
-    const offsetIST = 5.5 * 60 * 60 * 1000;
-    const istTime = new Date(date.getTime() + offsetIST);
-    const istFormatted = istTime.toISOString().slice(0, 19);
-    // console.log(istFormatted);
-    // console.log(contests[33].match.date, "T", contests[33].match.startTime);
-    // console.log(localeDateTime);
-    // console.log("IsGreater: ", istFormatted > "2024-08-28T17:30:00");
-    // "2024-08-28T16:09:33.303Z"
+    const istDate = toZonedTime(date, 'Asia/Kolkata');
+    const date1 = new Date(istDate);
+    const istCurrentTimeStamp = date1.getTime();
 
     return (
         <div className="container mx-auto p-4">
@@ -40,8 +36,12 @@ const Home = () => {
                 {contests
                     .filter((contest) => {
                         {
-                            const formattedIST = `${contest.match.date}T${contest.match.startTime}`;
-                            return istFormatted < formattedIST;
+                            const date2 = new Date(
+                                `${contest.match.date}T${contest.match.startTime}`,
+                            );
+                            const istMatchTimeStamp = date2.getTime();
+
+                            return istCurrentTimeStamp < istMatchTimeStamp;
                         }
                     })
                     .map((contest) => (
