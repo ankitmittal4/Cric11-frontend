@@ -7,7 +7,7 @@ import { format, toZonedTime } from 'date-fns-tz';
 const Transactions = () => {
     const accessToken = localStorage.getItem('accessToken');
     const [transactions, setTransactions] = useState([]);
-    const [walletBalance, setWalletBalance] = useState(1000); // Example wallet balance
+    const [walletBalance, setWalletBalance] = useState(0); // Example wallet balance
 
     // Fetch transactions from API
     useEffect(() => {
@@ -21,8 +21,16 @@ const Transactions = () => {
                         },
                     },
                 );
+                // console.log(
+                //     'Transaction response: ',
+                //     response.data.data.walletBalance,
+                // );
+                setWalletBalance(response.data.data.walletBalance);
 
-                setTransactions(response.data.data);
+                const reversedTransactions = [
+                    ...response.data.data.transactions,
+                ].reverse();
+                setTransactions(reversedTransactions);
             } catch (error) {
                 console.error('Error fetching transactions:', error);
             }
