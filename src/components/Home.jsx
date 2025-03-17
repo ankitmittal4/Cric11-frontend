@@ -23,8 +23,7 @@ const Home = () => {
 
     const date = new Date();
     const istDate = toZonedTime(date, 'Asia/Kolkata');
-    const date1 = new Date(istDate);
-    const istCurrentTimeStamp = date1.getTime();
+    const istCurrentTimeStamp = istDate.getTime();
 
     return (
         <div className="container mx-auto p-4">
