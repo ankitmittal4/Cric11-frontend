@@ -121,7 +121,10 @@ const ContestDetails = () => {
             );
             console.log('Create opponent res: ', res);
         } catch (error) {
-            alert('Failed! Contest Not Joined...');
+            alert(
+                error.response?.data?.message ||
+                    'Failed! Contest Not Joined...',
+            );
 
             console.log(
                 error.response?.data?.message || 'Failed to create contest',
