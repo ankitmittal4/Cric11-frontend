@@ -57,8 +57,7 @@ const Matches = () => {
                 const matchDateGMT = new Date(matchTimeGMT + 'Z');
 
                 const istMatchDate = toZonedTime(matchDateGMT, 'Asia/Kolkata');
-                const date3 = new Date(istMatchDate);
-                const matchTimeStamp = date3.getTime();
+                const matchTimeStamp = istMatchDate.getTime();
 
                 return (
                     match.ms === 'fixture' &&
@@ -69,9 +68,7 @@ const Matches = () => {
             .map((match) => {
                 const matchTimeGMT = match.dateTimeGMT;
                 const matchDateGMT = new Date(matchTimeGMT + 'Z');
-                // console.log('GMT: ', matchDateGMT);
                 const istMatchDate = toZonedTime(matchDateGMT, 'Asia/Kolkata');
-                // console.log('IST: ', matchDateGMT);
                 const formattedIstMatchDate = format(
                     istMatchDate,
                     'dd-MM-yyyy',
@@ -89,9 +86,7 @@ const Matches = () => {
                     time: formattedIstMatchTime,
                 };
             });
-        // console.log('Filterred Matches: ', filteredMatches.reverse());
         filteredMatches.reverse();
-        // console.log("FilteredMatches: ", filteredMatches);
         const totalMatches = filteredMatches.length;
         const startIndex = (page - 1) * limit;
         const endIndex = startIndex + limit;
