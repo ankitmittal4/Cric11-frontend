@@ -20,7 +20,7 @@ const Home = () => {
         };
         fetchContests();
     }, []);
-
+    console.log('###: ', contests);
     const date = new Date();
     const istDate = toZonedTime(date, 'Asia/Kolkata');
     const istCurrentTimeStamp = istDate.getTime();
@@ -36,7 +36,7 @@ const Home = () => {
                     .filter((contest) => {
                         {
                             const date2 = new Date(
-                                `${contest.match.date}T${contest.match.startTime}`,
+                                `${contest.match.date}T${contest.match.startTime}Z`,
                             );
                             const istMatchTimeStamp = date2.getTime();
 
