@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { format, toZonedTime } from 'date-fns-tz';
 
 const Matches = () => {
     const [matches, setMatches] = useState([]);
@@ -29,8 +30,8 @@ const Matches = () => {
         // const apiKey = "46bdd8c8-e5a0-4e69-b610-3d78d92ee081";
         // const apiKey = "f526c20d-e2b2-4410-9f53-20c008f311df";
 
-        // const apiKey = "b07addfd-8d5b-45e5-8c6c-3e8170c93f4c";
-        const apiKey = '4ef4f3fd-defa-4095-9983-13f81c289499';
+        const apiKey = 'b07addfd-8d5b-45e5-8c6c-3e8170c93f4c';
+        // const apiKey = '4ef4f3fd-defa-4095-9983-13f81c289499';
         const upcomingMatchesApiUrl = `https://api.cricapi.com/v1/${upcomingMatchesApiEndpoint}?apikey=${apiKey}`;
         const upcomingMatches = await axios.get(upcomingMatchesApiUrl);
         if (
@@ -42,49 +43,53 @@ const Matches = () => {
 
         const today = new Date();
         const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setDate(tomorrow.getDate() + 2);
 
-        const formatDate = (date) => date.toISOString().split('T')[0];
-        const todayStr = formatDate(today);
-        const tomorrowStr = formatDate(tomorrow);
+        const istTodayDate = toZonedTime(today, 'Asia/Kolkata');
+        const istTomorrowDate = toZonedTime(tomorrow, 'Asia/Kolkata');
+
+        const todayTimeStamp = istTodayDate.getTime();
+        const tomorrowTimeStamp = istTomorrowDate.getTime();
 
         const filteredMatches = upcomingMatches.data.data
             .filter((match) => {
                 const matchTimeGMT = match.dateTimeGMT;
-                const matchDateGMT = new Date(matchTimeGMT);
-                const ISTOffset = 5.5 * 60 * 60 * 1000;
-                const matchTimeIST = new Date(
-                    matchDateGMT.getTime() + ISTOffset,
-                );
-                const matchTimeISTStr = matchTimeIST
-                    .toISOString()
-                    .replace('Z', '')
-                    .replace('T', ' ')
-                    .slice(0, 10);
+                const matchDateGMT = new Date(matchTimeGMT + 'Z');
+
+                const istMatchDate = toZonedTime(matchDateGMT, 'Asia/Kolkata');
+                const date3 = new Date(istMatchDate);
+                const matchTimeStamp = date3.getTime();
+
                 return (
                     match.ms === 'fixture' &&
-                    (matchTimeISTStr === todayStr ||
-                        matchTimeISTStr === tomorrowStr)
+                    matchTimeStamp >= todayTimeStamp &&
+                    matchTimeStamp <= tomorrowTimeStamp
                 );
             })
             .map((match) => {
                 const matchTimeGMT = match.dateTimeGMT;
-                const matchDateGMT = new Date(matchTimeGMT);
-                const ISTOffset = 5.5 * 60 * 60 * 1000;
-                const matchTimeIST = new Date(
-                    matchDateGMT.getTime() + ISTOffset,
+                const matchDateGMT = new Date(matchTimeGMT + 'Z');
+                // console.log('GMT: ', matchDateGMT);
+                const istMatchDate = toZonedTime(matchDateGMT, 'Asia/Kolkata');
+                // console.log('IST: ', matchDateGMT);
+                const formattedIstMatchDate = format(
+                    istMatchDate,
+                    'dd-MM-yyyy',
+                    {
+                        timeZone: 'Asia/Kolkata',
+                    },
                 );
-
-                const matchDate = matchTimeGMT.slice(0, 10);
-                const matchTimeISTStr = matchTimeIST.toTimeString().slice(0, 8);
-                // console.log("matchTimeIST: ", matchTimeISTStr);
+                const formattedIstMatchTime = format(istMatchDate, 'HH:mm:ss', {
+                    timeZone: 'Asia/Kolkata',
+                });
 
                 return {
                     ...match,
-                    date: matchDate,
-                    time: matchTimeISTStr,
+                    date: formattedIstMatchDate,
+                    time: formattedIstMatchTime,
                 };
             });
+        // console.log('Filterred Matches: ', filteredMatches.reverse());
         filteredMatches.reverse();
         // console.log("FilteredMatches: ", filteredMatches);
         const totalMatches = filteredMatches.length;
