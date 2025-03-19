@@ -143,10 +143,21 @@ const UserContestDetails = () => {
         // Fetch (squad)players for team selection
         const playersResponse1 =
             response.data.data.squadDetails.squad[0].players;
+
+        const updatedPlayersResponse1 = playersResponse1.map((player) => ({
+            ...player,
+            team: response.data.data.squadDetails.squad[0].teamName,
+        }));
         const playersResponse2 =
             response.data.data.squadDetails.squad[1].players;
+        const updatedPlayersResponse2 = playersResponse2.map((player) => ({
+            ...player,
+            team: response.data.data.squadDetails.squad[1].teamName,
+        }));
         // console.log("combinedSquad: ", playersResponse1);
-        const combinedSquad = playersResponse1.concat(playersResponse2);
+        const combinedSquad = updatedPlayersResponse1.concat(
+            updatedPlayersResponse2,
+        );
         setPlayersSelection(combinedSquad);
         const my11 = contest.user11.map((player) => player.id);
         setSelectedPlayerIds(my11);
@@ -255,6 +266,18 @@ const UserContestDetails = () => {
 
     // console.log('user Contests: ', contest);
     // console.log('Opponent Contests: ', opponentContest);
+    const rolePriority = {
+        'WK-Batsman': 1,
+        Batsman: 2,
+        Bowler: 3,
+        'Batting Allrounder': 4,
+        'Bowling Allrounder': 5,
+        '--': 6,
+    };
+    const sortedPlayers = playersSelection.sort((a, b) => {
+        return rolePriority[a.role] - rolePriority[b.role];
+    });
+
     const checkTextWidth = (text) => {
         const span = document.createElement('span');
         span.style.visibility = 'hidden';
@@ -458,7 +481,7 @@ const UserContestDetails = () => {
                 )}
 
                 {isUpdate && (
-                    <div className="md:w-2/3">
+                    <div className="md:w-[90%]">
                         <h2 className="text-xl font-bold text-center mb-7">
                             Selected Players: {selectedPlayerIds.length} / 11
                         </h2>
@@ -470,10 +493,13 @@ const UserContestDetails = () => {
                                 <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
                                     <thead>
                                         <tr className="text-left border-b-2 bg-slate-200">
+                                            <th className="py-2 text-md px-4 w-40">
+                                                Role
+                                            </th>
                                             <th className="py-2 text-md px-4 w-56">
                                                 Player Name
                                             </th>
-                                            <th className="px-4 ">Role</th>
+                                            <th className="px-4 ">Team</th>
                                             <th className="py-2 px-4">
                                                 Captain (C)
                                             </th>
@@ -498,10 +524,13 @@ const UserContestDetails = () => {
                                                 }
                                             >
                                                 <td className="py-2 px-4 border-b">
+                                                    {player.role}
+                                                </td>
+                                                <td className="py-2 px-4 border-b">
                                                     {player.name}
                                                 </td>
                                                 <td className="py-2 px-4 border-b">
-                                                    {player.role}
+                                                    {player.team}
                                                 </td>
                                                 <td className="py-2 px-4 border-b text-center">
                                                     <input
