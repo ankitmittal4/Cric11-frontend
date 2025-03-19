@@ -147,10 +147,21 @@ const ContestDetails = () => {
             // Fetch (squad)players for team selection
             const playersResponse1 =
                 response.data.data.squadDetails.squad[0].players;
+            const updatedPlayersResponse1 = playersResponse1.map((player) => ({
+                ...player,
+                team: response.data.data.squadDetails.squad[0].teamName,
+            }));
+
             const playersResponse2 =
                 response.data.data.squadDetails.squad[1].players;
+            const updatedPlayersResponse2 = playersResponse2.map((player) => ({
+                ...player,
+                team: response.data.data.squadDetails.squad[1].teamName,
+            }));
             // console.log("combinedSquad: ", playersResponse1);
-            const combinedSquad = playersResponse1.concat(playersResponse2);
+            const combinedSquad = updatedPlayersResponse1.concat(
+                updatedPlayersResponse2,
+            );
             setPlayers(combinedSquad);
             console.log('Players: ', players);
         };
@@ -164,6 +175,7 @@ const ContestDetails = () => {
         Bowler: 3,
         'Batting Allrounder': 4,
         'Bowling Allrounder': 5,
+        '--': 6,
     };
     const sortedPlayers = players.sort((a, b) => {
         return rolePriority[a.role] - rolePriority[b.role];
@@ -263,12 +275,12 @@ const ContestDetails = () => {
                                 <thead>
                                     <tr className="text-left border-b-2 bg-slate-200">
                                         <th className="py-2 text-md px-4 w-40">
-                                            Country
+                                            Role
                                         </th>
                                         <th className="py-2 text-md px-4 w-56">
                                             Player Name
                                         </th>
-                                        <th className="px-4 ">Role</th>
+                                        <th className="px-4 ">Team</th>
                                         <th className="py-2 px-4">
                                             Captain (C)
                                         </th>
@@ -291,13 +303,13 @@ const ContestDetails = () => {
                                             }
                                         >
                                             <td className="py-2 px-4 border-b">
-                                                {player.country}
+                                                {player.role}
                                             </td>
                                             <td className="py-2 px-4 border-b">
                                                 {player.name}
                                             </td>
                                             <td className="py-2 px-4 border-b">
-                                                {player.role}
+                                                {player.team}
                                             </td>
                                             <td className="py-2 px-4 border-b text-center">
                                                 <input
