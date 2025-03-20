@@ -20,7 +20,7 @@ const Home = () => {
         };
         fetchContests();
     }, []);
-    console.log('###: ', contests);
+    // console.log('###: ', contests);
     const date = new Date();
     const istDate = toZonedTime(date, 'Asia/Kolkata');
     const istCurrentTimeStamp = istDate.getTime();
@@ -49,7 +49,7 @@ const Home = () => {
                             key={contest._id}
                             className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-gray-200"
                         >
-                            <h2 className="text-xl font-bold text-center text-gray-600 mb-1 ">
+                            <h2 className="text-xl font-bold text-center text-gray-600 mb-1 min-h-14">
                                 {contest.match.name}
                             </h2>
                             <div className="flex justify-between mt-4 mb-1">
