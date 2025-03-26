@@ -48,7 +48,7 @@ const UserContestDetails = () => {
                         },
                     },
                 );
-                // console.log('User Response: ', response.data.data);
+                console.log('User Response: ', response.data.data[0]);
                 setContest(response.data.data[0]);
                 setPlayers(response.data.data[0].user11);
                 const { userId, contestId } = response.data.data[0];
@@ -414,6 +414,9 @@ const UserContestDetails = () => {
                                                         85,
                                                     )}
                                                 </span>
+                                                <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                    {10} Pts
+                                                </span>
                                             </div>
                                         );
                                     })}
@@ -458,6 +461,9 @@ const UserContestDetails = () => {
                                                                     player.name,
                                                                     70,
                                                                 )}
+                                                            </span>
+                                                            <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                                {10} Pts
                                                             </span>
                                                         </div>
                                                     );
