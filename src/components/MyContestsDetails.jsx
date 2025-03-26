@@ -48,7 +48,7 @@ const UserContestDetails = () => {
                         },
                     },
                 );
-                console.log('User Response: ', response.data.data[0]);
+                // console.log('User Response: ', response.data.data[0]);
                 setContest(response.data.data[0]);
                 setPlayers(response.data.data[0].user11);
                 const { userId, contestId } = response.data.data[0];
