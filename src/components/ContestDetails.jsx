@@ -449,7 +449,7 @@ const ContestDetails = () => {
                                 {[2, 5, 8].map((startIdx, index) => (
                                     <div
                                         key={index}
-                                        className="grid grid-cols-3 gap-20 mt-12"
+                                        className="grid grid-cols-3 gap-16 mt-12 "
                                     >
                                         {selectedPlayerIds
                                             .slice(startIdx, startIdx + 3)
@@ -465,13 +465,13 @@ const ContestDetails = () => {
                                                         <div className="relative">
                                                             {captainId ===
                                                                 player.id && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                     C
                                                                 </span>
                                                             )}
                                                             {viceCaptainId ===
                                                                 player.id && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                     VC
                                                                 </span>
                                                             )}
