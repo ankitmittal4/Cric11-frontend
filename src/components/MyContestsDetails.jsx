@@ -368,7 +368,7 @@ const UserContestDetails = () => {
                 </div>
 
                 {!isUpdate && (
-                    <div className="md:w-1/2">
+                    <div className="md:w-[55%]">
                         <h2 className="text-xl font-bold text-center mb-1 text-green-500">
                             Total Points:{' '}
                             <span className="text-3xl text-green-600">
@@ -383,7 +383,7 @@ const UserContestDetails = () => {
                                     backgroundSize: '99% 96%',
                                 }}
                             >
-                                <div className="flex justify-center gap-24 mt-7 mb-7">
+                                <div className="flex justify-center gap-24 mt-4 mb-14">
                                     {players.slice(0, 2).map((player) => {
                                         return (
                                             <div
@@ -422,11 +422,11 @@ const UserContestDetails = () => {
                                     })}
                                 </div>
 
-                                <div className="mb-10">
+                                <div className="">
                                     {[2, 5, 8].map((startIdx, index) => (
                                         <div
                                             key={index}
-                                            className="grid grid-cols-3 gap-20 mt-16"
+                                            className="grid grid-cols-3 gap-14 mt-14 "
                                         >
                                             {players
                                                 .slice(startIdx, startIdx + 3)
@@ -750,7 +750,7 @@ const UserContestDetails = () => {
                     </div>
                 )}
                 {opponentPlayers.length != 0 && (
-                    <div className="md:w-1/2 ml-5 ">
+                    <div className="md:w-[55%] ml-5 ">
                         <h2 className="text-xl font-bold text-center mb-1 text-green-500">
                             Total Opponent Points:{' '}
                             <span className="text-3xl text-green-600">
@@ -765,7 +765,7 @@ const UserContestDetails = () => {
                                     backgroundSize: '99% 96%',
                                 }}
                             >
-                                <div className="flex justify-center gap-24 mt-8 mb-7">
+                                <div className="flex justify-center gap-24 mt-4 mb-14">
                                     {opponentPlayers
                                         .slice(0, 2)
                                         .map((player) => {
@@ -798,6 +798,9 @@ const UserContestDetails = () => {
                                                             85,
                                                         )}
                                                     </span>
+                                                    <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                        {player?.points} Pts
+                                                    </span>
                                                 </div>
                                             );
                                         })}
@@ -806,7 +809,7 @@ const UserContestDetails = () => {
                                 {[2, 5, 8].map((startIdx, index) => (
                                     <div
                                         key={index}
-                                        className="grid grid-cols-3 gap-20 mt-16 "
+                                        className="grid grid-cols-3 gap-14 mt-14"
                                     >
                                         {opponentPlayers
                                             .slice(startIdx, startIdx + 3)
@@ -840,6 +843,9 @@ const UserContestDetails = () => {
                                                                 player.name,
                                                                 70,
                                                             )}
+                                                        </span>
+                                                        <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                            {player?.points} Pts
                                                         </span>
                                                     </div>
                                                 );
