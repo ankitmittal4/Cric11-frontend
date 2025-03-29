@@ -36,9 +36,12 @@ const Home = () => {
                     .filter((contest) => {
                         {
                             const date2 = new Date(
-                                `${contest.match.date}T${contest.match.startTime}Z`,
+                                `${contest.match.date}T${contest.match.startTime}`,
                             );
-                            const istMatchTimeStamp = date2.getTime();
+
+                            const istDate = toZonedTime(date2, 'Asia/Kolkata');
+
+                            const istMatchTimeStamp = istDate.getTime();
 
                             return istCurrentTimeStamp < istMatchTimeStamp;
                         }
