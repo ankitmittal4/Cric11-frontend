@@ -96,11 +96,11 @@ const UserTeams = () => {
 
                             {contest.matchDetails.matchStarted ? (
                                 contest.matchDetails.matchEnded ? (
-                                    <div className="flex justify-center text-orange-500">
+                                    <div className="flex justify-center text-red-600">
                                         Match Ended
                                     </div>
                                 ) : (
-                                    <div className="flex justify-center text-orange-500">
+                                    <div className="flex justify-center text-green-500">
                                         Match Ongoing
                                     </div>
                                 )
