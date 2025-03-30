@@ -6,6 +6,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import ground from '../assets/ground.jpg';
 import Popup from '../features/Popup';
+import warning from '../assets/warning.png';
 import { API_URL } from '../../Constants';
 
 const ContestDetails = () => {
@@ -370,15 +371,19 @@ const ContestDetails = () => {
                         </div>
                         {/* //Display error popup  */}
                         {error && (
-                            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                                <div className="bg-white p-6 pl-9 pr-9 rounded-lg shadow-lg">
-                                    <h2 className="text-xl font-bold mb-5">
-                                        Error
-                                    </h2>
-                                    <p>{error}</p>
+                            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                <div className="bg-white p-6 rounded-lg shadow-lg text-center pl-9 pr-9 min-w-[23%]">
+                                    <img
+                                        className="h-12 w-12 text-center mx-auto"
+                                        src={warning}
+                                        alt="Check"
+                                    ></img>
+                                    <p className="text-lg text-gray-700 font-semibold mb-4 mt-6 ">
+                                        {error}
+                                    </p>
                                     <button
                                         onClick={closeErrorPopup}
-                                        className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                                        className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
                                     >
                                         Close
                                     </button>
@@ -522,3 +527,20 @@ const ContestDetails = () => {
     );
 };
 export default ContestDetails;
+
+{
+    /* <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                                <div className="bg-white p-6 pl-9 pr-9 rounded-lg shadow-lg">
+                                    <h2 className="text-xl font-bold mb-5">
+                                        Error
+                                    </h2>
+                                    <p>{error}</p>
+                                    <button
+                                        onClick={closeErrorPopup}
+                                        className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </div> */
+}
