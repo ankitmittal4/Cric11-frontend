@@ -13,6 +13,7 @@ const UserTeams = () => {
                 },
             });
             // console.log('-->', response.data.data);
+            // console.log('-->', response.data.data);
 
             setContests(response.data.data);
         };
