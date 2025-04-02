@@ -278,6 +278,12 @@ const UserContestDetails = () => {
     const sortedPlayers = playersSelection.sort((a, b) => {
         return rolePriority[a.role] - rolePriority[b.role];
     });
+    const sortedUserPlayers = players.sort((a, b) => {
+        return rolePriority[a.role] - rolePriority[b.role];
+    });
+    const sortedOpponentPlayers = opponentPlayers.sort((a, b) => {
+        return rolePriority[a.role] - rolePriority[b.role];
+    });
 
     const checkTextWidth = (text) => {
         const span = document.createElement('span');
@@ -389,48 +395,50 @@ const UserContestDetails = () => {
                                 }}
                             >
                                 <div className="flex justify-center gap-24 mt-4 mb-14">
-                                    {players.slice(0, 2).map((player) => {
-                                        return (
-                                            <div
-                                                key={player.id}
-                                                className="text-center"
-                                            >
-                                                <div className="relative">
-                                                    {player.id ===
-                                                        contest.captain && (
-                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                            C
-                                                        </span>
-                                                    )}
-                                                    {player.id ===
-                                                        contest.viceCaptain && (
-                                                        <span
-                                                            className={`flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${
-                                                                opponentPlayers?.length ===
-                                                                    0 &&
-                                                                'left-0'
-                                                            }`}
-                                                        >
-                                                            VC
-                                                        </span>
-                                                    )}
-                                                    <FontAwesomeIcon
-                                                        icon={faUser}
-                                                        className="text-green-900 text-3xl"
-                                                    />{' '}
+                                    {sortedUserPlayers
+                                        .slice(0, 2)
+                                        .map((player) => {
+                                            return (
+                                                <div
+                                                    key={player.id}
+                                                    className="text-center"
+                                                >
+                                                    <div className="relative">
+                                                        {player.id ===
+                                                            contest.captain && (
+                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                C
+                                                            </span>
+                                                        )}
+                                                        {player.id ===
+                                                            contest.viceCaptain && (
+                                                            <span
+                                                                className={`flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${
+                                                                    opponentPlayers?.length ===
+                                                                        0 &&
+                                                                    'left-0'
+                                                                }`}
+                                                            >
+                                                                VC
+                                                            </span>
+                                                        )}
+                                                        <FontAwesomeIcon
+                                                            icon={faUser}
+                                                            className="text-green-900 text-3xl"
+                                                        />{' '}
+                                                    </div>
+                                                    <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                        {formatName(
+                                                            player.name,
+                                                            85,
+                                                        )}
+                                                    </span>
+                                                    <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                        {player?.points} Pts
+                                                    </span>
                                                 </div>
-                                                <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                    {formatName(
-                                                        player.name,
-                                                        85,
-                                                    )}
-                                                </span>
-                                                <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                    {player?.points} Pts
-                                                </span>
-                                            </div>
-                                        );
-                                    })}
+                                            );
+                                        })}
                                 </div>
 
                                 <div className="">
@@ -439,7 +447,7 @@ const UserContestDetails = () => {
                                             key={index}
                                             className="grid grid-cols-3 gap-14 mt-14 "
                                         >
-                                            {players
+                                            {sortedUserPlayers
                                                 .slice(startIdx, startIdx + 3)
                                                 .map((player) => {
                                                     return (
@@ -789,7 +797,7 @@ const UserContestDetails = () => {
                                 }}
                             >
                                 <div className="flex justify-center gap-24 mt-4 mb-14">
-                                    {opponentPlayers
+                                    {sortedOpponentPlayers
                                         .slice(0, 2)
                                         .map((player) => {
                                             return (
@@ -834,7 +842,7 @@ const UserContestDetails = () => {
                                         key={index}
                                         className="grid grid-cols-3 gap-14 mt-14"
                                     >
-                                        {opponentPlayers
+                                        {sortedOpponentPlayers
                                             .slice(startIdx, startIdx + 3)
                                             .map((player) => {
                                                 return (
