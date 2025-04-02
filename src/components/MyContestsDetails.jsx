@@ -269,11 +269,12 @@ const UserContestDetails = () => {
     const rolePriority = {
         'WK-Batsman': 1,
         Batsman: 2,
-        Bowler: 3,
-        'Batting Allrounder': 4,
-        'Bowling Allrounder': 5,
+        'Batting Allrounder': 3,
+        'Bowling Allrounder': 4,
+        Bowler: 5,
         '--': 6,
     };
+
     const sortedPlayers = playersSelection.sort((a, b) => {
         return rolePriority[a.role] - rolePriority[b.role];
     });
