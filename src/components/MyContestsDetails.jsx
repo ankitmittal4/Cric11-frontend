@@ -384,7 +384,7 @@ const UserContestDetails = () => {
                         </h2>
                         <div className="bg-opacity-50 flex items-center justify-center z-50">
                             <div
-                                className={`relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center  ${
+                                className={`bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center  ${
                                     opponentPlayers?.length === 0
                                         ? 'w-[65%]'
                                         : 'w-full'
@@ -403,7 +403,7 @@ const UserContestDetails = () => {
                                                     key={player.id}
                                                     className="text-center"
                                                 >
-                                                    <div className="relative">
+                                                    <div className="">
                                                         {player.id ===
                                                             contest.captain && (
                                                             <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
@@ -455,7 +455,7 @@ const UserContestDetails = () => {
                                                             key={player.id}
                                                             className="text-center"
                                                         >
-                                                            <div className="relative">
+                                                            <div className="">
                                                                 {player.id ===
                                                                     contest.captain && (
                                                                     <span
@@ -790,7 +790,7 @@ const UserContestDetails = () => {
                         </h2>
                         <div className="  bg-opacity-50 flex items-center justify-center z-50">
                             <div
-                                className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
+                                className=" bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
                                 style={{
                                     backgroundImage: `url(${ground})`,
                                     backgroundSize: '99% 96%',
@@ -805,7 +805,7 @@ const UserContestDetails = () => {
                                                     key={player.id}
                                                     className="text-center"
                                                 >
-                                                    <div className="relative">
+                                                    <div className="">
                                                         {player.id ===
                                                             opponentContest.captain && (
                                                             <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
@@ -850,7 +850,7 @@ const UserContestDetails = () => {
                                                         key={player.id}
                                                         className="text-center"
                                                     >
-                                                        <div className="relative">
+                                                        <div className="">
                                                             {player.id ===
                                                                 opponentContest.captain && (
                                                                 <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-1 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
