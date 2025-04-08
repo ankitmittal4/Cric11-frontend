@@ -13,6 +13,7 @@ import ContestDetails from './components/ContestDetails';
 import MyContests from './components/MyContests';
 import MyContestDetails from './components/MyContestsDetails';
 import Transactions from './components/Transactions';
+import Layout from './components/Layout';
 
 import Admin from './components/Admin/Admin';
 
@@ -37,34 +38,39 @@ const AppContent = () => {
                         element={<SignIn />}
                     />
                     <Route
-                        path="/signup"
-                        element={<SignUp />}
-                    />
-                    <Route
                         path="/"
-                        element={<Home />}
-                    />
-                    <Route
-                        path="/:id"
-                        element={<ContestDetails />}
-                    />
-                    <Route
-                        path="/my-contests"
-                        element={<MyContests />}
-                    />
-                    <Route
-                        path="/my-contests/:id"
-                        element={<MyContestDetails />}
-                    />
-                    <Route
-                        path="/transactions"
-                        element={<Transactions />}
-                    />
+                        element={<Layout />}
+                    >
+                        <Route
+                            path="/signup"
+                            element={<SignUp />}
+                        />
+                        <Route
+                            path="/"
+                            element={<Home />}
+                        />
+                        <Route
+                            path="/:id"
+                            element={<ContestDetails />}
+                        />
+                        <Route
+                            path="/my-contests"
+                            element={<MyContests />}
+                        />
+                        <Route
+                            path="/my-contests/:id"
+                            element={<MyContestDetails />}
+                        />
+                        <Route
+                            path="/transactions"
+                            element={<Transactions />}
+                        />
 
-                    <Route
-                        path="/admin/*"
-                        element={<Admin />}
-                    />
+                        <Route
+                            path="/admin/*"
+                            element={<Admin />}
+                        />
+                    </Route>
                 </Routes>
             </div>
         </div>
