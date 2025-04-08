@@ -431,7 +431,7 @@ const ContestDetails = () => {
                                                     )}
                                                     {viceCaptainId ===
                                                         player.id && (
-                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
                                                             VC
                                                         </span>
                                                     )}
@@ -470,7 +470,7 @@ const ContestDetails = () => {
                                                         <div className="relative">
                                                             {captainId ===
                                                                 player.id && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                     C
                                                                 </span>
                                                             )}
