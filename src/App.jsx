@@ -19,32 +19,34 @@ import Admin from './components/Admin/Admin';
 
 const AppContent = () => {
     const location = useLocation();
-    const hideNavBar =
-        location.pathname.startsWith('/admin') ||
-        location.pathname.startsWith('/signin') ||
-        location.pathname.startsWith('/signup');
+    // const hideNavBar =
+    //     location.pathname.startsWith('/admin') ||
+    //     location.pathname.startsWith('/signin') ||
+    //     location.pathname.startsWith('/signup');
+
+    //     {!hideNavBar && <NavBar />}
+    //         <div
+    //             className={` ${
+    //                 !hideNavBar ? 'pt-20 container mx-auto p-4' : ''
+    //             }`}
+    //         ></div>
 
     return (
         <div>
-            {!hideNavBar && <NavBar />}
-            <div
-                className={` ${
-                    !hideNavBar ? 'pt-20 container mx-auto p-4' : ''
-                }`}
-            >
+            <div>
                 <Routes>
                     <Route
                         path="/signin"
                         element={<SignIn />}
                     />
                     <Route
+                        path="/signup"
+                        element={<SignUp />}
+                    />
+                    <Route
                         path="/"
                         element={<Layout />}
                     >
-                        <Route
-                            path="/signup"
-                            element={<SignUp />}
-                        />
                         <Route
                             path="/"
                             element={<Home />}
@@ -65,12 +67,11 @@ const AppContent = () => {
                             path="/transactions"
                             element={<Transactions />}
                         />
-
-                        <Route
-                            path="/admin/*"
-                            element={<Admin />}
-                        />
                     </Route>
+                    <Route
+                        path="/admin/*"
+                        element={<Admin />}
+                    />
                 </Routes>
             </div>
         </div>

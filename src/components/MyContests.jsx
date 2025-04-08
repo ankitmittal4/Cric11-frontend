@@ -12,8 +12,6 @@ const UserTeams = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            // console.log('-->', response.data.data);
-            // console.log('-->', response.data.data);
 
             setContests(response.data.data);
         };
