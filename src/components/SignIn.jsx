@@ -9,9 +9,10 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import frameBg from '../assets/frameBg.png';
 import axios from 'axios';
-import { API_URL } from '../../Constants.jsx';
+import { API_URL } from '../../Constants';
 
 const SignIn = () => {
+    console.log('APi url: ', API_URL);
     const navigate = useNavigate();
     useEffect(() => {
         if (localStorage.getItem('accessToken')) {
