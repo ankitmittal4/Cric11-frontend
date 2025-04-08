@@ -5,10 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import logout from '../assets/logout.png';
 import profile from '../assets/profile.svg';
 
-import facebook from '../assets/facebook.svg';
-import Twitter from '../assets/twitter.svg';
-import LinkedIn from '../assets/linkedin.svg';
-
 const NavBar = () => {
     const navigate = useNavigate();
     const cric11 = () => {
@@ -84,7 +80,6 @@ const NavBar = () => {
     );
 };
 
-// <footer className="py-10 bg-white font-custom text-neutral-800">
 //     <hr className="bg-black text-black border-black h-px" />
 
 //     <div className="container px-4 mx-auto">
