@@ -26,12 +26,31 @@ const Matches = () => {
 
         const upcomingMatchesApiEndpoint = 'cricScore';
 
-        // const apiKey = "514f076f-7982-4057-af93-a67492703940";
-        // const apiKey = "46bdd8c8-e5a0-4e69-b610-3d78d92ee081";
-        // const apiKey = "f526c20d-e2b2-4410-9f53-20c008f311df";
+        //NOTE: Banned
+        // const apiKey = '514f076f-7982-4057-af93-a67492703940';
+        // const apiKey = '46bdd8c8-e5a0-4e69-b610-3d78d92ee081';
+        // const apiKey = 'f526c20d-e2b2-4410-9f53-20c008f311df';
 
-        const apiKey = 'b07addfd-8d5b-45e5-8c6c-3e8170c93f4c';
+        //NOTE: Working
         // const apiKey = '4ef4f3fd-defa-4095-9983-13f81c289499';
+        const apiKey = 'b07addfd-8d5b-45e5-8c6c-3e8170c93f4c';
+
+        //Not working
+        // const API_KEY = 'd736d252-f66d-4c8c-8ecb-273867abb301';
+        // const API_KEY = '35819fd5-cd48-4b60-a40c-a861c5845f27';
+        // const API_KEY = '9fb4da4f-ac75-4c61-8ddf-5d80e55bb190';
+        // const API_KEY = '97d3da1b-3bc3-4817-baa1-9ae3d81e73fb';
+        // const API_KEY = 'e099e3e9-6af1-4026-ba51-7f719ac37684';
+        // const API_KEY = 'd3680cd3-3903-4431-9a7b-8f69d106e0b3';
+        // const API_KEY = '005c6cc1-f622-4877-938e-4f0cfbfdb0c4';
+
+        //working
+        // const API_KEY = 'b07addfd-8d5b-45e5-8c6c-3e8170c93f4c';
+        // const API_KEY = 'd74596ad-412b-4ff0-81f7-d040557e2098';
+        // const API_KEY = '6f89863f-fa17-45f9-816d-ea560e57d785';
+        // const API_KEY = '5eb1c4b6-bd6c-4deb-93aa-cee7fa04f883';
+        // const API_KEY = '74656dff-2c4e-413f-a020-283eb747145c';
+        // const API_KEY = 'e6f462c7-d5fd-4390-92fd-00d35e622fbf';
         const upcomingMatchesApiUrl = `https://api.cricapi.com/v1/${upcomingMatchesApiEndpoint}?apikey=${apiKey}`;
         const upcomingMatches = await axios.get(upcomingMatchesApiUrl);
         if (
