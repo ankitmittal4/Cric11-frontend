@@ -80,6 +80,9 @@ const TransactionCard = ({ transaction }) => {
     const formattedTime = format(istDate, 'hh:mm:ss a', {
         timeZone: 'Asia/Kolkata',
     });
+    const capitaliseFirstLetter = (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
 
     return (
         <div className="bg-slate-100 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
@@ -100,6 +103,17 @@ const TransactionCard = ({ transaction }) => {
                             ₹{amount}
                         </span>
                     </p>
+                    <p className="text-lg font-semibold">
+                        <span
+                            className={
+                                transactionType === 'credit'
+                                    ? 'text-green-600'
+                                    : 'text-red-600'
+                            }
+                        >
+                            {capitaliseFirstLetter(transactionType)}
+                        </span>
+                    </p>
                 </div>
                 <div className="text-right">
                     <p className="text-gray-600 text-sm">{formattedDate}</p>
@@ -113,7 +127,7 @@ const TransactionCard = ({ transaction }) => {
                                 : 'text-red-600'
                         }`}
                     >
-                        {transactionStatus}
+                        {capitaliseFirstLetter(transactionStatus)}
                     </p>
                 </div>
             </div>
