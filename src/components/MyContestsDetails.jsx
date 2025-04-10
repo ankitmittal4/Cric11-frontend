@@ -369,7 +369,7 @@ const UserContestDetails = () => {
                     <p className="text-black mt-4  text-xl">
                         Rank:{' '}
                         <span className="font-semibold text-blue-700">
-                            {contest.result.toUpperCase()}
+                            {contest?.result?.toUpperCase()}
                         </span>
                     </p>
                 </div>
