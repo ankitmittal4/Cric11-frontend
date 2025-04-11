@@ -14,6 +14,7 @@ const UserTeams = () => {
             });
 
             setContests(response.data.data);
+            // console.log('contests: ', response.data.data);
         };
         fetchContests();
     }, []);

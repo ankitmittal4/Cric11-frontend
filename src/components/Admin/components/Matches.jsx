@@ -32,8 +32,8 @@ const Matches = () => {
         // const apiKey = 'f526c20d-e2b2-4410-9f53-20c008f311df';
 
         //NOTE: Working
-        // const apiKey = '4ef4f3fd-defa-4095-9983-13f81c289499';
-        const apiKey = 'b07addfd-8d5b-45e5-8c6c-3e8170c93f4c';
+        const apiKey = '4ef4f3fd-defa-4095-9983-13f81c289499';
+        // const apiKey = 'b07addfd-8d5b-45e5-8c6c-3e8170c93f4c';
 
         //Not working
         // const API_KEY = 'd736d252-f66d-4c8c-8ecb-273867abb301';
