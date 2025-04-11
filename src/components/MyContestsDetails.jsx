@@ -48,7 +48,7 @@ const UserContestDetails = () => {
                         },
                     },
                 );
-                // console.log('User Response: ', response.data.data[0].user11);
+                console.log('User Response: ', response.data.data[0]);
                 setContest(response.data.data[0]);
                 setPlayers(response.data.data[0].user11);
                 const { userId, contestId } = response.data.data[0];
@@ -331,6 +331,12 @@ const UserContestDetails = () => {
                         Match Type:{' '}
                         <span className="font-semibold uppercase text-blue-600">
                             {contest.matchDetails.matchType}
+                        </span>
+                    </p>
+                    <p className="text-black mt-4">
+                        Venue:{' '}
+                        <span className="font-semibold  text-blue-600">
+                            {contest.matchDetails.venue}
                         </span>
                     </p>
                     <p className="text-black mt-4">

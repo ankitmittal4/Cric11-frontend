@@ -230,6 +230,12 @@ const ContestDetails = () => {
                         </span>
                     </p>
                     <p className="text-black mt-4">
+                        Venue:{' '}
+                        <span className="font-semibold  text-blue-600">
+                            {contest.matchDetails.venue}
+                        </span>
+                    </p>
+                    <p className="text-black mt-4">
                         Date:{' '}
                         <span className="font-semibold text-orange-600">
                             {contest.matchDetails.date
@@ -244,6 +250,7 @@ const ContestDetails = () => {
                             {contest.matchDetails.startTime}
                         </span>
                     </p>
+
                     <p className="text-black mt-4">
                         Prize Pool:{' '}
                         <span className="font-semibold text-red-600">
