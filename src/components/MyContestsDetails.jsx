@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../Constants';
 import ground from '../assets/ground.jpg';
 import Popup from '../features/Popup';
+import warning from '../assets/warning.png';
 
 const UserContestDetails = () => {
     const { id } = useParams();
@@ -48,7 +49,7 @@ const UserContestDetails = () => {
                         },
                     },
                 );
-                console.log('User Response: ', response.data.data[0]);
+                // console.log('User Response: ', response.data.data[0]);
                 setContest(response.data.data[0]);
                 setPlayers(response.data.data[0].user11);
                 const { userId, contestId } = response.data.data[0];
@@ -99,6 +100,9 @@ const UserContestDetails = () => {
                                 //     'opponent points: ',
                                 //     userRes.data.data.updatedOpponentContest[0]
                                 //         .points,
+                                // );
+                                // console.log(
+                                //     userRes.data.data.updatedUserContest[0],
                                 // );
                                 setContest(
                                     userRes.data.data.updatedUserContest[0],
@@ -223,7 +227,10 @@ const UserContestDetails = () => {
                     },
                 },
             );
-            console.log('Response of update team: ', response.data);
+            console.log(
+                'Response of update team: ',
+                response.data.data[0].matchDetails,
+            );
             setContest(response.data.data[0]);
             setPlayers(response.data.data[0].user11);
 
@@ -325,7 +332,7 @@ const UserContestDetails = () => {
             </h1>
             {/* <p className="mb-4 text-gray-700">{contest.description}</p> */}
             <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/2 p-4">
+                <div className="md:w-1/2 p-4 ">
                     <h2 className="text-2xl font-bold">Contest Details:</h2>
                     <p className="text-black mt-4">
                         Match Type:{' '}
@@ -333,7 +340,7 @@ const UserContestDetails = () => {
                             {contest.matchDetails.matchType}
                         </span>
                     </p>
-                    <p className="text-black mt-4">
+                    <p className="text-black mt-4 break-words">
                         Venue:{' '}
                         <span className="font-semibold  text-blue-600">
                             {contest.matchDetails.venue}
@@ -637,15 +644,19 @@ const UserContestDetails = () => {
                             </div>
                             {/* //Display error popup  */}
                             {error && (
-                                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                                    <div className="bg-white p-6 pl-9 pr-9 rounded-lg shadow-lg">
-                                        <h2 className="text-xl font-bold mb-5">
-                                            Error
-                                        </h2>
-                                        <p>{error}</p>
+                                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                    <div className="bg-white p-6 rounded-lg shadow-lg text-center pl-9 pr-9 min-w-[23%]">
+                                        <img
+                                            className="h-12 w-12 text-center mx-auto"
+                                            src={warning}
+                                            alt="Check"
+                                        ></img>
+                                        <p className="text-lg text-gray-700 font-semibold mb-4 mt-6 ">
+                                            {error}
+                                        </p>
                                         <button
                                             onClick={closeErrorPopup}
-                                            className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                                            className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
                                         >
                                             Close
                                         </button>
