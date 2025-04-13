@@ -42,12 +42,17 @@ const Transactions = () => {
     return (
         <div className="container mx-auto p-4">
             {/* Wallet Balance */}
-            <h1 className="text-2xl font-bold mb-4 text-center text-gray-700">
-                Wallet Balance:{' '}
-                <span className="text-green-700 text-3xl">
-                    ₹{walletBalance}
-                </span>
-            </h1>
+            <div className="relative flex justify-center items-center mb-4">
+                <div className="text-2xl font-bold text-gray-700 text-center">
+                    Wallet Balance:{' '}
+                    <span className="text-green-700 text-3xl">
+                        ₹{walletBalance}
+                    </span>
+                </div>
+                <button className="absolute right-0 text-white bg-red-600 px-5 py-2 rounded-md whitespace-nowrap hover:bg-red-700">
+                    Add money to wallet
+                </button>
+            </div>
 
             {/* Transactions List */}
             <h1 className="text-2xl font-bold mb-4">All Transactions:</h1>
