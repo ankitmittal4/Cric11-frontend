@@ -7,7 +7,7 @@ import { format, toZonedTime } from 'date-fns-tz';
 
 const Home = () => {
     const navigate = useNavigate();
-    const [contests, setContests] = useState([]);
+
     const [matches, setMatches] = useState([]);
 
     useEffect(() => {
@@ -21,12 +21,6 @@ const Home = () => {
             setMatches(response.data.data);
         };
         fetchMatches();
-        // const fetchContests = async () => {
-        //     const response = await axios.get(`${API_URL}/contests/all`);
-        //     // console.log("response.data: ", response.data.data);
-        //     setContests(response.data.data);
-        // };
-        // fetchContests();
     }, []);
     // console.log('###: ', contests);
     const date = new Date();
@@ -36,7 +30,7 @@ const Home = () => {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-6 text-gray-600">
-                All Cricket Contests
+                Upcoming Cricket Matches
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {matches
