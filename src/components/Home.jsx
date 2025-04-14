@@ -55,7 +55,7 @@ const Home = () => {
                     })
                     .map((match) => (
                         <Link
-                            to={`/${match._id}`}
+                            to={`/match/${match._id}`}
                             key={match._id}
                             className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-gray-200"
                         >

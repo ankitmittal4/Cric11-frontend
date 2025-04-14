@@ -11,6 +11,7 @@ import { API_URL } from '../../Constants';
 
 const ContestDetails = () => {
     const { id } = useParams(); // Get the contest ID from the URL
+
     const navigate = useNavigate();
     const [contest, setContest] = useState(null);
     const [players, setPlayers] = useState([]); // Assuming you want to select players
@@ -139,7 +140,7 @@ const ContestDetails = () => {
 
     useEffect(() => {
         const fetchContestDetails = async () => {
-            const response = await axios.post(`${API_URL}/contests/geet`, {
+            const response = await axios.post(`${API_URL}/contests/get`, {
                 id,
             });
 
@@ -163,7 +164,7 @@ const ContestDetails = () => {
                 updatedPlayersResponse2,
             );
             setPlayers(combinedSquad);
-            console.log('Players: ', players);
+            // console.log('Players: ', players);
         };
         fetchContestDetails();
     }, [id]);

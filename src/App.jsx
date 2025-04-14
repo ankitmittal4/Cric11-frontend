@@ -53,13 +53,13 @@ const AppContent = () => {
                             element={<Home />}
                         />
                         <Route
-                            path="/:id"
+                            path="/match/:id"
                             element={<ContestsInMatches />}
                         />
-                        {/* <Route
-                            path="/:id"
+                        <Route
+                            path="/match/:id/contest/:id"
                             element={<ContestDetails />}
-                        /> */}
+                        />
                         <Route
                             path="/my-contests"
                             element={<MyContests />}
