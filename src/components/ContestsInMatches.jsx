@@ -9,6 +9,7 @@ const ContestsInMatches = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [contests, setContests] = useState([]);
+    const [matchName, setMatchName] = useState('');
     useEffect(() => {
         // console.log('In Contest matches');
         // console.log(id);
@@ -21,14 +22,16 @@ const ContestsInMatches = () => {
                 id,
             });
             // console.log("response.data: ", response.data.data);
-            setContests(response.data.data);
+            setMatchName(response?.data?.data[0]?.match?.name);
+            setContests(response?.data?.data);
         };
         fetchContests();
     }, []);
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-6 text-gray-600">
-                Contests related to Match:
+                Available Contests related to:
+                <span className="text-3xl text-rose-500"> {matchName}</span>
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {' '}
