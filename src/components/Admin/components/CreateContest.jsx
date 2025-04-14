@@ -11,7 +11,7 @@ const CreateContest = () => {
     const { matchId } = useParams();
     const location = useLocation();
     // console.log("Location", location);
-    const { t1, t2 } = location.state;
+    const { t1, t2, t1img, t2img, series } = location.state;
     const [entryFee, setEntryFee] = useState('');
     const [prizePool, setPrizePool] = useState('');
     const [totalSpots, setTotalSpots] = useState('');
@@ -33,6 +33,9 @@ const CreateContest = () => {
             entryFee,
             prizePool,
             maxParticipants: totalSpots,
+            t1img,
+            t2img,
+            series,
         };
 
         try {

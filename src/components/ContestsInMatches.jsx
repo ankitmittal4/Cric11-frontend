@@ -21,7 +21,7 @@ const ContestsInMatches = () => {
             const response = await axios.post(`${API_URL}/contests/all`, {
                 id,
             });
-            // console.log("response.data: ", response.data.data);
+            // console.log('response.data: ', response.data.data);
             setMatchName(response?.data?.data[0]?.match?.name);
             setContests(response?.data?.data);
         };
@@ -41,9 +41,18 @@ const ContestsInMatches = () => {
                         key={contest._id}
                         className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-gray-200"
                     >
-                        <h2 className="text-xl font-bold text-center text-gray-600 mb-1 min-h-14">
-                            {contest.match.name}
-                        </h2>
+                        <div className="flex items-center justify-between w-full">
+                            <h2 className="text-xl font-bold text-gray-600 mb-1  text-center">
+                                {contest.match.teamB}
+                            </h2>
+                            <span className="text-red-400 text-lg font-semibold">
+                                vs
+                            </span>
+                            <h2 className="text-xl font-bold text-gray-600 mb-1  text-center">
+                                {contest.match.teamA}
+                            </h2>
+                        </div>
+
                         <div className="flex justify-between mt-4 mb-1">
                             {contest.match.teamBImg ? (
                                 <img
