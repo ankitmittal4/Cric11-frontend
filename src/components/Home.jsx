@@ -26,6 +26,20 @@ const Home = () => {
     const date = new Date();
     const istDate = toZonedTime(date, 'Asia/Kolkata');
     const istCurrentTimeStamp = istDate.getTime();
+    const getTimeLeft = (matchDate, matchTime) => {
+        const matchStart = new Date(`${matchDate}T${matchTime}:00`);
+        const now = new Date();
+
+        const diffMs = matchStart - now;
+        // console.log('Diffms', diffMs);
+        if (diffMs > 24 * 60 * 60 * 1000) return null;
+
+        const diffSec = Math.floor(diffMs / 1000);
+        const hours = Math.floor(diffSec / 3600);
+        const minutes = Math.floor((diffSec % 3600) / 60);
+
+        return `${hours}h ${minutes}m`;
+    };
 
     return (
         <div className="container mx-auto p-4">
@@ -46,6 +60,11 @@ const Home = () => {
 
                             return istCurrentTimeStamp < istMatchTimeStamp;
                         }
+                    })
+                    .sort((a, b) => {
+                        const dateA = new Date(`${a.date}T${a.startTime}`);
+                        const dateB = new Date(`${b.date}T${b.startTime}`);
+                        return dateA - dateB;
                     })
                     .map((match) => (
                         <Link
@@ -90,11 +109,35 @@ const Home = () => {
                                     </p>
                                 </div>
 
-                                <p className="text-center text-xs text-red-500 font-bold">
-                                    {match.date.split('-').reverse().join('-')}
-                                    <br />
-                                    {match.startTime}
-                                </p>
+                                {(() => {
+                                    const timeLeft = getTimeLeft(
+                                        match.date,
+                                        match.startTime,
+                                    );
+                                    const formattedDate = match.date
+                                        .split('-')
+                                        .reverse()
+                                        .join('-');
+                                    return (
+                                        <p className="text-center text-xs text-red-500 font-bold">
+                                            {timeLeft ? (
+                                                <div className="mb-1">
+                                                    <span className="font-extrabold bg-red-100 px-2 py-1 rounded-md mb-10">
+                                                        {timeLeft}
+                                                    </span>
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    {formattedDate}
+                                                    <br />
+                                                </>
+                                            )}
+                                            <span className="text-slate-500 font-normal">
+                                                {match.startTime}
+                                            </span>
+                                        </p>
+                                    );
+                                })()}
 
                                 <div className="flex items-center space-x-2">
                                     <p className="text-center font-bold text-stone-500">
