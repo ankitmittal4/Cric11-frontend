@@ -17,7 +17,7 @@ const Home = () => {
 
         const fetchMatches = async () => {
             const response = await axios.get(`${API_URL}/match/all`);
-            // console.log("response.data: ", response.data.data);
+            // console.log('response.data: ', response.data.data);
             setMatches(response.data.data);
         };
         fetchMatches();
@@ -51,50 +51,64 @@ const Home = () => {
                         <Link
                             to={`/match/${match._id}`}
                             key={match._id}
-                            className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-gray-200"
+                            className="mb-2 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-gray-200 overflow-hidden"
                         >
-                            <h2 className="text-xl font-bold text-center text-gray-600 mb-1 min-h-14">
-                                {match.name}
-                            </h2>
-                            <div className="flex justify-between mt-4 mb-1">
-                                {match.teamBImg ? (
-                                    <img
-                                        src={match.teamBImg}
-                                        alt="A"
-                                        className="your-css-class h-9"
-                                    />
-                                ) : (
-                                    <p></p>
-                                )}
-                                <p className="text-center  text-xs text-red-500 font-bold">
+                            <div
+                                className="bg-slate-300 inline-block text-gray-700 text-sm font-semibold px-3 py-1 pr-10 mb-2 "
+                                style={{
+                                    clipPath:
+                                        'polygon(0 0, calc(100% - 20px) 0, 100% 35px, 100% 100%, 0% 100%)',
+                                }}
+                            >
+                                {match?.series}
+                            </div>
+
+                            <div className="flex items-center justify-between w-full px-4 mt-2 min-h-16">
+                                <h2 className="text-xl font-bold text-gray-600 mb-1  text-center">
+                                    {match.teamB}
+                                </h2>
+                                <span className="text-red-400 text-lg font-semibold">
+                                    vs
+                                </span>
+                                <h2 className="text-xl font-bold text-gray-600 mb-1  text-center">
+                                    {match.teamA}
+                                </h2>
+                            </div>
+
+                            <div className="flex justify-between items-center mt-4 mb-6 px-4">
+                                <div className="flex items-center space-x-2">
+                                    {match.teamBImg && (
+                                        <img
+                                            src={match.teamBImg}
+                                            alt="Team B"
+                                            className="h-9 object-contain"
+                                        />
+                                    )}
+
+                                    <p className="text-center font-bold text-stone-500">
+                                        {match.teamBAcronym}
+                                    </p>
+                                </div>
+
+                                <p className="text-center text-xs text-red-500 font-bold">
                                     {match.date.split('-').reverse().join('-')}
-                                    <br></br>
+                                    <br />
                                     {match.startTime}
                                 </p>
-                                {match.teamAImg ? (
-                                    <img
-                                        src={match.teamAImg}
-                                        alt="B"
-                                        className="your-css-class h-9"
-                                    />
-                                ) : (
-                                    <p></p>
-                                )}
+
+                                <div className="flex items-center space-x-2">
+                                    <p className="text-center font-bold text-stone-500">
+                                        {match.teamAAcronym}
+                                    </p>
+                                    {match.teamAImg && (
+                                        <img
+                                            src={match.teamAImg}
+                                            alt="Team A"
+                                            className="h-9 object-contain"
+                                        />
+                                    )}
+                                </div>
                             </div>
-                            {/* <div className="flex justify-between">
-                                <p className="text-black mt-4">
-                                    Prize Pool:{' '}
-                                    <span className="font-semibold text-xl">
-                                        ₹{contest.prizePool}
-                                    </span>
-                                </p>
-                                <p className="text-white mt-4 bg-green-600 px-3 py-1 rounded-md">
-                                    Entry:{' '}
-                                    <span className="font-medium">
-                                        ₹{contest.entryFee}
-                                    </span>
-                                </p>
-                            </div> */}
                         </Link>
                     ))}
             </div>

@@ -33,6 +33,8 @@ const CreateContest = () => {
             entryFee,
             prizePool,
             maxParticipants: totalSpots,
+            t1,
+            t2,
             t1img,
             t2img,
             series,
