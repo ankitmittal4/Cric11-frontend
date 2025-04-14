@@ -1,61 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../../../Constants';
-import Popup from '../../../features/Popup';
+import { API_URL } from '../../Constants';
 
-const Contests = () => {
+const ContestsInMatches = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [contests, setContests] = useState([]);
-
-    const [isPopupVisible, setIsPopupVisible] = useState(false);
-    const [popupMessage, setPopupMessage] = useState('');
-
     useEffect(() => {
+        console.log('In Contest matches');
+        if (!localStorage.getItem('accessToken')) {
+            navigate('/signin');
+        }
+
         const fetchContests = async () => {
-            const response = await axios.get(
-                `${API_URL}/contests/all-contests`,
-            );
+            const response = await axios.post(`${API_URL}/contests/all`, {
+                id,
+            });
+            // console.log("response.data: ", response.data.data);
             setContests(response.data.data);
         };
         fetchContests();
     }, []);
-
-    const deleteContest = async (id) => {
-        try {
-            const response = await axios.delete(`${API_URL}/contests/delete/`, {
-                data: { id },
-            });
-            if (response.status === 200) {
-                setTimeout(() => {
-                    setContests((prevContests) =>
-                        prevContests.filter((contest) => contest._id !== id),
-                    );
-                }, 200);
-                setPopupMessage('Contest Deleted successfully!');
-                setIsPopupVisible(true);
-            }
-        } catch (error) {
-            console.log('Error while deleting contest: ', error);
-            alert('Failed to delete contest. Please try again.');
-        }
-    };
-    const closePopup = () => {
-        setIsPopupVisible(false); // Hide the popup
-    };
-
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-6 text-white">
-                Created Contests
+            <h1 className="text-2xl font-bold mb-6 text-gray-600">
+                Contests related to Match:
             </h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-x-14 gap-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {' '}
                 {contests.map((contest) => (
                     <Link
-                        // to={`/${contest._id}`}
+                        to={`/${contest._id}`}
                         key={contest._id}
-                        className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-600 bg-slate-400 hover:bg-slate-500"
+                        className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-gray-200"
                     >
-                        <h2 className="text-xl font-bold text-center text-gray-900 mb-1 ">
+                        <h2 className="text-xl font-bold text-center text-gray-600 mb-1 min-h-14">
                             {contest.match.name}
                         </h2>
                         <div className="flex justify-between mt-4 mb-1">
@@ -68,7 +50,7 @@ const Contests = () => {
                             ) : (
                                 <p></p>
                             )}
-                            <p className="text-center  text-xs text-red-600 font-bold">
+                            <p className="text-center  text-xs text-red-500 font-bold">
                                 {contest.match.date
                                     .split('-')
                                     .reverse()
@@ -107,25 +89,15 @@ const Contests = () => {
                                     {contest.maxParticipants}
                                 </span>
                             </p>
-                            <button
-                                onClick={() => deleteContest(contest._id)}
-                                className="text-white bg-red-600 px-5 py-1 rounded-md mt-4 hover:bg-red-700"
-                            >
-                                Delete
-                            </button>
+                            {/* <p className="text-black mt-4">
+                Left Spots: <span className="text-red-500 font-bold">{12}</span>
+              </p> */}
                         </div>
                     </Link>
                 ))}
             </div>
-
-            {isPopupVisible && (
-                <Popup
-                    message={popupMessage}
-                    onClose={closePopup}
-                />
-            )}
         </div>
     );
 };
 
-export default Contests;
+export default ContestsInMatches;

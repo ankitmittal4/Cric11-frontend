@@ -139,7 +139,7 @@ const ContestDetails = () => {
 
     useEffect(() => {
         const fetchContestDetails = async () => {
-            const response = await axios.post(`${API_URL}/contests/get`, {
+            const response = await axios.post(`${API_URL}/contests/geet`, {
                 id,
             });
 
@@ -159,14 +159,12 @@ const ContestDetails = () => {
                 ...player,
                 team: response.data.data.squadDetails.squad[1].teamName,
             }));
-            // console.log("combinedSquad: ", playersResponse1);
             const combinedSquad = updatedPlayersResponse1.concat(
                 updatedPlayersResponse2,
             );
             setPlayers(combinedSquad);
             console.log('Players: ', players);
         };
-        //fetch contest details
         fetchContestDetails();
     }, [id]);
 

@@ -8,17 +8,25 @@ import { format, toZonedTime } from 'date-fns-tz';
 const Home = () => {
     const navigate = useNavigate();
     const [contests, setContests] = useState([]);
+    const [matches, setMatches] = useState([]);
 
     useEffect(() => {
         if (!localStorage.getItem('accessToken')) {
             navigate('/signin');
         }
-        const fetchContests = async () => {
-            const response = await axios.get(`${API_URL}/contests/all`);
+
+        const fetchMatches = async () => {
+            const response = await axios.get(`${API_URL}/match/all`);
             // console.log("response.data: ", response.data.data);
-            setContests(response.data.data);
+            setMatches(response.data.data);
         };
-        fetchContests();
+        fetchMatches();
+        // const fetchContests = async () => {
+        //     const response = await axios.get(`${API_URL}/contests/all`);
+        //     // console.log("response.data: ", response.data.data);
+        //     setContests(response.data.data);
+        // };
+        // fetchContests();
     }, []);
     // console.log('###: ', contests);
     const date = new Date();
@@ -30,13 +38,12 @@ const Home = () => {
             <h1 className="text-2xl font-bold mb-6 text-gray-600">
                 All Cricket Contests
             </h1>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {contests
-                    .filter((contest) => {
+                {matches
+                    .filter((match) => {
                         {
                             const date2 = new Date(
-                                `${contest.match.date}T${contest.match.startTime}`,
+                                `${match.date}T${match.startTime}`,
                             );
 
                             const istDate = toZonedTime(date2, 'Asia/Kolkata');
@@ -46,19 +53,19 @@ const Home = () => {
                             return istCurrentTimeStamp < istMatchTimeStamp;
                         }
                     })
-                    .map((contest) => (
+                    .map((match) => (
                         <Link
-                            to={`/${contest._id}`}
-                            key={contest._id}
+                            to={`/${match._id}`}
+                            key={match._id}
                             className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-gray-200"
                         >
                             <h2 className="text-xl font-bold text-center text-gray-600 mb-1 min-h-14">
-                                {contest.match.name}
+                                {match.name}
                             </h2>
                             <div className="flex justify-between mt-4 mb-1">
-                                {contest.match.teamBImg ? (
+                                {match.teamBImg ? (
                                     <img
-                                        src={contest.match.teamBImg}
+                                        src={match.teamBImg}
                                         alt="A"
                                         className="your-css-class h-9"
                                     />
@@ -66,16 +73,13 @@ const Home = () => {
                                     <p></p>
                                 )}
                                 <p className="text-center  text-xs text-red-500 font-bold">
-                                    {contest.match.date
-                                        .split('-')
-                                        .reverse()
-                                        .join('-')}
+                                    {match.date.split('-').reverse().join('-')}
                                     <br></br>
-                                    {contest.match.startTime}
+                                    {match.startTime}
                                 </p>
-                                {contest.match.teamAImg ? (
+                                {match.teamAImg ? (
                                     <img
-                                        src={contest.match.teamAImg}
+                                        src={match.teamAImg}
                                         alt="B"
                                         className="your-css-class h-9"
                                     />
@@ -83,7 +87,7 @@ const Home = () => {
                                     <p></p>
                                 )}
                             </div>
-                            <div className="flex justify-between">
+                            {/* <div className="flex justify-between">
                                 <p className="text-black mt-4">
                                     Prize Pool:{' '}
                                     <span className="font-semibold text-xl">
@@ -96,18 +100,7 @@ const Home = () => {
                                         ₹{contest.entryFee}
                                     </span>
                                 </p>
-                            </div>
-                            <div className="flex justify-between">
-                                <p className="text-black mt-4">
-                                    Spots:{' '}
-                                    <span className="font-semibold">
-                                        {contest.maxParticipants}
-                                    </span>
-                                </p>
-                                {/* <p className="text-black mt-4">
-                Left Spots: <span className="text-red-500 font-bold">{12}</span>
-              </p> */}
-                            </div>
+                            </div> */}
                         </Link>
                     ))}
             </div>

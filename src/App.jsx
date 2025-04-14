@@ -10,6 +10,7 @@ import SignUp from './components/SignUp';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import ContestDetails from './components/ContestDetails';
+import ContestsInMatches from './components/ContestsInMatches';
 import MyContests from './components/MyContests';
 import MyContestDetails from './components/MyContestsDetails';
 import Transactions from './components/Transactions';
@@ -53,8 +54,12 @@ const AppContent = () => {
                         />
                         <Route
                             path="/:id"
-                            element={<ContestDetails />}
+                            element={<ContestsInMatches />}
                         />
+                        {/* <Route
+                            path="/:id"
+                            element={<ContestDetails />}
+                        /> */}
                         <Route
                             path="/my-contests"
                             element={<MyContests />}
