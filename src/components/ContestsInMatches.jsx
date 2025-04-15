@@ -11,8 +11,6 @@ const ContestsInMatches = () => {
     const [contests, setContests] = useState([]);
     const [matchName, setMatchName] = useState('');
     useEffect(() => {
-        // console.log('In Contest matches');
-        // console.log(id);
         if (!localStorage.getItem('accessToken')) {
             navigate('/signin');
         }
