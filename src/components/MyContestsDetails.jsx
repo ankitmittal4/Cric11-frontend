@@ -9,11 +9,15 @@ import ground from '../assets/ground.jpg';
 import Popup from '../features/Popup';
 import warning from '../assets/warning.png';
 
+import Confetti from 'react-confetti';
+
 const UserContestDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [contest, setContest] = useState(null);
     const [players, setPlayers] = useState([]);
+
+    const [isWinner, setIsWinner] = useState(false);
 
     const [opponentContest, setOpponentContest] = useState(null);
     const [opponentPlayers, setOpponentPlayers] = useState([]);
@@ -50,6 +54,9 @@ const UserContestDetails = () => {
                     },
                 );
                 // console.log('User Response: ', response.data.data[0]);
+                if (response.data.data[0].result === 'win') {
+                    setIsWinner(true);
+                }
                 setContest(response.data.data[0]);
                 setPlayers(response.data.data[0].user11);
                 const { userId, contestId } = response.data.data[0];
@@ -104,6 +111,7 @@ const UserContestDetails = () => {
                                 // console.log(
                                 //     userRes.data.data.updatedUserContest[0],
                                 // );
+
                                 setContest(
                                     userRes.data.data.updatedUserContest[0],
                                 );
@@ -327,6 +335,7 @@ const UserContestDetails = () => {
 
     return (
         <div className="container mx-auto p-4">
+            {isWinner && <Confetti />}
             <h1 className="text-2xl font-bold mb-10 text-gray-600 text-center">
                 {contest.matchDetails.name}
             </h1>
