@@ -36,6 +36,35 @@ const UserContestDetails = () => {
     const [isUpdate, setIsUpdate] = useState(false);
 
     const hasFetchded = useRef(false);
+    const [confettiSize, setConfettiSize] = useState({
+        width: 0,
+        height: 0,
+    });
+    const updateConfettiSize = () => {
+        setConfettiSize({
+            width: window.innerWidth,
+            height: Math.max(
+                document.documentElement.scrollHeight,
+                document.body.scrollHeight,
+                document.documentElement.clientHeight,
+            ),
+        });
+    };
+    useEffect(() => {
+        updateConfettiSize(); // Set on mount
+
+        window.addEventListener('resize', updateConfettiSize);
+
+        return () => window.removeEventListener('resize', updateConfettiSize);
+    }, []);
+    useEffect(() => {
+        if (isWinner) {
+            setTimeout(() => {
+                updateConfettiSize();
+            }, 10);
+        }
+    }, [isWinner]);
+
     useEffect(() => {
         if (!hasFetchded.current) {
             hasFetchded.current = true;
@@ -56,6 +85,9 @@ const UserContestDetails = () => {
                 // console.log('User Response: ', response.data.data[0]);
                 if (response.data.data[0].result === 'win') {
                     setIsWinner(true);
+                    setTimeout(() => {
+                        setIsWinner(false);
+                    }, 10000);
                 }
                 setContest(response.data.data[0]);
                 setPlayers(response.data.data[0].user11);
@@ -334,142 +366,565 @@ const UserContestDetails = () => {
         );
 
     return (
-        <div className="container mx-auto p-4">
-            {isWinner && <Confetti />}
-            <h1 className="text-2xl font-bold mb-10 text-gray-600 text-center">
-                {contest.matchDetails.name}
-            </h1>
-            {/* <p className="mb-4 text-gray-700">{contest.description}</p> */}
-            <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/2 p-4 ">
-                    <h2 className="text-2xl font-bold">Contest Details:</h2>
-                    <p className="text-black mt-4">
-                        Match Type:{' '}
-                        <span className="font-semibold uppercase text-blue-600">
-                            {contest.matchDetails.matchType}
-                        </span>
-                    </p>
-                    <p className="text-black mt-4 break-words">
-                        Venue:{' '}
-                        <span className="font-semibold  text-blue-600">
-                            {contest.matchDetails.venue}
-                        </span>
-                    </p>
-                    <p className="text-black mt-4">
-                        Date:{' '}
-                        <span className="font-semibold text-orange-600">
-                            {contest.matchDetails.date
-                                .split('-')
-                                .reverse()
-                                .join('-')}
-                        </span>
-                    </p>
-                    <p className="text-black mt-4">
-                        Start Time(IST):{' '}
-                        <span className="font-semibold text-orange-600">
-                            {contest.matchDetails.startTime}
-                        </span>
-                    </p>
-                    <p className="text-black mt-4">
-                        Prize Pool:{' '}
-                        <span className="font-semibold text-red-600">
-                            ₹{contest.contestDetails.prizePool}
-                        </span>
-                    </p>
-                    <p className="text-black mt-4">
-                        Entry:{' '}
-                        <span className="font-semibold text-green-600">
-                            ₹{contest.contestDetails.entryFee}
-                        </span>
-                    </p>
-                    <p className="text-black mt-4">
-                        Spots:{' '}
-                        <span className="font-semibold text-red-600">
-                            {contest.contestDetails.maxParticipants}
-                        </span>
-                    </p>
-                    <p className="text-black mt-4  text-xl">
-                        Rank:{' '}
-                        <span className="font-semibold text-blue-700">
-                            {contest?.result?.toUpperCase()}
-                        </span>
-                    </p>
-                </div>
+        <div>
+            {isWinner && (
+                <Confetti
+                    width={confettiSize.width}
+                    height={confettiSize.height}
+                    numberOfPieces={300}
+                    gravity={0.2}
+                />
+            )}
 
-                {!isUpdate && (
-                    <div className="md:w-[55%]">
-                        <h2 className="text-xl font-bold text-center mb-1 text-green-500">
-                            Total Points:{' '}
-                            <span className="text-3xl text-green-600">
-                                {contest.points}
+            <div className="container mx-auto p-4">
+                <h1 className="text-2xl font-bold mb-10 text-gray-600 text-center">
+                    {contest.matchDetails.name}
+                </h1>
+                {/* <p className="mb-4 text-gray-700">{contest.description}</p> */}
+                <div className="flex flex-col md:flex-row">
+                    <div className="md:w-1/2 p-4 ">
+                        <h2 className="text-2xl font-bold">Contest Details:</h2>
+                        <p className="text-black mt-4">
+                            Match Type:{' '}
+                            <span className="font-semibold uppercase text-blue-600">
+                                {contest.matchDetails.matchType}
                             </span>
-                        </h2>
-                        <div className="bg-opacity-50 flex items-center justify-center z-50">
-                            <div
-                                className={` bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center  ${
-                                    opponentPlayers?.length === 0
-                                        ? 'w-[65%]'
-                                        : 'w-full'
-                                } `}
-                                style={{
-                                    backgroundImage: `url(${ground})`,
-                                    backgroundSize: '99% 96%',
-                                }}
-                            >
-                                <div className="flex justify-center gap-24 mt-4 mb-14">
-                                    {sortedUserPlayers
-                                        .slice(0, 2)
-                                        .map((player) => {
-                                            return (
-                                                <div
-                                                    key={player.id}
-                                                    className="text-center"
-                                                >
-                                                    <div className="relative">
-                                                        {player.id ===
-                                                            contest.captain && (
-                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                C
-                                                            </span>
-                                                        )}
-                                                        {player.id ===
-                                                            contest.viceCaptain && (
-                                                            <span
-                                                                className={`flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${
-                                                                    opponentPlayers?.length ===
-                                                                        0 &&
-                                                                    'left-0'
-                                                                }`}
-                                                            >
-                                                                VC
-                                                            </span>
-                                                        )}
-                                                        <FontAwesomeIcon
-                                                            icon={faUser}
-                                                            className="text-green-900 text-3xl"
-                                                        />{' '}
-                                                    </div>
-                                                    <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                        {formatName(
-                                                            player.name,
-                                                            85,
-                                                        )}
-                                                    </span>
-                                                    <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                        {player?.points} Pts
-                                                    </span>
-                                                </div>
-                                            );
-                                        })}
-                                </div>
+                        </p>
+                        <p className="text-black mt-4 break-words">
+                            Venue:{' '}
+                            <span className="font-semibold  text-blue-600">
+                                {contest.matchDetails.venue}
+                            </span>
+                        </p>
+                        <p className="text-black mt-4">
+                            Date:{' '}
+                            <span className="font-semibold text-orange-600">
+                                {contest.matchDetails.date
+                                    .split('-')
+                                    .reverse()
+                                    .join('-')}
+                            </span>
+                        </p>
+                        <p className="text-black mt-4">
+                            Start Time(IST):{' '}
+                            <span className="font-semibold text-orange-600">
+                                {contest.matchDetails.startTime}
+                            </span>
+                        </p>
+                        <p className="text-black mt-4">
+                            Prize Pool:{' '}
+                            <span className="font-semibold text-red-600">
+                                ₹{contest.contestDetails.prizePool}
+                            </span>
+                        </p>
+                        <p className="text-black mt-4">
+                            Entry:{' '}
+                            <span className="font-semibold text-green-600">
+                                ₹{contest.contestDetails.entryFee}
+                            </span>
+                        </p>
+                        <p className="text-black mt-4">
+                            Spots:{' '}
+                            <span className="font-semibold text-red-600">
+                                {contest.contestDetails.maxParticipants}
+                            </span>
+                        </p>
+                        <p className="text-black mt-4  text-xl">
+                            Rank:{' '}
+                            <span className="font-semibold text-blue-700">
+                                {contest?.result?.toUpperCase()}
+                            </span>
+                        </p>
+                    </div>
 
-                                <div className="">
+                    {!isUpdate && (
+                        <div className="md:w-[55%]">
+                            <h2 className="text-xl font-bold text-center mb-1 text-green-500">
+                                Total Points:{' '}
+                                <span className="text-3xl text-green-600">
+                                    {contest.points}
+                                </span>
+                            </h2>
+                            <div className="bg-opacity-50 flex items-center justify-center z-50">
+                                <div
+                                    className={` bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center  ${
+                                        opponentPlayers?.length === 0
+                                            ? 'w-[65%]'
+                                            : 'w-full'
+                                    } `}
+                                    style={{
+                                        backgroundImage: `url(${ground})`,
+                                        backgroundSize: '99% 96%',
+                                    }}
+                                >
+                                    <div className="flex justify-center gap-24 mt-4 mb-14">
+                                        {sortedUserPlayers
+                                            .slice(0, 2)
+                                            .map((player) => {
+                                                return (
+                                                    <div
+                                                        key={player.id}
+                                                        className="text-center"
+                                                    >
+                                                        <div className="relative">
+                                                            {player.id ===
+                                                                contest.captain && (
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                    C
+                                                                </span>
+                                                            )}
+                                                            {player.id ===
+                                                                contest.viceCaptain && (
+                                                                <span
+                                                                    className={`flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${
+                                                                        opponentPlayers?.length ===
+                                                                            0 &&
+                                                                        'left-0'
+                                                                    }`}
+                                                                >
+                                                                    VC
+                                                                </span>
+                                                            )}
+                                                            <FontAwesomeIcon
+                                                                icon={faUser}
+                                                                className="text-green-900 text-3xl"
+                                                            />{' '}
+                                                        </div>
+                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                            {formatName(
+                                                                player.name,
+                                                                85,
+                                                            )}
+                                                        </span>
+                                                        <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                            {player?.points} Pts
+                                                        </span>
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+
+                                    <div className="">
+                                        {[2, 5, 8].map((startIdx, index) => (
+                                            <div
+                                                key={index}
+                                                className="grid grid-cols-3 gap-14 mt-14 "
+                                            >
+                                                {sortedUserPlayers
+                                                    .slice(
+                                                        startIdx,
+                                                        startIdx + 3,
+                                                    )
+                                                    .map((player) => {
+                                                        return (
+                                                            <div
+                                                                key={player.id}
+                                                                className="text-center"
+                                                            >
+                                                                <div className="relative">
+                                                                    {player.id ===
+                                                                        contest.captain && (
+                                                                        <span
+                                                                            className={`flex items-center justify-center w-6 h-6 absolute -top-3  text-sm text-white font-medium bg-gray-500 p-1 rounded-full ${
+                                                                                opponentPlayers.length
+                                                                                    ? 'left-1'
+                                                                                    : 'left-3'
+                                                                            }`}
+                                                                        >
+                                                                            C
+                                                                        </span>
+                                                                    )}
+                                                                    {player.id ===
+                                                                        contest.viceCaptain && (
+                                                                        <span
+                                                                            className={`flex items-center justify-center w-6 h-6 absolute -top-3  text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${
+                                                                                opponentPlayers.length
+                                                                                    ? 'left-1'
+                                                                                    : 'left-3'
+                                                                            }`}
+                                                                        >
+                                                                            VC
+                                                                        </span>
+                                                                    )}
+                                                                    <FontAwesomeIcon
+                                                                        icon={
+                                                                            faUser
+                                                                        }
+                                                                        className="text-green-900 text-3xl"
+                                                                    />{' '}
+                                                                </div>
+                                                                <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto px-1">
+                                                                    {formatName(
+                                                                        player.name,
+                                                                        70,
+                                                                    )}
+                                                                </span>
+                                                                <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                                    {
+                                                                        player?.points
+                                                                    }{' '}
+                                                                    Pts
+                                                                </span>
+                                                            </div>
+                                                        );
+                                                    })}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                            {!isMatchStarted && (
+                                <div className="flex justify-center">
+                                    <button
+                                        onClick={handleUpdateTeam}
+                                        className=" bg-green-600 hover:bg-green-500 text-white rounded-md p-2 mt-2 "
+                                    >
+                                        Update Team
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {isUpdate && (
+                        <div className="md:w-[90%]">
+                            <h2 className="text-xl font-bold text-center mb-7">
+                                Selected Players: {selectedPlayerIds.length} /
+                                11
+                            </h2>
+                            <form
+                                className=""
+                                onSubmit={handleSubmitTeam}
+                            >
+                                <div className="overflow-x-auto">
+                                    <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
+                                        <thead>
+                                            <tr className="text-left border-b-2 bg-slate-200">
+                                                <th className="py-2 text-md px-4 w-40">
+                                                    Role
+                                                </th>
+                                                <th className="py-2 text-md px-4 w-56">
+                                                    Player Name
+                                                </th>
+                                                <th className="px-4 ">Team</th>
+                                                <th className="py-2 px-4">
+                                                    Captain (C)
+                                                </th>
+                                                <th className="py-2 px-4">
+                                                    Vice-Captain (VC)
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {playersSelection.map((player) => (
+                                                <tr
+                                                    key={player.id}
+                                                    className={`cursor-pointer  ${
+                                                        isPlayerSelected(
+                                                            player.id,
+                                                        )
+                                                            ? 'bg-yellow-100'
+                                                            : 'hover:bg-fuchsia-100'
+                                                    }`}
+                                                    onClick={() =>
+                                                        handlePlayerSelection(
+                                                            player.id,
+                                                        )
+                                                    }
+                                                >
+                                                    <td className="py-2 px-4 border-b">
+                                                        {player.role}
+                                                    </td>
+                                                    <td className="py-2 px-4 border-b">
+                                                        {player.name}
+                                                    </td>
+                                                    <td className="py-2 px-4 border-b">
+                                                        {player.team}
+                                                    </td>
+                                                    <td className="py-2 px-4 border-b text-center">
+                                                        <input
+                                                            type="radio"
+                                                            name="captain"
+                                                            value={player.id}
+                                                            checked={
+                                                                captainId ===
+                                                                player.id
+                                                            }
+                                                            onClick={(e) =>
+                                                                e.stopPropagation()
+                                                            }
+                                                            onChange={() =>
+                                                                handleCaptainChange(
+                                                                    player.id,
+                                                                )
+                                                            }
+                                                            className="h-4 w-4"
+                                                            disabled={
+                                                                !isPlayerSelected(
+                                                                    player.id,
+                                                                ) ||
+                                                                viceCaptainId ===
+                                                                    player.id
+                                                            }
+                                                        />
+                                                    </td>
+                                                    <td className="py-2 px-4 border-b text-center">
+                                                        <input
+                                                            type="radio"
+                                                            name="viceCaptain"
+                                                            value={player.id}
+                                                            checked={
+                                                                viceCaptainId ===
+                                                                player.id
+                                                            }
+                                                            onClick={(e) =>
+                                                                e.stopPropagation()
+                                                            }
+                                                            onChange={() =>
+                                                                handleViceCaptainChange(
+                                                                    player.id,
+                                                                )
+                                                            }
+                                                            className="h-4 w-4"
+                                                            disabled={
+                                                                !isPlayerSelected(
+                                                                    player.id,
+                                                                ) ||
+                                                                captainId ===
+                                                                    player.id
+                                                            }
+                                                        />
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {/* //Display error popup  */}
+                                {error && (
+                                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                        <div className="bg-white p-6 rounded-lg shadow-lg text-center pl-9 pr-9 min-w-[23%]">
+                                            <img
+                                                className="h-12 w-12 text-center mx-auto"
+                                                src={warning}
+                                                alt="Check"
+                                            ></img>
+                                            <p className="text-lg text-gray-700 font-semibold mb-4 mt-6 ">
+                                                {error}
+                                            </p>
+                                            <button
+                                                onClick={closeErrorPopup}
+                                                className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
+                                            >
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <button
+                                    type="submit"
+                                    className="bg-green-600 text-white px-4 py-2 rounded mt-10 mb-11 mx-auto block hover:bg-green-700"
+                                >
+                                    Update Team
+                                </button>
+                            </form>
+
+                            {isModalOpen && (
+                                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 overflow-y-auto">
+                                    <div
+                                        className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
+                                        style={{
+                                            backgroundImage: `url(${ground})`,
+                                            backgroundSize: '99% 96%',
+                                        }}
+                                    >
+                                        <h2 className="text-xl font-bold mb-4 text-center text-gray-800">
+                                            Team Preview
+                                        </h2>
+
+                                        <div className="flex justify-center gap-24 mt-8 mb-7">
+                                            {selectedPlayerIds
+                                                .slice(0, 2)
+                                                .map((id) => {
+                                                    const player =
+                                                        playersSelection.find(
+                                                            (p) => p.id === id,
+                                                        );
+                                                    return (
+                                                        <div
+                                                            key={player.id}
+                                                            className="text-center"
+                                                        >
+                                                            <div className="relative">
+                                                                {captainId ===
+                                                                    player.id && (
+                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                        C
+                                                                    </span>
+                                                                )}
+                                                                {viceCaptainId ===
+                                                                    player.id && (
+                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                        VC
+                                                                    </span>
+                                                                )}
+                                                                <FontAwesomeIcon
+                                                                    icon={
+                                                                        faUser
+                                                                    }
+                                                                    className="text-green-900 text-3xl"
+                                                                />
+                                                            </div>
+                                                            <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                                {formatName(
+                                                                    player.name,
+                                                                    85,
+                                                                )}
+                                                            </span>
+                                                        </div>
+                                                    );
+                                                })}
+                                        </div>
+
+                                        {[2, 5, 8].map((startIdx, index) => (
+                                            <div
+                                                key={index}
+                                                className="grid grid-cols-3 gap-20 mt-12"
+                                            >
+                                                {selectedPlayerIds
+                                                    .slice(
+                                                        startIdx,
+                                                        startIdx + 3,
+                                                    )
+                                                    .map((id) => {
+                                                        const player =
+                                                            playersSelection.find(
+                                                                (p) =>
+                                                                    p.id === id,
+                                                            );
+                                                        return (
+                                                            <div
+                                                                key={player.id}
+                                                                className="text-center"
+                                                            >
+                                                                <div className="relative">
+                                                                    {captainId ===
+                                                                        player.id && (
+                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                            C
+                                                                        </span>
+                                                                    )}
+                                                                    {viceCaptainId ===
+                                                                        player.id && (
+                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                            VC
+                                                                        </span>
+                                                                    )}
+                                                                    <FontAwesomeIcon
+                                                                        icon={
+                                                                            faUser
+                                                                        }
+                                                                        className="text-green-900 text-3xl"
+                                                                    />
+                                                                </div>
+
+                                                                <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto px-1">
+                                                                    {formatName(
+                                                                        player.name,
+                                                                        70,
+                                                                    )}
+                                                                </span>
+                                                            </div>
+                                                        );
+                                                    })}
+                                            </div>
+                                        ))}
+
+                                        <hr className="mt-10" />
+                                        <div className="flex mt-5">
+                                            <button
+                                                className="bg-green-800 text-white px-4 py-2 rounded mt-4 mx-auto block hover:bg-green-700"
+                                                onClick={handleUpdateContest}
+                                            >
+                                                Update Contest
+                                            </button>
+                                            <button
+                                                className="bg-red-700 text-white px-5 py-2 rounded mt-4 mx-auto block hover:bg-red-600"
+                                                onClick={closeModal}
+                                            >
+                                                Back
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {opponentPlayers.length != 0 && (
+                        <div className="md:w-[55%] ml-5 ">
+                            <h2 className="text-xl font-bold text-center mb-1 text-green-500">
+                                Total Opponent Points:{' '}
+                                <span className="text-3xl text-green-600">
+                                    {opponentContest.points}
+                                </span>
+                            </h2>
+                            <div className="  bg-opacity-50 flex items-center justify-center z-50">
+                                <div
+                                    className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
+                                    style={{
+                                        backgroundImage: `url(${ground})`,
+                                        backgroundSize: '99% 96%',
+                                    }}
+                                >
+                                    <div className="flex justify-center gap-24 mt-4 mb-14">
+                                        {sortedOpponentPlayers
+                                            .slice(0, 2)
+                                            .map((player) => {
+                                                return (
+                                                    <div
+                                                        key={player.id}
+                                                        className="text-center"
+                                                    >
+                                                        <div className="relative">
+                                                            {player.id ===
+                                                                opponentContest.captain && (
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                    C
+                                                                </span>
+                                                            )}
+                                                            {player.id ===
+                                                                opponentContest.viceCaptain && (
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                    VC
+                                                                </span>
+                                                            )}
+                                                            <FontAwesomeIcon
+                                                                icon={faUser}
+                                                                className="text-green-900 text-3xl"
+                                                            />{' '}
+                                                        </div>
+                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                            {formatName(
+                                                                player.name,
+                                                                85,
+                                                            )}
+                                                        </span>
+                                                        <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                            {player?.points} Pts
+                                                        </span>
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+
                                     {[2, 5, 8].map((startIdx, index) => (
                                         <div
                                             key={index}
-                                            className="grid grid-cols-3 gap-14 mt-14 "
+                                            className="grid grid-cols-3 gap-14 mt-14"
                                         >
-                                            {sortedUserPlayers
+                                            {sortedOpponentPlayers
                                                 .slice(startIdx, startIdx + 3)
                                                 .map((player) => {
                                                     return (
@@ -479,26 +934,14 @@ const UserContestDetails = () => {
                                                         >
                                                             <div className="relative">
                                                                 {player.id ===
-                                                                    contest.captain && (
-                                                                    <span
-                                                                        className={`flex items-center justify-center w-6 h-6 absolute -top-3  text-sm text-white font-medium bg-gray-500 p-1 rounded-full ${
-                                                                            opponentPlayers.length
-                                                                                ? 'left-1'
-                                                                                : 'left-3'
-                                                                        }`}
-                                                                    >
+                                                                    opponentContest.captain && (
+                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-1 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                         C
                                                                     </span>
                                                                 )}
                                                                 {player.id ===
-                                                                    contest.viceCaptain && (
-                                                                    <span
-                                                                        className={`flex items-center justify-center w-6 h-6 absolute -top-3  text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${
-                                                                            opponentPlayers.length
-                                                                                ? 'left-1'
-                                                                                : 'left-3'
-                                                                        }`}
-                                                                    >
+                                                                    opponentContest.viceCaptain && (
+                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-1 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                         VC
                                                                     </span>
                                                                 )}
@@ -507,8 +950,9 @@ const UserContestDetails = () => {
                                                                         faUser
                                                                     }
                                                                     className="text-green-900 text-3xl"
-                                                                />{' '}
+                                                                />
                                                             </div>
+
                                                             <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto px-1">
                                                                 {formatName(
                                                                     player.name,
@@ -527,399 +971,15 @@ const UserContestDetails = () => {
                                 </div>
                             </div>
                         </div>
-                        {!isMatchStarted && (
-                            <div className="flex justify-center">
-                                <button
-                                    onClick={handleUpdateTeam}
-                                    className=" bg-green-600 hover:bg-green-500 text-white rounded-md p-2 mt-2 "
-                                >
-                                    Update Team
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                )}
-
-                {isUpdate && (
-                    <div className="md:w-[90%]">
-                        <h2 className="text-xl font-bold text-center mb-7">
-                            Selected Players: {selectedPlayerIds.length} / 11
-                        </h2>
-                        <form
-                            className=""
-                            onSubmit={handleSubmitTeam}
-                        >
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
-                                    <thead>
-                                        <tr className="text-left border-b-2 bg-slate-200">
-                                            <th className="py-2 text-md px-4 w-40">
-                                                Role
-                                            </th>
-                                            <th className="py-2 text-md px-4 w-56">
-                                                Player Name
-                                            </th>
-                                            <th className="px-4 ">Team</th>
-                                            <th className="py-2 px-4">
-                                                Captain (C)
-                                            </th>
-                                            <th className="py-2 px-4">
-                                                Vice-Captain (VC)
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {playersSelection.map((player) => (
-                                            <tr
-                                                key={player.id}
-                                                className={`cursor-pointer  ${
-                                                    isPlayerSelected(player.id)
-                                                        ? 'bg-yellow-100'
-                                                        : 'hover:bg-fuchsia-100'
-                                                }`}
-                                                onClick={() =>
-                                                    handlePlayerSelection(
-                                                        player.id,
-                                                    )
-                                                }
-                                            >
-                                                <td className="py-2 px-4 border-b">
-                                                    {player.role}
-                                                </td>
-                                                <td className="py-2 px-4 border-b">
-                                                    {player.name}
-                                                </td>
-                                                <td className="py-2 px-4 border-b">
-                                                    {player.team}
-                                                </td>
-                                                <td className="py-2 px-4 border-b text-center">
-                                                    <input
-                                                        type="radio"
-                                                        name="captain"
-                                                        value={player.id}
-                                                        checked={
-                                                            captainId ===
-                                                            player.id
-                                                        }
-                                                        onClick={(e) =>
-                                                            e.stopPropagation()
-                                                        }
-                                                        onChange={() =>
-                                                            handleCaptainChange(
-                                                                player.id,
-                                                            )
-                                                        }
-                                                        className="h-4 w-4"
-                                                        disabled={
-                                                            !isPlayerSelected(
-                                                                player.id,
-                                                            ) ||
-                                                            viceCaptainId ===
-                                                                player.id
-                                                        }
-                                                    />
-                                                </td>
-                                                <td className="py-2 px-4 border-b text-center">
-                                                    <input
-                                                        type="radio"
-                                                        name="viceCaptain"
-                                                        value={player.id}
-                                                        checked={
-                                                            viceCaptainId ===
-                                                            player.id
-                                                        }
-                                                        onClick={(e) =>
-                                                            e.stopPropagation()
-                                                        }
-                                                        onChange={() =>
-                                                            handleViceCaptainChange(
-                                                                player.id,
-                                                            )
-                                                        }
-                                                        className="h-4 w-4"
-                                                        disabled={
-                                                            !isPlayerSelected(
-                                                                player.id,
-                                                            ) ||
-                                                            captainId ===
-                                                                player.id
-                                                        }
-                                                    />
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                            {/* //Display error popup  */}
-                            {error && (
-                                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                                    <div className="bg-white p-6 rounded-lg shadow-lg text-center pl-9 pr-9 min-w-[23%]">
-                                        <img
-                                            className="h-12 w-12 text-center mx-auto"
-                                            src={warning}
-                                            alt="Check"
-                                        ></img>
-                                        <p className="text-lg text-gray-700 font-semibold mb-4 mt-6 ">
-                                            {error}
-                                        </p>
-                                        <button
-                                            onClick={closeErrorPopup}
-                                            className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
-                                        >
-                                            Close
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-
-                            <button
-                                type="submit"
-                                className="bg-green-600 text-white px-4 py-2 rounded mt-10 mb-11 mx-auto block hover:bg-green-700"
-                            >
-                                Update Team
-                            </button>
-                        </form>
-
-                        {isModalOpen && (
-                            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 overflow-y-auto">
-                                <div
-                                    className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
-                                    style={{
-                                        backgroundImage: `url(${ground})`,
-                                        backgroundSize: '99% 96%',
-                                    }}
-                                >
-                                    <h2 className="text-xl font-bold mb-4 text-center text-gray-800">
-                                        Team Preview
-                                    </h2>
-
-                                    <div className="flex justify-center gap-24 mt-8 mb-7">
-                                        {selectedPlayerIds
-                                            .slice(0, 2)
-                                            .map((id) => {
-                                                const player =
-                                                    playersSelection.find(
-                                                        (p) => p.id === id,
-                                                    );
-                                                return (
-                                                    <div
-                                                        key={player.id}
-                                                        className="text-center"
-                                                    >
-                                                        <div className="relative">
-                                                            {captainId ===
-                                                                player.id && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                    C
-                                                                </span>
-                                                            )}
-                                                            {viceCaptainId ===
-                                                                player.id && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                    VC
-                                                                </span>
-                                                            )}
-                                                            <FontAwesomeIcon
-                                                                icon={faUser}
-                                                                className="text-green-900 text-3xl"
-                                                            />
-                                                        </div>
-                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                            {formatName(
-                                                                player.name,
-                                                                85,
-                                                            )}
-                                                        </span>
-                                                    </div>
-                                                );
-                                            })}
-                                    </div>
-
-                                    {[2, 5, 8].map((startIdx, index) => (
-                                        <div
-                                            key={index}
-                                            className="grid grid-cols-3 gap-20 mt-12"
-                                        >
-                                            {selectedPlayerIds
-                                                .slice(startIdx, startIdx + 3)
-                                                .map((id) => {
-                                                    const player =
-                                                        playersSelection.find(
-                                                            (p) => p.id === id,
-                                                        );
-                                                    return (
-                                                        <div
-                                                            key={player.id}
-                                                            className="text-center"
-                                                        >
-                                                            <div className="relative">
-                                                                {captainId ===
-                                                                    player.id && (
-                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                        C
-                                                                    </span>
-                                                                )}
-                                                                {viceCaptainId ===
-                                                                    player.id && (
-                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                        VC
-                                                                    </span>
-                                                                )}
-                                                                <FontAwesomeIcon
-                                                                    icon={
-                                                                        faUser
-                                                                    }
-                                                                    className="text-green-900 text-3xl"
-                                                                />
-                                                            </div>
-
-                                                            <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto px-1">
-                                                                {formatName(
-                                                                    player.name,
-                                                                    70,
-                                                                )}
-                                                            </span>
-                                                        </div>
-                                                    );
-                                                })}
-                                        </div>
-                                    ))}
-
-                                    <hr className="mt-10" />
-                                    <div className="flex mt-5">
-                                        <button
-                                            className="bg-green-800 text-white px-4 py-2 rounded mt-4 mx-auto block hover:bg-green-700"
-                                            onClick={handleUpdateContest}
-                                        >
-                                            Update Contest
-                                        </button>
-                                        <button
-                                            className="bg-red-700 text-white px-5 py-2 rounded mt-4 mx-auto block hover:bg-red-600"
-                                            onClick={closeModal}
-                                        >
-                                            Back
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                )}
-                {opponentPlayers.length != 0 && (
-                    <div className="md:w-[55%] ml-5 ">
-                        <h2 className="text-xl font-bold text-center mb-1 text-green-500">
-                            Total Opponent Points:{' '}
-                            <span className="text-3xl text-green-600">
-                                {opponentContest.points}
-                            </span>
-                        </h2>
-                        <div className="  bg-opacity-50 flex items-center justify-center z-50">
-                            <div
-                                className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
-                                style={{
-                                    backgroundImage: `url(${ground})`,
-                                    backgroundSize: '99% 96%',
-                                }}
-                            >
-                                <div className="flex justify-center gap-24 mt-4 mb-14">
-                                    {sortedOpponentPlayers
-                                        .slice(0, 2)
-                                        .map((player) => {
-                                            return (
-                                                <div
-                                                    key={player.id}
-                                                    className="text-center"
-                                                >
-                                                    <div className="relative">
-                                                        {player.id ===
-                                                            opponentContest.captain && (
-                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                C
-                                                            </span>
-                                                        )}
-                                                        {player.id ===
-                                                            opponentContest.viceCaptain && (
-                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                VC
-                                                            </span>
-                                                        )}
-                                                        <FontAwesomeIcon
-                                                            icon={faUser}
-                                                            className="text-green-900 text-3xl"
-                                                        />{' '}
-                                                    </div>
-                                                    <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                        {formatName(
-                                                            player.name,
-                                                            85,
-                                                        )}
-                                                    </span>
-                                                    <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                        {player?.points} Pts
-                                                    </span>
-                                                </div>
-                                            );
-                                        })}
-                                </div>
-
-                                {[2, 5, 8].map((startIdx, index) => (
-                                    <div
-                                        key={index}
-                                        className="grid grid-cols-3 gap-14 mt-14"
-                                    >
-                                        {sortedOpponentPlayers
-                                            .slice(startIdx, startIdx + 3)
-                                            .map((player) => {
-                                                return (
-                                                    <div
-                                                        key={player.id}
-                                                        className="text-center"
-                                                    >
-                                                        <div className="relative">
-                                                            {player.id ===
-                                                                opponentContest.captain && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-1 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                    C
-                                                                </span>
-                                                            )}
-                                                            {player.id ===
-                                                                opponentContest.viceCaptain && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-1 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                    VC
-                                                                </span>
-                                                            )}
-                                                            <FontAwesomeIcon
-                                                                icon={faUser}
-                                                                className="text-green-900 text-3xl"
-                                                            />
-                                                        </div>
-
-                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto px-1">
-                                                            {formatName(
-                                                                player.name,
-                                                                70,
-                                                            )}
-                                                        </span>
-                                                        <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                            {player?.points} Pts
-                                                        </span>
-                                                    </div>
-                                                );
-                                            })}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
+                    )}
+                </div>
+                {isPopupVisible && (
+                    <Popup
+                        message={popupMessage}
+                        onClose={closePopup}
+                    />
                 )}
             </div>
-            {isPopupVisible && (
-                <Popup
-                    message={popupMessage}
-                    onClose={closePopup}
-                />
-            )}
         </div>
     );
 };
