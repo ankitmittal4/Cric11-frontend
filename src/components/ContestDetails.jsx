@@ -39,7 +39,7 @@ const ContestDetails = () => {
             }
             return prev;
         });
-        // console.log('!!!! -> ', selectedPlayerIds);
+        
     };
 
     const handleCaptainChange = (playerId) => {
