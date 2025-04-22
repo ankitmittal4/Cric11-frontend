@@ -26,6 +26,7 @@ const Home = () => {
     const date = new Date();
     const istDate = toZonedTime(date, 'Asia/Kolkata');
     const istCurrentTimeStamp = istDate.getTime();
+
     const getTimeLeft = (matchDate, matchTime) => {
         const matchStart = new Date(`${matchDate}T${matchTime}:00`);
         const now = new Date();
@@ -40,6 +41,15 @@ const Home = () => {
 
         return `${hours}h ${minutes}m`;
     };
+
+    const convertIn12Hours = (time) => {
+        let [hours, minutes] = time.split(':');
+        hours = parseInt(hours);
+
+        const period = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        return `${hours}:${minutes} ${period}`;
+    }
 
     return (
         <div className="container mx-auto p-4">
@@ -138,7 +148,7 @@ const Home = () => {
                                                 </>
                                             )}
                                             <span className="text-slate-500 font-normal">
-                                                {match.startTime}
+                                                {convertIn12Hours(match.startTime)}
                                             </span>
                                         </p>
                                     );
