@@ -82,16 +82,20 @@ const Home = () => {
                                 {match?.series}
                             </div>
 
-                            <div className="flex items-center justify-between w-full px-4 mt-2 min-h-16">
-                                <h2 className="text-xl font-bold text-gray-600 mb-1  text-center">
-                                    {match.teamB}
-                                </h2>
-                                <span className="text-red-400 text-lg font-semibold">
+                            {/* <span className="text-red-400 text-lg font-semibold text-center">
                                     vs
-                                </span>
-                                <h2 className="text-xl font-bold text-gray-600 mb-1  text-center">
-                                    {match.teamA}
-                                </h2>
+                                </span> */}
+                            <div className="flex justify-between items-center w-full px-3 min-h-16">
+                                <div className="w-1/2 flex justify-start">
+                                    <h2 className="text-xl font-bold text-gray-600 text-center">
+                                        {match.teamB}
+                                    </h2>
+                                </div>
+                                <div className="w-1/2 flex justify-end">
+                                    <h2 className="text-xl font-bold text-gray-600 text-center">
+                                        {match.teamA}
+                                    </h2>
+                                </div>
                             </div>
 
                             <div className="flex justify-between items-center mt-4 mb-6 px-4">
