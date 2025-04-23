@@ -6,6 +6,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import ground from '../assets/ground.jpg';
 import Popup from '../features/Popup';
+import { useMemo } from 'react';
 import warning from '../assets/warning.png';
 import { API_URL } from '../../Constants';
 
@@ -30,9 +31,27 @@ const ContestDetails = () => {
     const [teamACount, setTeamACount] = useState(0);
     const [teamBCount, setTeamBCount] = useState(0);
 
+    const teamPlayerCount = useMemo(() => {
+        const count = {};
+
+        const teams = Array.from(new Set(players.map(p => p.team)));
+
+        teams.forEach(team => {
+            count[team] = 0;
+        });
+
+        selectedPlayerIds.forEach((id) => {
+            const player = players.find((p) => p.id === id);
+            if (player && Object.prototype.hasOwnProperty.call(count, player.team)) {
+                count[player.team]++;
+            }
+        });
+
+        return count;
+    }, [selectedPlayerIds, players]);
+
 
     const handlePlayerSelection = (playerId) => {
-
         setSelectedPlayerIds((prev) => {
             const isSelected = prev.includes(playerId);
             if (isSelected) {
@@ -44,6 +63,7 @@ const ContestDetails = () => {
             }
             return prev;
         });
+
     };
 
     const handleCaptainChange = (playerId) => {
@@ -178,7 +198,7 @@ const ContestDetails = () => {
             const response = await axios.post(`${API_URL}/contests/get`, {
                 id,
             });
-
+            // console.log("Response: ", response.data.data);
             setContest(response.data.data);
 
             // Fetch (squad)players for team selection
@@ -303,14 +323,15 @@ const ContestDetails = () => {
                         </span>
                     </p>
                 </div>
+
                 <div className="md:w-[90%]">
                     <div className='flex '>
-                        <h2 className="text-xl font-bold text-center mb-7">
-                            CSK Players: {selectedPlayerIds.length}
-                        </h2>
-                        <h2 className="text-xl font-bold text-center mb-7">
-                            MI Players: {selectedPlayerIds.length}
-                        </h2>
+                        {Object.entries(teamPlayerCount).map(([teamName, count]) => (
+                            <div key={teamName} className="bg-slate-100 px-4 py-2 rounded-xl shadow-sm">
+                                {teamName}: {count} players
+                            </div>
+                        ))}
+
                         <h2 className="text-xl font-bold text-center mb-7">
                             Selected Players: {selectedPlayerIds.length} / 11
                         </h2>
