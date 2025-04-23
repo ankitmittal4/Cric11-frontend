@@ -356,7 +356,7 @@ const ContestDetails = () => {
                                             C
                                         </th>
                                         <th className="py-2 px-4">
-                                            <VC></VC>
+                                            VC
                                         </th>
                                     </tr>
                                 </thead>
