@@ -327,14 +327,14 @@ const ContestDetails = () => {
                 <div className="md:w-[90%]">
                     <div className='flex '>
                         {Object.entries(teamPlayerCount).map(([teamName, count]) => (
-                            <div key={teamName} className="bg-slate-100 px-4 py-2 rounded-xl shadow-sm">
-                                {teamName}: {count} players
+                            <div key={teamName} className="px-4 py-2 rounded-xl ">
+                                {teamName}: {count}
                             </div>
                         ))}
-
-                        <h2 className="text-xl font-bold text-center mb-7">
+                        <div className="px-4 py-2 rounded-xl font-bold">
                             Selected Players: {selectedPlayerIds.length} / 11
-                        </h2>
+                        </div>
+
 
                     </div>
                     <form
@@ -353,10 +353,10 @@ const ContestDetails = () => {
                                         </th>
                                         <th className="px-4 ">Team</th>
                                         <th className="py-2 px-4">
-                                            Captain (C)
+                                            C
                                         </th>
                                         <th className="py-2 px-4">
-                                            Vice-Captain (VC)
+                                            <VC></VC>
                                         </th>
                                     </tr>
                                 </thead>
