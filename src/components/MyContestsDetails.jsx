@@ -447,11 +447,10 @@ const UserContestDetails = () => {
                             </h2>
                             <div className="bg-opacity-50 flex items-center justify-center z-50">
                                 <div
-                                    className={` bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center  ${
-                                        opponentPlayers?.length === 0
-                                            ? 'w-[65%]'
-                                            : 'w-full'
-                                    } `}
+                                    className={` bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center  ${opponentPlayers?.length === 0
+                                        ? 'w-[65%]'
+                                        : 'w-full'
+                                        } `}
                                     style={{
                                         backgroundImage: `url(${ground})`,
                                         backgroundSize: '99% 96%',
@@ -469,22 +468,21 @@ const UserContestDetails = () => {
                                                         <div className="relative">
                                                             {player.id ===
                                                                 contest.captain && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                    C
-                                                                </span>
-                                                            )}
+                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                        C
+                                                                    </span>
+                                                                )}
                                                             {player.id ===
                                                                 contest.viceCaptain && (
-                                                                <span
-                                                                    className={`flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${
-                                                                        opponentPlayers?.length ===
+                                                                    <span
+                                                                        className={`flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${opponentPlayers?.length ===
                                                                             0 &&
-                                                                        'left-0'
-                                                                    }`}
-                                                                >
-                                                                    VC
-                                                                </span>
-                                                            )}
+                                                                            'left-0'
+                                                                            }`}
+                                                                    >
+                                                                        VC
+                                                                    </span>
+                                                                )}
                                                             <FontAwesomeIcon
                                                                 icon={faUser}
                                                                 className="text-green-900 text-3xl"
@@ -524,28 +522,26 @@ const UserContestDetails = () => {
                                                                 <div className="relative">
                                                                     {player.id ===
                                                                         contest.captain && (
-                                                                        <span
-                                                                            className={`flex items-center justify-center w-6 h-6 absolute -top-3  text-sm text-white font-medium bg-gray-500 p-1 rounded-full ${
-                                                                                opponentPlayers.length
+                                                                            <span
+                                                                                className={`flex items-center justify-center w-6 h-6 absolute -top-3  text-sm text-white font-medium bg-gray-500 p-1 rounded-full ${opponentPlayers.length
                                                                                     ? 'left-1'
                                                                                     : 'left-3'
-                                                                            }`}
-                                                                        >
-                                                                            C
-                                                                        </span>
-                                                                    )}
+                                                                                    }`}
+                                                                            >
+                                                                                C
+                                                                            </span>
+                                                                        )}
                                                                     {player.id ===
                                                                         contest.viceCaptain && (
-                                                                        <span
-                                                                            className={`flex items-center justify-center w-6 h-6 absolute -top-3  text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${
-                                                                                opponentPlayers.length
+                                                                            <span
+                                                                                className={`flex items-center justify-center w-6 h-6 absolute -top-3  text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${opponentPlayers.length
                                                                                     ? 'left-1'
                                                                                     : 'left-3'
-                                                                            }`}
-                                                                        >
-                                                                            VC
-                                                                        </span>
-                                                                    )}
+                                                                                    }`}
+                                                                            >
+                                                                                VC
+                                                                            </span>
+                                                                        )}
                                                                     <FontAwesomeIcon
                                                                         icon={
                                                                             faUser
@@ -619,13 +615,12 @@ const UserContestDetails = () => {
                                             {playersSelection.map((player) => (
                                                 <tr
                                                     key={player.id}
-                                                    className={`cursor-pointer  ${
-                                                        isPlayerSelected(
-                                                            player.id,
-                                                        )
-                                                            ? 'bg-yellow-100'
-                                                            : 'hover:bg-fuchsia-100'
-                                                    }`}
+                                                    className={`cursor-pointer  ${isPlayerSelected(
+                                                        player.id,
+                                                    )
+                                                        ? 'bg-yellow-100'
+                                                        : 'hover:bg-fuchsia-100'
+                                                        }`}
                                                     onClick={() =>
                                                         handlePlayerSelection(
                                                             player.id,
@@ -664,7 +659,7 @@ const UserContestDetails = () => {
                                                                     player.id,
                                                                 ) ||
                                                                 viceCaptainId ===
-                                                                    player.id
+                                                                player.id
                                                             }
                                                         />
                                                     </td>
@@ -691,7 +686,7 @@ const UserContestDetails = () => {
                                                                     player.id,
                                                                 ) ||
                                                                 captainId ===
-                                                                    player.id
+                                                                player.id
                                                             }
                                                         />
                                                     </td>
@@ -759,16 +754,16 @@ const UserContestDetails = () => {
                                                             <div className="relative">
                                                                 {captainId ===
                                                                     player.id && (
-                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                        C
-                                                                    </span>
-                                                                )}
+                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                            C
+                                                                        </span>
+                                                                    )}
                                                                 {viceCaptainId ===
                                                                     player.id && (
-                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                        VC
-                                                                    </span>
-                                                                )}
+                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                            VC
+                                                                        </span>
+                                                                    )}
                                                                 <FontAwesomeIcon
                                                                     icon={
                                                                         faUser
@@ -811,16 +806,16 @@ const UserContestDetails = () => {
                                                                 <div className="relative">
                                                                     {captainId ===
                                                                         player.id && (
-                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                            C
-                                                                        </span>
-                                                                    )}
+                                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                                C
+                                                                            </span>
+                                                                        )}
                                                                     {viceCaptainId ===
                                                                         player.id && (
-                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                            VC
-                                                                        </span>
-                                                                    )}
+                                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                                VC
+                                                                            </span>
+                                                                        )}
                                                                     <FontAwesomeIcon
                                                                         icon={
                                                                             faUser
@@ -890,16 +885,16 @@ const UserContestDetails = () => {
                                                         <div className="relative">
                                                             {player.id ===
                                                                 opponentContest.captain && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                    C
-                                                                </span>
-                                                            )}
+                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                        C
+                                                                    </span>
+                                                                )}
                                                             {player.id ===
                                                                 opponentContest.viceCaptain && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                    VC
-                                                                </span>
-                                                            )}
+                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                        VC
+                                                                    </span>
+                                                                )}
                                                             <FontAwesomeIcon
                                                                 icon={faUser}
                                                                 className="text-green-900 text-3xl"
@@ -935,16 +930,16 @@ const UserContestDetails = () => {
                                                             <div className="relative">
                                                                 {player.id ===
                                                                     opponentContest.captain && (
-                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-1 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                        C
-                                                                    </span>
-                                                                )}
+                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-1 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                            C
+                                                                        </span>
+                                                                    )}
                                                                 {player.id ===
                                                                     opponentContest.viceCaptain && (
-                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-1 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                        VC
-                                                                    </span>
-                                                                )}
+                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-1 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                            VC
+                                                                        </span>
+                                                                    )}
                                                                 <FontAwesomeIcon
                                                                     icon={
                                                                         faUser
