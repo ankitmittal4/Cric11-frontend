@@ -53,15 +53,22 @@ const ContestDetails = () => {
 
     const handlePlayerSelection = (playerId) => {
         setSelectedPlayerIds((prev) => {
+
             const isSelected = prev.includes(playerId);
+            let updated = [];
             if (isSelected) {
-                return prev.filter((id) => id !== playerId);
+                updated = prev.filter((id) => id !== playerId);
+                const deselectedPlayer = players.find(p => p.id === playerId);
+                if (captainId === playerId) setCaptainId(null);
+                if (viceCaptainId === playerId) setViceCaptainId(null);
             } else if (prev.length < 11) {
-                return [...prev, playerId];
+                updated = [...prev, playerId];
             } else if (prev.length >= 11) {
                 setError('You can only select up to 11 players');
+                updated = prev;
             }
-            return prev;
+
+            return updated;
         });
 
     };
@@ -342,102 +349,81 @@ const ContestDetails = () => {
                         onSubmit={handleSubmitTeam}
                     >
                         <div className="overflow-x-auto">
-                            <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
-                                <thead>
-                                    <tr className="text-left border-b-2 bg-slate-200">
-                                        <th className="py-2 text-md px-4 w-40">
-                                            Role
-                                        </th>
-                                        <th className="py-2 text-md px-4 w-56">
-                                            Player Name
-                                        </th>
-                                        <th className="px-4 ">Team</th>
-                                        <th className="py-2 px-4">
-                                            C
-                                        </th>
-                                        <th className="py-2 px-4">
-                                            VC
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {sortedPlayers.map((player) => (
-                                        <tr
-                                            key={player.id}
-                                            className={`cursor-pointer  ${isPlayerSelected(player.id)
-                                                ? 'bg-yellow-100'
-                                                : 'hover:bg-fuchsia-100'
-                                                }`}
-                                            onClick={() =>
-                                                handlePlayerSelection(player.id)
-                                            }
-                                        >
-                                            <td className="py-2 px-4 border-b">
-                                                {player.role}
-                                            </td>
-                                            <td className="py-2 px-4 border-b">
-                                                {player.name}
-                                            </td>
-                                            <td className="py-2 px-4 border-b">
-                                                {player.team}
-                                            </td>
-                                            <td className="py-2 px-4 border-b text-center">
-                                                <input
-                                                    type="radio"
-                                                    name="captain"
-                                                    value={player.id}
-                                                    checked={
-                                                        captainId === player.id
-                                                    }
-                                                    onClick={(e) =>
-                                                        e.stopPropagation()
-                                                    }
-                                                    onChange={() =>
-                                                        handleCaptainChange(
-                                                            player.id,
-                                                        )
-                                                    }
-                                                    className="h-4 w-4"
-                                                    disabled={
-                                                        !isPlayerSelected(
-                                                            player.id,
-                                                        ) ||
-                                                        viceCaptainId ===
-                                                        player.id
-                                                    }
-                                                />
-                                            </td>
-                                            <td className="py-2 px-4 border-b text-center">
-                                                <input
-                                                    type="radio"
-                                                    name="viceCaptain"
-                                                    value={player.id}
-                                                    checked={
-                                                        viceCaptainId ===
-                                                        player.id
-                                                    }
-                                                    onClick={(e) =>
-                                                        e.stopPropagation()
-                                                    }
-                                                    onChange={() =>
-                                                        handleViceCaptainChange(
-                                                            player.id,
-                                                        )
-                                                    }
-                                                    className="h-4 w-4"
-                                                    disabled={
-                                                        !isPlayerSelected(
-                                                            player.id,
-                                                        ) ||
-                                                        captainId === player.id
-                                                    }
-                                                />
-                                            </td>
+                            <div className="max-h-[60vh] overflow-y-auto">
+                                <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
+                                    <thead className="sticky top-0 bg-slate-200 z-10">
+                                        <tr className="text-left border-b-2">
+                                            <th className="py-2 text-md px-4 w-40">Role</th>
+                                            <th className="py-2 text-md px-4 w-56">Player Name</th>
+                                            <th className="px-4">Team</th>
+                                            <th className="py-2 px-4 text-center">C</th>
+                                            <th className="py-2 px-4 text-center">VC</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {sortedPlayers.map((player) => (
+                                            <tr
+                                                key={player.id}
+                                                className={`cursor-pointer ${isPlayerSelected(player.id)
+                                                    ? 'bg-yellow-100'
+                                                    : 'hover:bg-fuchsia-100'
+                                                    }`}
+                                                onClick={() => handlePlayerSelection(player.id)}
+                                            >
+                                                <td className="py-2 px-4 border-b">{player.role}</td>
+                                                <td className="py-2 px-4 border-b">{player.name}</td>
+                                                <td className="py-2 px-4 border-b">{player.team}</td>
+
+                                                <td className="py-2 px-4 border-b text-center">
+
+                                                    <label
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        className={`cursor-pointer inline-block w-6 h-6 leading-6 text-center rounded-full ${captainId === player.id ? 'bg-yellow-500 text-white' : 'bg-gray-200 text-black'
+                                                            } ${isPlayerSelected(player.id) && viceCaptainId !== player.id
+                                                                ? ''
+                                                                : 'opacity-50 cursor-not-allowed'
+                                                            }`}
+                                                    >
+                                                        <input
+                                                            type="radio"
+                                                            name="captain"
+                                                            value={player.id}
+                                                            checked={captainId === player.id}
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            onChange={() => handleCaptainChange(player.id)}
+                                                            className="hidden"
+                                                            disabled={
+                                                                !isPlayerSelected(player.id) || viceCaptainId === player.id
+                                                            }
+                                                        />
+                                                        C
+                                                    </label>
+                                                </td>
+
+                                                <td className="py-2 px-4 border-b text-center">
+                                                    <input
+                                                        type="radio"
+                                                        name="viceCaptain"
+                                                        value={player.id}
+                                                        checked={viceCaptainId === player.id}
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        onChange={() =>
+                                                            handleViceCaptainChange(player.id)
+                                                        }
+                                                        className="h-4 w-4"
+                                                        disabled={
+                                                            !isPlayerSelected(player.id) ||
+                                                            captainId === player.id
+                                                        }
+                                                    />
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+
                         {/* //Display error popup  */}
                         {error && (
                             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
