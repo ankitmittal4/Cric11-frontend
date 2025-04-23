@@ -27,7 +27,12 @@ const ContestDetails = () => {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState('');
 
+    const [teamACount, setTeamACount] = useState(0);
+    const [teamBCount, setTeamBCount] = useState(0);
+
+
     const handlePlayerSelection = (playerId) => {
+
         setSelectedPlayerIds((prev) => {
             const isSelected = prev.includes(playerId);
             if (isSelected) {
@@ -39,7 +44,6 @@ const ContestDetails = () => {
             }
             return prev;
         });
-        
     };
 
     const handleCaptainChange = (playerId) => {
@@ -58,6 +62,14 @@ const ContestDetails = () => {
 
     const isPlayerSelected = (playerId) => selectedPlayerIds.includes(playerId);
 
+    const rolePriority = {
+        'WK-Batsman': 1,
+        Batsman: 2,
+        'Batting Allrounder': 3,
+        'Bowling Allrounder': 4,
+        Bowler: 5,
+        '--': 6,
+    };
     //TODO: Validation on submit
     const handleSubmitTeam = (e) => {
         e.preventDefault();
@@ -75,6 +87,26 @@ const ContestDetails = () => {
             return;
         }
 
+        const sorted = [...selectedPlayerIds].sort((a, b) => {
+            const playerA = players.find(p => p.id === a);
+            const playerB = players.find(p => p.id === b);
+
+            const roleA = playerA?.role || '--';
+            const roleB = playerB?.role || '--';
+
+            const priorityA = rolePriority[roleA];
+            const priorityB = rolePriority[roleB];
+
+            if (priorityA !== priorityB) {
+                return priorityA - priorityB;
+            }
+
+            // Same role, fall back to their order in the full players list
+            return players.findIndex(p => p.id === a) - players.findIndex(p => p.id === b);
+        });
+
+        setSelectedPlayerIds(sorted);
+
         setIsModalOpen(true);
     };
 
@@ -87,6 +119,9 @@ const ContestDetails = () => {
     };
     const handleJoinContest = async () => {
         const accessToken = localStorage.getItem('accessToken');
+
+
+
         // console.log("accessToken: ", accessToken);
         const contestData = {
             contestId: id,
@@ -125,7 +160,7 @@ const ContestDetails = () => {
         } catch (error) {
             alert(
                 error.response?.data?.message ||
-                    'Failed! Contest Not Joined...',
+                'Failed! Contest Not Joined...',
             );
 
             console.log(
@@ -169,17 +204,16 @@ const ContestDetails = () => {
         fetchContestDetails();
     }, [id]);
 
-    const rolePriority = {
-        'WK-Batsman': 1,
-        Batsman: 2,
-        'Batting Allrounder': 3,
-        'Bowling Allrounder': 4,
-        Bowler: 5,
-        '--': 6,
-    };
+
     const sortedPlayers = players.sort((a, b) => {
         return rolePriority[a.role] - rolePriority[b.role];
     });
+    // const sortedSelectedPlayers = [...selectedPlayerIds].sort((a, b) => {
+    //     const roleA = players.find((p) => p.id === a)?.role || '--';
+    //     const roleB = players.find((p) => p.id === b)?.role || '--';
+    //     return rolePriority[roleA] - rolePriority[roleB];
+    // });
+
     const checkTextWidth = (text) => {
         const span = document.createElement('span');
         span.style.visibility = 'hidden';
@@ -270,9 +304,18 @@ const ContestDetails = () => {
                     </p>
                 </div>
                 <div className="md:w-[90%]">
-                    <h2 className="text-xl font-bold text-center mb-7">
-                        Selected Players: {selectedPlayerIds.length} / 11
-                    </h2>
+                    <div className='flex '>
+                        <h2 className="text-xl font-bold text-center mb-7">
+                            CSK Players: {selectedPlayerIds.length}
+                        </h2>
+                        <h2 className="text-xl font-bold text-center mb-7">
+                            MI Players: {selectedPlayerIds.length}
+                        </h2>
+                        <h2 className="text-xl font-bold text-center mb-7">
+                            Selected Players: {selectedPlayerIds.length} / 11
+                        </h2>
+
+                    </div>
                     <form
                         className=""
                         onSubmit={handleSubmitTeam}
@@ -300,11 +343,10 @@ const ContestDetails = () => {
                                     {sortedPlayers.map((player) => (
                                         <tr
                                             key={player.id}
-                                            className={`cursor-pointer  ${
-                                                isPlayerSelected(player.id)
-                                                    ? 'bg-yellow-100'
-                                                    : 'hover:bg-fuchsia-100'
-                                            }`}
+                                            className={`cursor-pointer  ${isPlayerSelected(player.id)
+                                                ? 'bg-yellow-100'
+                                                : 'hover:bg-fuchsia-100'
+                                                }`}
                                             onClick={() =>
                                                 handlePlayerSelection(player.id)
                                             }
@@ -340,7 +382,7 @@ const ContestDetails = () => {
                                                             player.id,
                                                         ) ||
                                                         viceCaptainId ===
-                                                            player.id
+                                                        player.id
                                                     }
                                                 />
                                             </td>
@@ -431,16 +473,16 @@ const ContestDetails = () => {
                                                 <div className="relative">
                                                     {captainId ===
                                                         player.id && (
-                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                            C
-                                                        </span>
-                                                    )}
+                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                C
+                                                            </span>
+                                                        )}
                                                     {viceCaptainId ===
                                                         player.id && (
-                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                            VC
-                                                        </span>
-                                                    )}
+                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                VC
+                                                            </span>
+                                                        )}
                                                     <FontAwesomeIcon
                                                         icon={faUser}
                                                         className="text-green-900 text-3xl"
@@ -476,16 +518,16 @@ const ContestDetails = () => {
                                                         <div className="relative">
                                                             {captainId ===
                                                                 player.id && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                    C
-                                                                </span>
-                                                            )}
+                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                        C
+                                                                    </span>
+                                                                )}
                                                             {viceCaptainId ===
                                                                 player.id && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                    VC
-                                                                </span>
-                                                            )}
+                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                        VC
+                                                                    </span>
+                                                                )}
                                                             <FontAwesomeIcon
                                                                 icon={faUser}
                                                                 className="text-green-900 text-3xl"
