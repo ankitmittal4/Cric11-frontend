@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import frameBg from '../assets/frameBg.png';
 import axios from 'axios';
-import { API_URL } from '../../Constants';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -114,11 +114,10 @@ const SignUp = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.username}
-                                    className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${
-                                        touched.username && errors.username
+                                    className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${touched.username && errors.username
                                             ? 'border-red-500'
                                             : 'border-gray-500'
-                                    }`}
+                                        }`}
                                 />
                                 {touched.username && errors.username && (
                                     <p className="text-xs italic text-red-500">
@@ -141,11 +140,10 @@ const SignUp = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.fullName}
-                                    className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${
-                                        touched.fullName && errors.fullName
+                                    className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${touched.fullName && errors.fullName
                                             ? 'border-red-500'
                                             : 'border-gray-500'
-                                    }`}
+                                        }`}
                                 />
                                 {touched.fullName && errors.fullName && (
                                     <p className="text-xs italic text-red-500">
@@ -169,11 +167,10 @@ const SignUp = () => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.email}
-                                className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${
-                                    touched.email && errors.email
+                                className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${touched.email && errors.email
                                         ? 'border-red-500'
                                         : 'border-gray-500'
-                                }`}
+                                    }`}
                             />
                             {touched.email && errors.email && (
                                 <p className="text-xs italic text-red-500">
@@ -197,11 +194,10 @@ const SignUp = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.password}
-                                    className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${
-                                        touched.password && errors.password
+                                    className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${touched.password && errors.password
                                             ? 'border-red-500'
                                             : 'border-gray-500'
-                                    }`}
+                                        }`}
                                 />
                                 {touched.password && errors.password && (
                                     <p className="text-xs italic text-red-500">
@@ -224,12 +220,11 @@ const SignUp = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.confirmPassword}
-                                    className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${
-                                        touched.confirmPassword &&
-                                        errors.confirmPassword
+                                    className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${touched.confirmPassword &&
+                                            errors.confirmPassword
                                             ? 'border-red-500'
                                             : 'border-gray-500'
-                                    }`}
+                                        }`}
                                 />
                                 {touched.confirmPassword &&
                                     errors.confirmPassword && (

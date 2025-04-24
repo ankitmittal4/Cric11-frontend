@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../../Constants';
+const API_URL = import.meta.env.VITE_API_URL;
 import PropTypes from 'prop-types';
 import { format, toZonedTime } from 'date-fns-tz';
 
@@ -124,13 +124,12 @@ const TransactionCard = ({ transaction }) => {
                     <p className="text-gray-600 text-sm">{formattedDate}</p>
                     <p className="text-gray-600 text-sm">{formattedTime}</p>
                     <p
-                        className={`text-sm font-semibold ${
-                            transactionStatus === 'success'
+                        className={`text-sm font-semibold ${transactionStatus === 'success'
                                 ? 'text-green-600'
                                 : transactionStatus === 'pending'
-                                ? 'text-yellow-600'
-                                : 'text-red-600'
-                        }`}
+                                    ? 'text-yellow-600'
+                                    : 'text-red-600'
+                            }`}
                     >
                         {capitaliseFirstLetter(transactionStatus)}
                     </p>

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../Constants';
 import { format, toZonedTime } from 'date-fns-tz';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
+
     const navigate = useNavigate();
 
     const [matches, setMatches] = useState([]);
@@ -17,7 +18,6 @@ const Home = () => {
 
         const fetchMatches = async () => {
             const response = await axios.get(`${API_URL}/match/all`);
-            // console.log('response.data: ', response.data.data);
             setMatches(response.data.data);
         };
         fetchMatches();

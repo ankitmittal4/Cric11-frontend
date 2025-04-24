@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../Constants';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ContestsInMatches = () => {
     const { id } = useParams();

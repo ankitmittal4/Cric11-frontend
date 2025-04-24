@@ -8,7 +8,7 @@ import ground from '../assets/ground.jpg';
 import Popup from '../features/Popup';
 import { useMemo } from 'react';
 import warning from '../assets/warning.png';
-import { API_URL } from '../../Constants';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ContestDetails = () => {
     const { id } = useParams(); // Get the contest ID from the URL
@@ -204,7 +204,7 @@ const ContestDetails = () => {
             const response = await axios.post(`${API_URL}/contests/get`, {
                 id,
             });
-            // console.log("Response: ", response.data.data);
+            console.log("Response: ", response.data.data);
             setContest(response.data.data);
 
             // Fetch (squad)players for team selection
@@ -266,6 +266,14 @@ const ContestDetails = () => {
         return name;
     };
 
+    const convertIn12Hours = (time) => {
+        let [hours, minutes] = time.split(':');
+        hours = parseInt(hours);
+
+        const period = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        return `${hours}:${minutes} ${period}`;
+    }
     if (!contest)
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -274,27 +282,33 @@ const ContestDetails = () => {
         );
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-6 text-gray-600 text-center">
-                {contest.matchDetails.name}
+        <div className="container mx-auto p-4 ">
+            <h1 className="text-2xl font-bold mb-10 text-gray-600 text-center">
+                {contest.matchDetails.teamA} <span className='text-red-400'>vs</span> {contest.matchDetails.teamB}
             </h1>
             {/* <p className="mb-4 text-gray-700">{contest.description}</p> */}
             <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/2 p-4 text-xl">
+                <div className="md:w-1/2 p-4 text-xl text-gray-600">
                     <h2 className="text-2xl font-bold">Contest Details:</h2>
-                    <p className="text-black mt-4">
+                    <p className="mt-4">
+                        Series:{' '}
+                        <span className="font-semibold text-fuchsia-700">
+                            {contest.matchDetails.series}
+                        </span>
+                    </p>
+                    <p className=" mt-4">
                         Match Type:{' '}
                         <span className="font-semibold uppercase text-blue-600">
                             {contest.matchDetails.matchType}
                         </span>
                     </p>
-                    <p className="text-black mt-4">
+                    <p className=" mt-4">
                         Venue:{' '}
                         <span className="font-semibold  text-blue-600">
                             {contest.matchDetails.venue}
                         </span>
                     </p>
-                    <p className="text-black mt-4">
+                    <p className=" mt-4">
                         Date:{' '}
                         <span className="font-semibold text-orange-600">
                             {contest.matchDetails.date
@@ -303,26 +317,26 @@ const ContestDetails = () => {
                                 .join('-')}
                         </span>
                     </p>
-                    <p className="text-black mt-4">
+                    <p className=" mt-4">
                         Start Time(IST):{' '}
                         <span className="font-semibold text-orange-600">
-                            {contest.matchDetails.startTime}
+                            {convertIn12Hours(contest.matchDetails.startTime)}
                         </span>
                     </p>
 
-                    <p className="text-black mt-4">
+                    <p className=" mt-4">
                         Prize Pool:{' '}
                         <span className="font-semibold text-red-600">
                             ₹{contest.prizePool}
                         </span>
                     </p>
-                    <p className="text-black mt-4">
+                    <p className=" mt-4">
                         Entry:{' '}
                         <span className="font-semibold text-green-600">
                             ₹{contest.entryFee}
                         </span>
                     </p>
-                    <p className="text-black mt-4">
+                    <p className=" mt-4">
                         Spots:{' '}
                         <span className="font-semibold text-red-600">
                             {contest.maxParticipants}
@@ -333,13 +347,36 @@ const ContestDetails = () => {
                 <div className="md:w-[90%]">
                     <div className='flex '>
                         {Object.entries(teamPlayerCount).map(([teamName, count]) => (
-                            <div key={teamName} className="px-4 py-2 rounded-xl ">
-                                {teamName}: {count}
+                            <div key={teamName} className='mx-auto'>
+                                <div className="px-4 py-2 rounded-xl   font-bold ">
+                                    {teamName === contest.matchDetails.teamA ?
+                                        <div className="flex items-center gap-2">
+                                            <img
+                                                src={contest.matchDetails.teamAImg}
+                                                alt="Team A"
+                                                className="h-9 object-contain"
+                                            />
+                                            <p className='text-xl text-gray-600'>{contest.matchDetails.teamAAcronym}</p>
+                                            <p>{" : "}</p>
+                                            <p className='text-2xl text-red-500'>{count}</p>
+
+                                        </div>
+                                        : <div className="flex items-center gap-2">
+                                            <p className='text-2xl text-red-500'>{count}</p>
+                                            <p>{" : "}</p>
+                                            <p className='text-xl text-gray-600'>{contest.matchDetails.teamBAcronym}</p>
+                                            <img
+                                                src={contest.matchDetails.teamBImg}
+                                                alt="Team B"
+                                                className="h-9 object-contain"
+                                            />
+                                        </div>}
+                                </div>
                             </div>
                         ))}
-                        <div className="px-4 py-2 rounded-xl font-bold">
+                        {/* <div className="px-4 py-2 rounded-xl font-bold">
                             Selected Players: {selectedPlayerIds.length} / 11
-                        </div>
+                        </div> */}
 
 
                     </div>

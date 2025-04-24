@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../Constants';
+const API_URL = import.meta.env.VITE_API_URL;
 const UserTeams = () => {
     const [contests, setContests] = useState([]);
     useEffect(() => {

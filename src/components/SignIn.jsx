@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import frameBg from '../assets/frameBg.png';
 import axios from 'axios';
-import { API_URL } from '../../Constants';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const SignIn = () => {
     console.log('APi url: ', API_URL);

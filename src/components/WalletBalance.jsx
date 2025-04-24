@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import { API_URL } from '../../Constants';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const WalletBalance = () => {
     const [balance, setBalance] = useState(0);
