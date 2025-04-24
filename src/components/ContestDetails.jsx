@@ -50,10 +50,9 @@ const ContestDetails = () => {
         return count;
     }, [selectedPlayerIds, players]);
 
-
+    const isMaxSelected = selectedPlayerIds.length >= 11;
     const handlePlayerSelection = (playerId) => {
         setSelectedPlayerIds((prev) => {
-
             const isSelected = prev.includes(playerId);
             let updated = [];
             if (isSelected) {
@@ -364,10 +363,12 @@ const ContestDetails = () => {
                                         {sortedPlayers.map((player) => (
                                             <tr
                                                 key={player.id}
-                                                className={`cursor-pointer ${isPlayerSelected(player.id)
-                                                    ? 'bg-yellow-100'
+                                                className={` ${isPlayerSelected(player.id)
+                                                    ? 'bg-yellow-100 cursor-pointer'
                                                     : 'hover:bg-fuchsia-100'
-                                                    }`}
+                                                    } ${!isPlayerSelected(player.id) && isMaxSelected ? 'cursor-not-allowed opacity-40 ' : 'cursor-pointer'
+                                                    }`
+                                                }
                                                 onClick={() => handlePlayerSelection(player.id)}
                                             >
                                                 <td className="py-2 px-4 border-b">{player.role}</td>
@@ -375,10 +376,9 @@ const ContestDetails = () => {
                                                 <td className="py-2 px-4 border-b">{player.team}</td>
 
                                                 <td className="py-2 px-4 border-b text-center">
-
                                                     <label
                                                         onClick={(e) => e.stopPropagation()}
-                                                        className={`cursor-pointer inline-block w-6 h-6 leading-6 text-center rounded-full ${captainId === player.id ? 'bg-yellow-500 text-white' : 'bg-gray-200 text-black'
+                                                        className={`cursor-pointer inline-block w-10 h-6 leading-6 text-center rounded-full ${captainId === player.id ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'
                                                             } ${isPlayerSelected(player.id) && viceCaptainId !== player.id
                                                                 ? ''
                                                                 : 'opacity-50 cursor-not-allowed'
@@ -396,26 +396,32 @@ const ContestDetails = () => {
                                                                 !isPlayerSelected(player.id) || viceCaptainId === player.id
                                                             }
                                                         />
-                                                        C
+                                                        2x
                                                     </label>
                                                 </td>
-
                                                 <td className="py-2 px-4 border-b text-center">
-                                                    <input
-                                                        type="radio"
-                                                        name="viceCaptain"
-                                                        value={player.id}
-                                                        checked={viceCaptainId === player.id}
+                                                    <label
                                                         onClick={(e) => e.stopPropagation()}
-                                                        onChange={() =>
-                                                            handleViceCaptainChange(player.id)
-                                                        }
-                                                        className="h-4 w-4"
-                                                        disabled={
-                                                            !isPlayerSelected(player.id) ||
-                                                            captainId === player.id
-                                                        }
-                                                    />
+                                                        className={`cursor-pointer inline-block w-10 h-6 leading-6 text-center rounded-full ${viceCaptainId === player.id ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'
+                                                            } ${isPlayerSelected(player.id) && captainId !== player.id
+                                                                ? ''
+                                                                : 'opacity-50 cursor-not-allowed'
+                                                            }`}
+                                                    >
+                                                        <input
+                                                            type="radio"
+                                                            name="captain"
+                                                            value={player.id}
+                                                            checked={viceCaptainId === player.id}
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            onChange={() => handleViceCaptainChange(player.id)}
+                                                            className="hidden"
+                                                            disabled={
+                                                                !isPlayerSelected(player.id) || captainId === player.id
+                                                            }
+                                                        />
+                                                        1.5x
+                                                    </label>
                                                 </td>
                                             </tr>
                                         ))}
@@ -454,131 +460,133 @@ const ContestDetails = () => {
                         </button>
                     </form>
 
-                    {isModalOpen && (
-                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 overflow-y-auto">
-                            <div
-                                className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
-                                style={{
-                                    backgroundImage: `url(${ground})`,
-                                    backgroundSize: '99% 96%',
-                                }}
-                            >
-                                <h2 className="text-xl font-bold mb-4 text-center text-gray-800">
-                                    Team Preview
-                                </h2>
+                    {
+                        isModalOpen && (
+                            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 overflow-y-auto">
+                                <div
+                                    className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
+                                    style={{
+                                        backgroundImage: `url(${ground})`,
+                                        backgroundSize: '99% 96%',
+                                    }}
+                                >
+                                    <h2 className="text-xl font-bold mb-4 text-center text-gray-800">
+                                        Team Preview
+                                    </h2>
 
-                                <div className="flex justify-center gap-24 mt-8 mb-7">
-                                    {selectedPlayerIds.slice(0, 2).map((id) => {
-                                        const player = players.find(
-                                            (p) => p.id === id,
-                                        );
-                                        return (
-                                            <div
-                                                key={player.id}
-                                                className="text-center"
-                                            >
-                                                <div className="relative">
-                                                    {captainId ===
-                                                        player.id && (
-                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                C
-                                                            </span>
-                                                        )}
-                                                    {viceCaptainId ===
-                                                        player.id && (
-                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                VC
-                                                            </span>
-                                                        )}
-                                                    <FontAwesomeIcon
-                                                        icon={faUser}
-                                                        className="text-green-900 text-3xl"
-                                                    />{' '}
-                                                </div>
-                                                <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                    {formatName(
-                                                        player.name,
-                                                        85,
-                                                    )}
-                                                </span>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-
-                                {[2, 5, 8].map((startIdx, index) => (
-                                    <div
-                                        key={index}
-                                        className="grid grid-cols-3 gap-16 mt-12 "
-                                    >
-                                        {selectedPlayerIds
-                                            .slice(startIdx, startIdx + 3)
-                                            .map((id) => {
-                                                const player = players.find(
-                                                    (p) => p.id === id,
-                                                );
-                                                return (
-                                                    <div
-                                                        key={player.id}
-                                                        className="text-center"
-                                                    >
-                                                        <div className="relative">
-                                                            {captainId ===
-                                                                player.id && (
-                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                        C
-                                                                    </span>
-                                                                )}
-                                                            {viceCaptainId ===
-                                                                player.id && (
-                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                        VC
-                                                                    </span>
-                                                                )}
-                                                            <FontAwesomeIcon
-                                                                icon={faUser}
-                                                                className="text-green-900 text-3xl"
-                                                            />{' '}
-                                                        </div>
-                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                            {formatName(
-                                                                player.name,
-                                                                85,
+                                    <div className="flex justify-center gap-24 mt-8 mb-7">
+                                        {selectedPlayerIds.slice(0, 2).map((id) => {
+                                            const player = players.find(
+                                                (p) => p.id === id,
+                                            );
+                                            return (
+                                                <div
+                                                    key={player.id}
+                                                    className="text-center"
+                                                >
+                                                    <div className="relative">
+                                                        {captainId ===
+                                                            player.id && (
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                    C
+                                                                </span>
                                                             )}
-                                                        </span>
+                                                        {viceCaptainId ===
+                                                            player.id && (
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                    VC
+                                                                </span>
+                                                            )}
+                                                        <FontAwesomeIcon
+                                                            icon={faUser}
+                                                            className="text-green-900 text-3xl"
+                                                        />{' '}
                                                     </div>
-                                                );
-                                            })}
+                                                    <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                        {formatName(
+                                                            player.name,
+                                                            85,
+                                                        )}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
-                                ))}
 
-                                <hr className="mt-10" />
-                                <div className="flex mt-5">
-                                    <button
-                                        className="bg-green-800 text-white px-4 py-2 rounded mt-4 mx-auto block hover:bg-green-700"
-                                        onClick={handleJoinContest}
-                                    >
-                                        Join Contest
-                                    </button>
-                                    <button
-                                        className="bg-red-700 text-white px-5 py-2 rounded mt-4 mx-auto block hover:bg-red-600"
-                                        onClick={closeModal}
-                                    >
-                                        Back
-                                    </button>
+                                    {[2, 5, 8].map((startIdx, index) => (
+                                        <div
+                                            key={index}
+                                            className="grid grid-cols-3 gap-16 mt-12 "
+                                        >
+                                            {selectedPlayerIds
+                                                .slice(startIdx, startIdx + 3)
+                                                .map((id) => {
+                                                    const player = players.find(
+                                                        (p) => p.id === id,
+                                                    );
+                                                    return (
+                                                        <div
+                                                            key={player.id}
+                                                            className="text-center"
+                                                        >
+                                                            <div className="relative">
+                                                                {captainId ===
+                                                                    player.id && (
+                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                            C
+                                                                        </span>
+                                                                    )}
+                                                                {viceCaptainId ===
+                                                                    player.id && (
+                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                            VC
+                                                                        </span>
+                                                                    )}
+                                                                <FontAwesomeIcon
+                                                                    icon={faUser}
+                                                                    className="text-green-900 text-3xl"
+                                                                />{' '}
+                                                            </div>
+                                                            <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                                {formatName(
+                                                                    player.name,
+                                                                    85,
+                                                                )}
+                                                            </span>
+                                                        </div>
+                                                    );
+                                                })}
+                                        </div>
+                                    ))}
+
+                                    <hr className="mt-10" />
+                                    <div className="flex mt-5">
+                                        <button
+                                            className="bg-green-800 text-white px-4 py-2 rounded mt-4 mx-auto block hover:bg-green-700"
+                                            onClick={handleJoinContest}
+                                        >
+                                            Join Contest
+                                        </button>
+                                        <button
+                                            className="bg-red-700 text-white px-5 py-2 rounded mt-4 mx-auto block hover:bg-red-600"
+                                            onClick={closeModal}
+                                        >
+                                            Back
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
-                </div>
-            </div>
+                        )
+                    }
+                </div >
+            </div >
             {isPopupVisible && (
                 <Popup
                     message={popupMessage}
                     onClose={closePopup}
                 />
             )}
-        </div>
+        </div >
     );
 };
 export default ContestDetails;
