@@ -94,8 +94,8 @@ const Home = () => {
 
                             {/* <span className="text-red-400 text-lg font-semibold text-center">
                                     vs
-                                </span> */}
-                            <div className="flex justify-between items-center w-full px-3 min-h-16">
+                                    </span> items-center*/}
+                            <div className="flex justify-between  w-full px-3 min-h-16  items-center">
                                 <div className="w-1/2 flex justify-start">
                                     <h2 className="text-xl font-bold text-gray-600 text-center">
                                         {match.teamB}
