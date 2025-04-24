@@ -80,7 +80,7 @@ const Home = () => {
                         <Link
                             to={`/match/${match._id}`}
                             key={match._id}
-                            className="mb-2 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-gray-200 overflow-hidden"
+                            className="mb-2 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-slate-200 overflow-hidden"
                         >
                             <div
                                 className="bg-slate-300 inline-block text-gray-700 text-sm font-semibold px-3 py-1 pr-10 mb-2 "
