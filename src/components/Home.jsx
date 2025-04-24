@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { format, toZonedTime } from 'date-fns-tz';
+import clock from "../assets/clock.png";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
@@ -92,15 +93,13 @@ const Home = () => {
                                 {match?.series}
                             </div>
 
-                            {/* <span className="text-red-400 text-lg font-semibold text-center">
-                                    vs
-                                    </span> items-center*/}
-                            <div className="flex justify-between  w-full px-3 min-h-16  items-center">
+                            <div className="flex justify-between  w-full px-3 min-h-16 items-center">
                                 <div className="w-1/2 flex justify-start">
                                     <h2 className="text-xl font-bold text-gray-600 text-center">
                                         {match.teamB}
                                     </h2>
                                 </div>
+                                <span className='mx-1'></span>
                                 <div className="w-1/2 flex justify-end">
                                     <h2 className="text-xl font-bold text-gray-600 text-center">
                                         {match.teamA}
@@ -136,8 +135,9 @@ const Home = () => {
                                     return (
                                         <p className="text-center text-xs text-red-500 font-bold">
                                             {timeLeft ? (
-                                                <div className="mb-1">
-                                                    <span className="font-extrabold bg-red-100 px-2 py-1 rounded-md mb-10">
+                                                <div className="mb-1 flex bg-red-100 px-2 py-1 rounded-md items-center">
+                                                    <img src={clock} alt="" className='h-3 w-3 mr-1' />
+                                                    <span className="font-extrabold ">
                                                         {timeLeft}
                                                     </span>
                                                 </div>

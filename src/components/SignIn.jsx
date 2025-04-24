@@ -48,10 +48,10 @@ const SignIn = () => {
                 email: values.email,
                 password: values.password,
             };
-            console.log('Data: ', data);
+            // console.log('Data: ', data);
             try {
                 const res = await axios.post(`${API_URL}/users/login`, data);
-                console.log('Response: ', res.data.data.accessToken);
+                // console.log('Response: ', res.data.data.accessToken);
                 localStorage.setItem('accessToken', res.data.data.accessToken);
                 navigate('/');
                 action.resetForm();
