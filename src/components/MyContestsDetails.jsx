@@ -181,13 +181,12 @@ const UserContestDetails = () => {
 
     //NOTE: Code for team update if match not started
     const handleUpdateTeam = async () => {
+        window.top.scrollTo(0, 0);
         setIsUpdate(true);
         setIsModalOpen(false);
         const id = contest.contestId;
         const response = await axios.post(`${API_URL}/contests/get`, { id });
 
-        // setContest(response.data.data);
-        console.log("RES: ", response.data);
         setMatchDetail(response.data.data.matchDetails);
 
         // Fetch (squad)players for team selection
@@ -303,7 +302,7 @@ const UserContestDetails = () => {
                 'Response of update team: ',
                 response.data.data[0].matchDetails,
             );
-            setContest(response.data.data[0]);
+            // setContest(response.data.data[0]);
             setPlayers(response.data.data[0].user11);
 
             if (response.data.statusCode === 200) {
@@ -340,6 +339,25 @@ const UserContestDetails = () => {
             setError('Vice-Captain is mandatory');
             return;
         }
+        const sorted = [...selectedPlayerIds].sort((a, b) => {
+            const playerA = playersSelection.find(p => p.id === a);
+            const playerB = playersSelection.find(p => p.id === b);
+
+            const roleA = playerA?.role || '--';
+            const roleB = playerB?.role || '--';
+
+            const priorityA = rolePriority[roleA];
+            const priorityB = rolePriority[roleB];
+
+            if (priorityA !== priorityB) {
+                return priorityA - priorityB;
+            }
+
+            // Same role, fall back to their order in the full players list
+            return playersSelection.findIndex(p => p.id === a) - playersSelection.findIndex(p => p.id === b);
+        });
+
+        setSelectedPlayerIds(sorted);
         setIsModalOpen(true);
     };
 
@@ -615,7 +633,7 @@ const UserContestDetails = () => {
                                         onClick={handleUpdateTeam}
                                         className=" bg-green-600 hover:bg-green-500 text-white rounded-md p-2 mt-2 "
                                     >
-                                        Update Team
+                                        Update Team1
                                     </button>
                                 </div>
                             )}
@@ -754,60 +772,6 @@ const UserContestDetails = () => {
                                                             </label>
                                                         </td>
 
-                                                        {/* <td className="py-2 px-4 border-b text-center">
-                                                        <input
-                                                            type="radio"
-                                                            name="captain"
-                                                            value={player.id}
-                                                            checked={
-                                                                captainId ===
-                                                                player.id
-                                                            }
-                                                            onClick={(e) =>
-                                                                e.stopPropagation()
-                                                            }
-                                                            onChange={() =>
-                                                                handleCaptainChange(
-                                                                    player.id,
-                                                                )
-                                                            }
-                                                            className="h-4 w-4"
-                                                            disabled={
-                                                                !isPlayerSelected(
-                                                                    player.id,
-                                                                ) ||
-                                                                viceCaptainId ===
-                                                                player.id
-                                                            }
-                                                        />
-                                                    </td> */}
-                                                        {/* <td className="py-2 px-4 border-b text-center">
-                                                        <input
-                                                            type="radio"
-                                                            name="viceCaptain"
-                                                            value={player.id}
-                                                            checked={
-                                                                viceCaptainId ===
-                                                                player.id
-                                                            }
-                                                            onClick={(e) =>
-                                                                e.stopPropagation()
-                                                            }
-                                                            onChange={() =>
-                                                                handleViceCaptainChange(
-                                                                    player.id,
-                                                                )
-                                                            }
-                                                            className="h-4 w-4"
-                                                            disabled={
-                                                                !isPlayerSelected(
-                                                                    player.id,
-                                                                ) ||
-                                                                captainId ===
-                                                                player.id
-                                                            }
-                                                        />
-                                                    </td> */}
                                                     </tr>
                                                 ))}
                                             </tbody>
