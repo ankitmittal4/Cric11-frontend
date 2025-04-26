@@ -357,6 +357,14 @@ const UserContestDetails = () => {
         }
         return name;
     };
+    const convertIn12Hours = (time) => {
+        let [hours, minutes] = time.split(':');
+        hours = parseInt(hours);
+
+        const period = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        return `${hours}:${minutes} ${period}`;
+    }
 
     if (!contest)
         return (
@@ -383,21 +391,27 @@ const UserContestDetails = () => {
                 </h1>
                 {/* <p className="mb-4 text-gray-700">{contest.description}</p> */}
                 <div className="flex flex-col md:flex-row">
-                    <div className="md:w-1/2 p-4 ">
+                    <div className="md:w-1/2 p-4 text-xl text-gray-600">
                         <h2 className="text-2xl font-bold">Contest Details:</h2>
-                        <p className="text-black mt-4">
+                        <p className="mt-4">
+                            Series:{' '}
+                            <span className="font-semibold text-fuchsia-700">
+                                {contest.matchDetails.series}
+                            </span>
+                        </p>
+                        <p className=" mt-4">
                             Match Type:{' '}
                             <span className="font-semibold uppercase text-blue-600">
                                 {contest.matchDetails.matchType}
                             </span>
                         </p>
-                        <p className="text-black mt-4 break-words">
+                        <p className=" mt-4">
                             Venue:{' '}
                             <span className="font-semibold  text-blue-600">
                                 {contest.matchDetails.venue}
                             </span>
                         </p>
-                        <p className="text-black mt-4">
+                        <p className=" mt-4">
                             Date:{' '}
                             <span className="font-semibold text-orange-600">
                                 {contest.matchDetails.date
@@ -406,34 +420,29 @@ const UserContestDetails = () => {
                                     .join('-')}
                             </span>
                         </p>
-                        <p className="text-black mt-4">
+                        <p className=" mt-4">
                             Start Time(IST):{' '}
                             <span className="font-semibold text-orange-600">
-                                {contest.matchDetails.startTime}
+                                {convertIn12Hours(contest.matchDetails.startTime)}
                             </span>
                         </p>
-                        <p className="text-black mt-4">
+
+                        <p className=" mt-4">
                             Prize Pool:{' '}
                             <span className="font-semibold text-red-600">
                                 ₹{contest.contestDetails.prizePool}
                             </span>
                         </p>
-                        <p className="text-black mt-4">
+                        <p className=" mt-4">
                             Entry:{' '}
                             <span className="font-semibold text-green-600">
                                 ₹{contest.contestDetails.entryFee}
                             </span>
                         </p>
-                        <p className="text-black mt-4">
+                        <p className=" mt-4">
                             Spots:{' '}
                             <span className="font-semibold text-red-600">
                                 {contest.contestDetails.maxParticipants}
-                            </span>
-                        </p>
-                        <p className="text-black mt-4  text-xl">
-                            Rank:{' '}
-                            <span className="font-semibold text-blue-700">
-                                {contest?.result?.toUpperCase()}
                             </span>
                         </p>
                     </div>
