@@ -120,7 +120,7 @@ const UserTeams = () => {
                                     </span>
                                 </p>
                             </div>
-                            <div className="flex justify-between items-center px-4 mb-3 text-fuchsia-900">
+                            <div className="flex justify-between items-center px-4 text-fuchsia-900">
                                 <p className="mt-1">
                                     Spots:{' '}
                                     <span className="font-semibold ">
@@ -132,16 +132,16 @@ const UserTeams = () => {
 
                             {contest.matchDetails.matchStarted ? (
                                 contest.matchDetails.matchEnded ? (
-                                    <div className="flex justify-center text-red-600 mb-2">
+                                    <div className="flex justify-center text-red-600 mb-2 font-medium">
                                         Match Ended
                                     </div>
                                 ) : (
-                                    <div className="flex justify-center text-green-500 mb-2">
+                                    <div className="flex justify-center text-green-500 mb-2 font-medium">
                                         Match Ongoing
                                     </div>
                                 )
                             ) : (
-                                <div className="flex justify-center text-orange-500 mb-2">
+                                <div className="flex justify-center text-orange-500 mb-2 font-medium">
                                     Match not started
                                 </div>
                             )}
