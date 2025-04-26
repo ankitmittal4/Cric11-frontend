@@ -387,7 +387,7 @@ const ContestDetails = () => {
                         <div className="overflow-x-auto">
                             <div className="max-h-[60vh] overflow-y-auto">
                                 <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
-                                    <thead className="sticky top-0 bg-slate-200 z-10">
+                                    <thead className="sticky top-0 bg-slate-300 z-10">
                                         <tr className="text-left border-b-2">
                                             <th className="py-2 text-md px-4 w-40">Role</th>
                                             <th className="py-2 text-md px-4 w-56">Player Name</th>
