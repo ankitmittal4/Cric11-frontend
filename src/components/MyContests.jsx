@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import increase from '../assets/increase.png';
+import clock from '../assets/clock.png';
 const API_URL = import.meta.env.VITE_API_URL;
 const UserTeams = () => {
     const [contests, setContests] = useState([]);
@@ -38,43 +40,76 @@ const UserTeams = () => {
                         <Link
                             to={`/my-contests/${contest._id}`}
                             key={contest._id}
-                            className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-gray-200"
+                            className="mb-2 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-slate-200 overflow-hidden"
                         >
-                            <h2 className="text-xl font-bold text-center text-gray-600 mb-1 ">
-                                {contest.matchDetails.name}
-                            </h2>
-                            <div className="flex justify-between mt-4 mb-1">
-                                {contest.matchDetails.teamBImg ? (
-                                    <img
-                                        src={contest.matchDetails.teamBImg}
-                                        alt="A"
-                                        className="your-css-class h-9"
-                                    />
-                                ) : (
-                                    <p></p>
-                                )}
+                            <div
+                                className="bg-orange-200 inline-block text-orange-600 text-sm font-semibold px-3 py-1 pr-10 mb-2 "
+                                style={{
+                                    clipPath:
+                                        'polygon(0 0, calc(100% - 20px) 0, 100% 35px, 100% 100%, 0% 100%)',
+                                }}
+                            >
+                                <span className=''>{contest.matchDetails.series} </span> {" "}
+                            </div>
+                            <div className="flex justify-between w-full px-3 min-h-16 items-center">
+                                <div className="w-1/2 flex justify-start">
+                                    <h2 className="text-xl font-bold text-gray-600 text-center">
+                                        {contest.matchDetails.teamB}
+                                    </h2>
+                                </div>
+                                <span className='mx-1'></span>
+                                <div className="w-1/2 flex justify-end">
+                                    <h2 className="text-xl font-bold text-gray-600 text-center">
+                                        {contest.matchDetails.teamA}
+                                    </h2>
+                                </div>
+                            </div>
+                            <div className="flex justify-between items-center px-4 my-1">
+                                <div className="flex items-center space-x-2">
+                                    {contest.matchDetails.teamBImg && (
+                                        <img
+                                            src={contest.matchDetails.teamBImg}
+                                            alt="Team B"
+                                            className="h-11 object-contain"
+                                        />
+                                    )}
+
+                                    <p className="text-center font-bold text-stone-500">
+                                        {contest.matchDetails.teamBAcronym}
+                                    </p>
+                                </div>
                                 <p className="text-center  text-xs text-red-600 font-bold">
                                     {contest.matchDetails.date
                                         .split('-')
                                         .reverse()
                                         .join('-')}
                                     <br></br>
-                                    {contest.matchDetails.startTime}
+                                    <div className="mb-1 flex bg-red-100 px-2 py-1 rounded-md items-center">
+                                        <img src={clock} alt="" className='h-3 w-3 mr-1' />
+                                        <span className="font-extrabold ">
+                                            {contest.matchDetails.startTime}
+                                        </span>
+                                    </div>
+
                                 </p>
-                                {contest.matchDetails.teamAImg ? (
-                                    <img
-                                        src={contest.matchDetails.teamAImg}
-                                        alt="B"
-                                        className="your-css-class h-9"
-                                    />
-                                ) : (
-                                    <p></p>
-                                )}
+                                <div className="flex items-center space-x-2">
+                                    <p className="text-center font-bold text-stone-500">
+                                        {contest.matchDetails.teamAAcronym}
+                                    </p>
+                                    {contest.matchDetails.teamAImg && (
+                                        <img
+                                            src={contest.matchDetails.teamAImg}
+                                            alt="Team A"
+                                            className="h-11 object-contain"
+                                        />
+                                    )}
+                                </div>
                             </div>
-                            <div className="flex justify-between">
-                                <p className="text-black mt-4">
-                                    Prize Pool:{' '}
-                                    <span className="font-semibold text-xl">
+                            <div className="flex justify-between items-center px-4">
+                                <p className="mt-4 flex items-center text-fuchsia-900">
+                                    Prize Pool:{'    '}
+                                    <img src={increase} alt="" className='h-5 w-5 mr-1 ml-1' />
+                                    <span className="font-semibold text-xl ">
                                         ₹{contest.contestDetails.prizePool}
                                     </span>
                                 </p>
@@ -85,27 +120,28 @@ const UserTeams = () => {
                                     </span>
                                 </p>
                             </div>
-                            <div className="flex justify-between">
-                                <p className="text-black mt-4">
+                            <div className="flex justify-between items-center px-4 mb-3 text-fuchsia-900">
+                                <p className="mt-1">
                                     Spots:{' '}
-                                    <span className="font-semibold">
+                                    <span className="font-semibold ">
                                         {contest.contestDetails.maxParticipants}
                                     </span>
                                 </p>
+
                             </div>
 
                             {contest.matchDetails.matchStarted ? (
                                 contest.matchDetails.matchEnded ? (
-                                    <div className="flex justify-center text-red-600">
+                                    <div className="flex justify-center text-red-600 mb-2">
                                         Match Ended
                                     </div>
                                 ) : (
-                                    <div className="flex justify-center text-green-500">
+                                    <div className="flex justify-center text-green-500 mb-2">
                                         Match Ongoing
                                     </div>
                                 )
                             ) : (
-                                <div className="flex justify-center text-orange-500">
+                                <div className="flex justify-center text-orange-500 mb-2">
                                     Match not started
                                 </div>
                             )}
