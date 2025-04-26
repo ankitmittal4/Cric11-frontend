@@ -4,6 +4,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { useMemo } from 'react';
 const API_URL = import.meta.env.VITE_API_URL;
 import ground from '../assets/ground.jpg';
 import Popup from '../features/Popup';
@@ -35,6 +36,8 @@ const UserContestDetails = () => {
     const [isMatchStarted, setIsMatchStarted] = useState(false);
     const [isUpdate, setIsUpdate] = useState(false);
 
+    const [matchDetail, setMatchDetail] = useState(null)
+
     const hasFetchded = useRef(false);
     const [confettiSize, setConfettiSize] = useState({
         width: 0,
@@ -50,6 +53,7 @@ const UserContestDetails = () => {
             ),
         });
     };
+
     useEffect(() => {
         updateConfettiSize(); // Set on mount
 
@@ -183,6 +187,8 @@ const UserContestDetails = () => {
         const response = await axios.post(`${API_URL}/contests/get`, { id });
 
         // setContest(response.data.data);
+        console.log("RES: ", response.data);
+        setMatchDetail(response.data.data.matchDetails);
 
         // Fetch (squad)players for team selection
         const playersResponse1 =
@@ -208,17 +214,43 @@ const UserContestDetails = () => {
         setViceCaptainId(contest.captain);
         setCaptainId(contest.viceCaptain);
     };
+    const teamPlayerCount = useMemo(() => {
+        const count = {};
+
+        const teams = Array.from(new Set(playersSelection.map(p => p.team)));
+
+        teams.forEach(team => {
+            count[team] = 0;
+        });
+
+        selectedPlayerIds.forEach((id) => {
+            const player = playersSelection.find((p) => p.id === id);
+            if (player && Object.prototype.hasOwnProperty.call(count, player.team)) {
+                count[player.team]++;
+            }
+        });
+
+        return count;
+    }, [selectedPlayerIds, players]);
+    const isMaxSelected = selectedPlayerIds.length >= 11;
+
     const handlePlayerSelection = (playerId) => {
         setSelectedPlayerIds((prev) => {
             const isSelected = prev.includes(playerId);
+            let updated = [];
             if (isSelected) {
-                return prev.filter((id) => id !== playerId);
+                updated = prev.filter((id) => id !== playerId);
+                const deselectedPlayer = players.find(p => p.id === playerId);
+                if (captainId === playerId) setCaptainId(null);
+                if (viceCaptainId === playerId) setViceCaptainId(null);
             } else if (prev.length < 11) {
-                return [...prev, playerId];
+                updated = [...prev, playerId];
             } else if (prev.length >= 11) {
                 setError('You can only select up to 11 players');
+                updated = prev;
             }
-            return prev;
+
+            return updated;
         });
     };
 
@@ -383,13 +415,11 @@ const UserContestDetails = () => {
                     gravity={0.2}
                 />
             )}
-
+            <h1 className="text-2xl font-bold mb-5 text-gray-600 text-center mt-4">
+                {contest.matchDetails.name}
+            </h1>
 
             <div className="container mx-auto p-4">
-                <h1 className="text-2xl font-bold mb-10 text-gray-600 text-center">
-                    {contest.matchDetails.name}
-                </h1>
-                {/* <p className="mb-4 text-gray-700">{contest.description}</p> */}
                 <div className="flex flex-col md:flex-row">
                     <div className="md:w-1/2 p-4 text-xl text-gray-600">
                         <h2 className="text-2xl font-bold">Contest Details:</h2>
@@ -594,59 +624,137 @@ const UserContestDetails = () => {
 
                     {isUpdate && (
                         <div className="md:w-[90%]">
-                            <h2 className="text-xl font-bold text-center mb-7">
-                                Selected Players: {selectedPlayerIds.length} /
-                                11
-                            </h2>
+                            <div className='flex '>
+                                {Object.entries(teamPlayerCount).map(([teamName, count]) => (
+                                    <div key={teamName} className='mx-auto'>
+                                        <div className="px-4 py-2 rounded-xl   font-bold ">
+                                            {teamName === matchDetail.teamA ?
+                                                <div className="flex items-center gap-2">
+                                                    <img
+                                                        src={matchDetail.teamAImg}
+                                                        alt="Team A"
+                                                        className="h-9 object-contain"
+                                                    />
+                                                    <p className='text-xl text-gray-600'>{matchDetail.teamAAcronym}</p>
+                                                    <p>{" : "}</p>
+                                                    <p className='text-2xl text-red-500'>{count}</p>
+
+                                                </div>
+                                                : <div className="flex items-center gap-2">
+                                                    <p className='text-2xl text-red-500'>{count}</p>
+                                                    <p>{" : "}</p>
+                                                    <p className='text-xl text-gray-600'>{matchDetail.teamBAcronym}</p>
+                                                    <img
+                                                        src={matchDetail.teamBImg}
+                                                        alt="Team B"
+                                                        className="h-9 object-contain"
+                                                    />
+                                                </div>}
+                                        </div>
+                                    </div>
+                                ))}
+
+
+                            </div>
                             <form
                                 className=""
                                 onSubmit={handleSubmitTeam}
                             >
                                 <div className="overflow-x-auto">
-                                    <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
-                                        <thead>
-                                            <tr className="text-left border-b-2 bg-slate-200">
-                                                <th className="py-2 text-md px-4 w-40">
-                                                    Role
-                                                </th>
-                                                <th className="py-2 text-md px-4 w-56">
-                                                    Player Name
-                                                </th>
-                                                <th className="px-4 ">Team</th>
-                                                <th className="py-2 px-4">
-                                                    Captain (C)
-                                                </th>
-                                                <th className="py-2 px-4">
-                                                    Vice-Captain (VC)
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {playersSelection.map((player) => (
-                                                <tr
-                                                    key={player.id}
-                                                    className={`cursor-pointer  ${isPlayerSelected(
-                                                        player.id,
-                                                    )
-                                                        ? 'bg-yellow-100'
-                                                        : 'hover:bg-fuchsia-100'
-                                                        }`}
-                                                    onClick={() =>
-                                                        handlePlayerSelection(
-                                                            player.id,
-                                                        )
-                                                    }
-                                                >
-                                                    <td className="py-2 px-4 border-b">
-                                                        {player.role}
-                                                    </td>
-                                                    <td className="py-2 px-4 border-b">
-                                                        {player.name}
-                                                    </td>
-                                                    <td className="py-2 px-4 border-b">
-                                                        {player.team}
-                                                    </td>
-                                                    <td className="py-2 px-4 border-b text-center">
+                                    <div className="max-h-[60vh] overflow-y-auto">
+                                        <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
+                                            <thead>
+                                                <tr className="text-left border-b-2 bg-slate-300">
+                                                    <th className="py-2 text-md px-4 w-40">
+                                                        Role
+                                                    </th>
+                                                    <th className="py-2 text-md px-4 w-56">
+                                                        Player Name
+                                                    </th>
+                                                    <th className="px-4 ">Team</th>
+                                                    <th className="py-2 px-4 text-center">
+                                                        C
+                                                    </th>
+                                                    <th className="py-2 px-4 text-center">
+                                                        VC
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {playersSelection.map((player) => (
+                                                    <tr
+                                                        key={player.id}
+                                                        className={` ${isPlayerSelected(player.id)
+                                                            ? 'bg-yellow-100 cursor-pointer'
+                                                            : 'hover:bg-fuchsia-100'
+                                                            } ${!isPlayerSelected(player.id) && isMaxSelected ? 'cursor-not-allowed opacity-40 ' : 'cursor-pointer'
+                                                            }`
+                                                        }
+                                                        onClick={() =>
+                                                            handlePlayerSelection(
+                                                                player.id,
+                                                            )
+                                                        }
+                                                    >
+                                                        <td className="py-2 px-4 border-b">
+                                                            {player.role}
+                                                        </td>
+                                                        <td className="py-2 px-4 border-b">
+                                                            {player.name}
+                                                        </td>
+                                                        <td className="py-2 px-4 border-b">
+                                                            {player.team}
+                                                        </td>
+                                                        <td className="py-2 px-4 border-b text-center">
+                                                            <label
+                                                                onClick={(e) => e.stopPropagation()}
+                                                                className={`cursor-pointer inline-block w-10 h-6 leading-6 text-center rounded-full ${captainId === player.id ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'
+                                                                    } ${isPlayerSelected(player.id) && viceCaptainId !== player.id
+                                                                        ? ''
+                                                                        : 'opacity-50 cursor-not-allowed'
+                                                                    }`}
+                                                            >
+                                                                <input
+                                                                    type="radio"
+                                                                    name="captain"
+                                                                    value={player.id}
+                                                                    checked={captainId === player.id}
+                                                                    onClick={(e) => e.stopPropagation()}
+                                                                    onChange={() => handleCaptainChange(player.id)}
+                                                                    className="hidden"
+                                                                    disabled={
+                                                                        !isPlayerSelected(player.id) || viceCaptainId === player.id
+                                                                    }
+                                                                />
+                                                                2x
+                                                            </label>
+                                                        </td>
+                                                        <td className="py-2 px-4 border-b text-center">
+                                                            <label
+                                                                onClick={(e) => e.stopPropagation()}
+                                                                className={`cursor-pointer inline-block w-10 h-6 leading-6 text-center rounded-full ${viceCaptainId === player.id ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'
+                                                                    } ${isPlayerSelected(player.id) && captainId !== player.id
+                                                                        ? ''
+                                                                        : 'opacity-50 cursor-not-allowed'
+                                                                    }`}
+                                                            >
+                                                                <input
+                                                                    type="radio"
+                                                                    name="captain"
+                                                                    value={player.id}
+                                                                    checked={viceCaptainId === player.id}
+                                                                    onClick={(e) => e.stopPropagation()}
+                                                                    onChange={() => handleViceCaptainChange(player.id)}
+                                                                    className="hidden"
+                                                                    disabled={
+                                                                        !isPlayerSelected(player.id) || captainId === player.id
+                                                                    }
+                                                                />
+                                                                1.5x
+                                                            </label>
+                                                        </td>
+
+                                                        {/* <td className="py-2 px-4 border-b text-center">
                                                         <input
                                                             type="radio"
                                                             name="captain"
@@ -672,8 +780,8 @@ const UserContestDetails = () => {
                                                                 player.id
                                                             }
                                                         />
-                                                    </td>
-                                                    <td className="py-2 px-4 border-b text-center">
+                                                    </td> */}
+                                                        {/* <td className="py-2 px-4 border-b text-center">
                                                         <input
                                                             type="radio"
                                                             name="viceCaptain"
@@ -699,11 +807,12 @@ const UserContestDetails = () => {
                                                                 player.id
                                                             }
                                                         />
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                                    </td> */}
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 {/* //Display error popup  */}
                                 {error && (
