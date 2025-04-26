@@ -32,6 +32,7 @@ const ContestDetails = () => {
     const [teamBCount, setTeamBCount] = useState(0);
 
     const teamPlayerCount = useMemo(() => {
+        console.log("----", players);
         const count = {};
 
         const teams = Array.from(new Set(players.map(p => p.team)));
@@ -286,7 +287,6 @@ const ContestDetails = () => {
             <h1 className="text-2xl font-bold mb-10 text-gray-600 text-center">
                 {contest.matchDetails.teamA} <span className='text-red-400'>vs</span> {contest.matchDetails.teamB}
             </h1>
-            {/* <p className="mb-4 text-gray-700">{contest.description}</p> */}
             <div className="flex flex-col md:flex-row">
                 <div className="md:w-1/2 p-4 text-xl text-gray-600">
                     <h2 className="text-2xl font-bold">Contest Details:</h2>
@@ -627,20 +627,3 @@ const ContestDetails = () => {
     );
 };
 export default ContestDetails;
-
-{
-    /* <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                                <div className="bg-white p-6 pl-9 pr-9 rounded-lg shadow-lg">
-                                    <h2 className="text-xl font-bold mb-5">
-                                        Error
-                                    </h2>
-                                    <p>{error}</p>
-                                    <button
-                                        onClick={closeErrorPopup}
-                                        className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                                    >
-                                        Close
-                                    </button>
-                                </div>
-                            </div> */
-}
