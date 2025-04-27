@@ -633,7 +633,7 @@ const UserContestDetails = () => {
                                         onClick={handleUpdateTeam}
                                         className=" bg-green-600 hover:bg-green-500 text-white rounded-md p-2 mt-2 "
                                     >
-                                        Update Team1
+                                        Update Team
                                     </button>
                                 </div>
                             )}

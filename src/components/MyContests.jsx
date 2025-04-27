@@ -36,7 +36,11 @@ const UserTeams = () => {
                         </h1>
                     </div>
                 ) : (
-                    contests.map((contest) => (
+                    contests.sort((a, b) => {
+                        const dateA = new Date(`${a.matchDetails.date}T${a.matchDetails.startTime}`);
+                        const dateB = new Date(`${b.matchDetails.date}T${b.matchDetails.startTime}`);
+                        return dateA - dateB;
+                    }).map((contest) => (
                         <Link
                             to={`/my-contests/${contest._id}`}
                             key={contest._id}
