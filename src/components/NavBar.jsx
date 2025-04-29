@@ -33,8 +33,7 @@ const NavBar = () => {
                         <NavLink
                             to="/"
                             className={({ isActive }) =>
-                                `text-gray-300 hover:text-white px-3  ${
-                                    isActive ? 'text-white' : ''
+                                `text-gray-300 hover:text-white px-3  ${isActive ? 'text-white' : ''
                                 }`
                             }
                         >
@@ -44,8 +43,7 @@ const NavBar = () => {
                         <NavLink
                             to="/my-contests"
                             className={({ isActive }) =>
-                                `text-gray-300 hover:text-white px-3 ${
-                                    isActive ? 'text-white' : ''
+                                `text-gray-300 hover:text-white px-3 ${isActive ? 'text-white' : ''
                                 }`
                             }
                         >
@@ -55,8 +53,7 @@ const NavBar = () => {
                         <NavLink
                             to="/transactions"
                             className={({ isActive }) =>
-                                `text-gray-300 hover:text-white px-3 ${
-                                    isActive ? 'text-white' : ''
+                                `text-gray-300 hover:text-white px-3 ${isActive ? 'text-white' : ''
                                 }`
                             }
                         >
@@ -67,7 +64,7 @@ const NavBar = () => {
                         </div>
                         <div className="text-black font-medium">
                             <img
-                                className="h-9 w-9 text-center mx-auto ml-10 cursor-pointer"
+                                className="h-7 w-7 text-center mx-auto ml-10 cursor-pointer"
                                 onClick={handleLogout}
                                 src={logout}
                                 alt="logout"
