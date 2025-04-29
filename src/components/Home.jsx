@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { format, toZonedTime } from 'date-fns-tz';
 import clock from "../assets/clock.png";
+import { formatDate } from 'date-fns';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
@@ -31,6 +32,17 @@ const Home = () => {
     const getTimeLeft = (matchDate, matchTime) => {
         const matchStart = new Date(`${matchDate}T${matchTime}:00`);
         const now = new Date();
+
+
+        // const today = new Date();
+        const tomorrow = new Date();
+        tomorrow.setDate(now.getDate() + 1);
+        if (matchStart.getDate() === tomorrow.getDate() &&
+            matchStart.getMonth() === tomorrow.getMonth() &&
+            matchStart.getFullYear() === tomorrow.getFullYear()) {
+            console.log("tomorrow");
+            return "tomorrow"
+        }
 
         const diffMs = matchStart - now;
         // console.log('Diffms', diffMs);
@@ -134,7 +146,12 @@ const Home = () => {
                                         .join('-');
                                     return (
                                         <p className="text-center text-xs text-red-500 font-bold">
-                                            {timeLeft ? (
+                                            {timeLeft === "tomorrow" ? (
+                                                <>
+                                                    {"Tomorrow"}
+                                                    <br />
+                                                </>
+                                            ) : timeLeft ? (
                                                 <div className="mb-1 flex bg-red-100 px-2 py-1 rounded-md items-center">
                                                     <img src={clock} alt="" className='h-3 w-3 mr-1' />
                                                     <span className="font-extrabold ">
