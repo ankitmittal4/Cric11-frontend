@@ -8,6 +8,9 @@ const Transactions = () => {
     const accessToken = localStorage.getItem('accessToken');
     const [transactions, setTransactions] = useState([]);
     const [walletBalance, setWalletBalance] = useState(0); // Example wallet balance
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1)
+    const limit = 10
 
     // Fetch transactions from API
     useEffect(() => {
@@ -30,15 +33,34 @@ const Transactions = () => {
                 const reversedTransactions = [
                     ...response.data.data.transactions,
                 ].reverse();
-                setTransactions(reversedTransactions);
+
+                const totalTransactions = reversedTransactions.length;
+                const startIndex = (currentPage - 1) * limit;
+                const endIndex = startIndex + limit;
+                const paginateTransactions = reversedTransactions.slice(startIndex, endIndex);
+                // console.log(currentPage);
+                // setTransactions(reversedTransactions);
+                setTransactions(paginateTransactions);
+                setTotalPages(Math.ceil(totalTransactions / limit));
             } catch (error) {
                 console.error('Error fetching transactions:', error);
             }
         };
 
         fetchTransactions();
-    }, []);
+    }, [currentPage]);
 
+    // useEffect(() => {
+    //     // fetchTransactions(currentPage);
+    //     console.log(currentPage);
+    // }, [currentPage]);
+
+    const handlePageChange = (page) => {
+        window.scrollTo(0, 0);
+        if (page > 0 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
     return (
         <div className="container mx-auto p-4">
             {/* Wallet Balance */}
@@ -54,22 +76,41 @@ const Transactions = () => {
                 </button>
             </div>
 
-            {/* Transactions List */}
             <h1 className="text-2xl font-bold mb-4">All Transactions:</h1>
-            <div className="space-y-4">
-                {transactions.length > 0 ? (
-                    transactions.map((transaction) => (
-                        <TransactionCard
-                            key={transaction._id}
-                            transaction={transaction}
-                        />
-                    ))
-                ) : (
-                    <p className="text-gray-500 text-center">
-                        No transactions found.
-                    </p>
-                )}
-            </div>
+            {transactions.length > 0 ? (
+                <>
+                    <div className="space-y-4">
+                        {transactions.map((transaction) => (
+                            <TransactionCard
+                                key={transaction._id}
+                                transaction={transaction}
+                            />
+                        ))}
+                    </div>
+
+                    <div className="flex justify-between items-center mt-5">
+                        <button
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            className="px-4 py-2 ml-10 mb-8 mt-6 text-white bg-gray-500 rounded disabled:opacity-60"
+                        >
+                            Back
+                        </button>
+                        <span className="text-black">
+                            Page {currentPage} of {totalPages}
+                        </span>
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            className="px-4 py-2 mr-10 mb-8 mt-6 bg-gray-500 text-white rounded disabled:opacity-60"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </>
+            ) : (
+                <p className="text-gray-500 text-center">No transactions found.</p>
+            )}
         </div>
     );
 };
@@ -125,10 +166,10 @@ const TransactionCard = ({ transaction }) => {
                     <p className="text-gray-600 text-sm">{formattedTime}</p>
                     <p
                         className={`text-sm font-semibold ${transactionStatus === 'success'
-                                ? 'text-green-600'
-                                : transactionStatus === 'pending'
-                                    ? 'text-yellow-600'
-                                    : 'text-red-600'
+                            ? 'text-green-600'
+                            : transactionStatus === 'pending'
+                                ? 'text-yellow-600'
+                                : 'text-red-600'
                             }`}
                     >
                         {capitaliseFirstLetter(transactionStatus)}
