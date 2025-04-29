@@ -137,16 +137,16 @@ const UserTeams = () => {
                             {contest.matchDetails.matchStarted ? (
                                 contest.matchDetails.matchEnded ? (
                                     <div className="flex justify-center text-red-600 font-medium bg-slate-300 py-1 mt-1 border-t-[1px] border-slate-400">
-                                        Match Ended
+                                        Completed
                                     </div>
                                 ) : (
                                     <div className="flex justify-center text-green-500 font-medium bg-slate-300 py-1 mt-1 border-t-[1px] border-slate-400">
-                                        Match Ongoing
+                                        Live
                                     </div>
                                 )
                             ) : (
                                 <div className="flex justify-center text-orange-500 font-medium bg-slate-300 py-1 mt-1 border-t-[1px] border-slate-400">
-                                    Match not started
+                                    Upcoming
                                 </div>
                             )}
                         </Link>

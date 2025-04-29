@@ -443,6 +443,25 @@ const UserContestDetails = () => {
                 <div className="flex flex-col md:flex-row">
                     <div className="md:w-1/2 p-4 text-xl text-gray-600">
                         <h2 className="text-2xl font-bold">Contest Details:</h2>
+
+                        <p className="mt-4">
+                            Status:{' '}
+                            {contest.matchDetails.matchStarted ? (
+                                contest.matchDetails.matchEnded ? (
+                                    <span className=" text-red-600 font-medium ">
+                                        Completed
+                                    </span>
+                                ) : (
+                                    <span className="text-green-500 font-medium ">
+                                        Live
+                                    </span>
+                                )
+                            ) : (
+                                <span className=" text-orange-500 font-medium ">
+                                    Upcoming
+                                </span>
+                            )}
+                        </p>
                         <p className="mt-4">
                             Series:{' '}
                             <span className="font-semibold text-fuchsia-700">
@@ -492,6 +511,7 @@ const UserContestDetails = () => {
                         <p className=" mt-4">
                             Spots:{' '}
                             <span className="font-semibold text-red-600">
+                                {/* {contest.matchDetails.matchStarted && "Yes"} */}
                                 {contest.contestDetails.maxParticipants}
                             </span>
                         </p>
