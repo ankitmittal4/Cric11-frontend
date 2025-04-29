@@ -93,6 +93,7 @@ const UserContestDetails = () => {
                         setIsWinner(false);
                     }, 10000);
                 }
+                // console.log(response.data.data[0]);
                 setContest(response.data.data[0]);
                 setPlayers(response.data.data[0].user11);
                 const { userId, contestId } = response.data.data[0];
@@ -148,9 +149,10 @@ const UserContestDetails = () => {
                                 //     userRes.data.data.updatedUserContest[0],
                                 // );
 
-                                setContest(
-                                    userRes.data.data.updatedUserContest[0],
-                                );
+                                // console.log(userRes.data.data.updatedUserContest[0]);
+                                // setContest(
+                                //     userRes.data.data.updatedUserContest[0],
+                                // );
                                 setPlayers(
                                     userRes.data.data.updatedUserContest[0]
                                         .user11,
@@ -415,7 +417,7 @@ const UserContestDetails = () => {
         hours = hours % 12 || 12;
         return `${hours}:${minutes} ${period}`;
     }
-
+    // console.log(contest.matchDetails);
     if (!contest)
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -491,6 +493,12 @@ const UserContestDetails = () => {
                             Spots:{' '}
                             <span className="font-semibold text-red-600">
                                 {contest.contestDetails.maxParticipants}
+                            </span>
+                        </p>
+                        <p className=" mt-4">
+                            Status:{' '}
+                            <span className={`font-semibold  uppercase ${contest.result === 'win' ? 'text-green-600' : 'text-red-600'}`}>
+                                {contest.result}
                             </span>
                         </p>
                     </div>
@@ -1058,7 +1066,7 @@ const UserContestDetails = () => {
                     />
                 )}
             </div>
-        </div>
+        </div >
     );
 };
 export default UserContestDetails;
