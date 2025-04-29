@@ -79,7 +79,7 @@ const Transactions = () => {
             <h1 className="text-2xl font-bold mb-4">All Transactions:</h1>
             {transactions.length > 0 ? (
                 <>
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                         {transactions.map((transaction) => (
                             <TransactionCard
                                 key={transaction._id}
@@ -131,7 +131,7 @@ const TransactionCard = ({ transaction }) => {
     };
 
     return (
-        <div className="bg-slate-100 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+        <div className="bg-slate-100 p-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
             <div className="flex justify-between items-center">
                 <div>
                     <p className="text-gray-600 text-sm">
