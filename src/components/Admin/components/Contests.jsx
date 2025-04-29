@@ -15,9 +15,34 @@ const Contests = () => {
             const response = await axios.get(
                 `${API_URL}/contests/all-contests`,
             );
-            setContests(response.data.data);
-        };
+            // console.log(response.data.data);
+            const data = response.data.data;
+            // setContests(response.data.data);
+            const today = new Date();
+            const threeDaysAgo = new Date();
+            threeDaysAgo.setDate(today.getDate() - 4);
+
+            const filteredContests = [];
+
+            for (const contest of data) {
+                const matchDate = new Date(contest.match.date);
+                if (matchDate < threeDaysAgo) {
+                    try {
+                        console.log(contest._id);
+                        await axios.delete(`${API_URL}/contests/delete/`, {
+                            data: { id: contest._id },
+                        });
+                    } catch (err) {
+                        console.error("Error deleting contest:", err);
+                    }
+                } else {
+                    filteredContests.push(contest);
+                }
+            }
+            setContests(filteredContests);
+        }
         fetchContests();
+
     }, []);
 
     const deleteContest = async (id) => {
