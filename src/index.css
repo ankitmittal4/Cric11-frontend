@@ -4,6 +4,6 @@
 @tailwind utilities;
 
 
-body{
-    font-family: "Roboto", sans-serif;
+body {
+    font-family: "Inter", "Noto Sans", "Lato", "Roboto", sans-serif;
 }
