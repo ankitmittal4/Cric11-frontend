@@ -284,8 +284,8 @@ const ContestDetails = () => {
 
     return (
         <div className="container mx-auto p-4 ">
-            <h1 className="text-2xl font-bold mb-10 text-gray-600 text-center">
-                {contest.matchDetails.teamA} <span className='text-red-400'>vs</span> {contest.matchDetails.teamB}
+            <h1 className="text-2xl font-bold  mb-10 text-gray-600 text-center tracking-wide">
+                {contest.matchDetails.teamA} <span className='text-gray-400 tracking-tighter'>vs</span> {contest.matchDetails.teamB}
             </h1>
             <div className="flex flex-col md:flex-row">
                 <div className="md:w-1/2 p-4 text-xl text-gray-600">
@@ -390,8 +390,8 @@ const ContestDetails = () => {
                                     <thead className="sticky top-0 bg-slate-300 z-10">
                                         <tr className="text-left border-b-2">
                                             <th className="py-2 text-md px-4 w-40">Role</th>
+                                            <th className="px-4 text-center">Team</th>
                                             <th className="py-2 text-md px-4 w-56">Player Name</th>
-                                            <th className="px-4">Team</th>
                                             <th className="py-2 px-4 text-center">C</th>
                                             <th className="py-2 px-4 text-center">VC</th>
                                         </tr>
@@ -401,16 +401,16 @@ const ContestDetails = () => {
                                             <tr
                                                 key={player.id}
                                                 className={` ${isPlayerSelected(player.id)
-                                                    ? 'bg-yellow-100 cursor-pointer'
-                                                    : 'hover:bg-fuchsia-100'
+                                                    ? 'bg-yellow-50 cursor-pointer'
+                                                    : 'hover:bg-fuchsia-50'
                                                     } ${!isPlayerSelected(player.id) && isMaxSelected ? 'cursor-not-allowed opacity-40 ' : 'cursor-pointer'
                                                     }`
                                                 }
                                                 onClick={() => handlePlayerSelection(player.id)}
                                             >
                                                 <td className="py-2 px-4 border-b">{player.role}</td>
+                                                <td className="py-2 px-4 border-b text-center">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym : contest.matchDetails.teamBAcronym}</td>
                                                 <td className="py-2 px-4 border-b">{player.name}</td>
-                                                <td className="py-2 px-4 border-b">{player.team}</td>
 
                                                 <td className="py-2 px-4 border-b text-center">
                                                     <label
