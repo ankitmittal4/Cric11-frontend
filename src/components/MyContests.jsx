@@ -33,6 +33,14 @@ const UserTeams = () => {
 
         return status === activeTab;
     })
+    const convertIn12Hours = (time) => {
+        let [hours, minutes] = time.split(':');
+        hours = parseInt(hours);
+
+        const period = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        return `${hours}:${minutes} ${period}`;
+    }
     // console.log('Time:', contests);
 
     return (
@@ -122,7 +130,7 @@ const UserTeams = () => {
                                                 <div className="mb-1 flex bg-red-100 px-2 py-1 rounded-md items-center">
                                                     <img src={clock} alt="" className='h-3 w-3 mr-1' />
                                                     <span className="font-extrabold ">
-                                                        {contest.matchDetails.startTime}
+                                                        {convertIn12Hours(contest.matchDetails.startTime)}
                                                     </span>
                                                 </div>
 
