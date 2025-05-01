@@ -306,6 +306,7 @@ const ContestDetails = () => {
         hours = hours % 12 || 12;
         return `${hours}:${minutes} ${period}`;
     }
+    const [timeLeft, setTimeLeft] = useState("");
 
     const getTimeLeft = (matchDate, matchTime) => {
         const matchStart = new Date(`${matchDate}T${matchTime}:00`);
@@ -328,9 +329,23 @@ const ContestDetails = () => {
         const diffSec = Math.floor(diffMs / 1000);
         const hours = Math.floor(diffSec / 3600);
         const minutes = Math.floor((diffSec % 3600) / 60);
+        const seconds = diffSec % 60;
 
-        return `${hours > 0 ? `${hours} h` : ''} ${minutes}m : ${diffSec % 60}s`;
+        return `${hours > 0 ? `${hours}h` : ''} ${minutes > 0 ? `${minutes}m` : ''} ${seconds}s`;
     };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const updated = getTimeLeft(
+                contest.matchDetails.date,
+                contest.matchDetails.startTime
+            );
+            setTimeLeft(updated);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [contest?.matchDetails?.date, contest?.matchDetails?.startTime]);
+
     if (!contest)
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -351,7 +366,7 @@ const ContestDetails = () => {
                     .reverse()
                     .join('-');
                 return (
-                    <p className="text-center text-sm text-red-500 font-bold">
+                    <p className="text-center text-sm text-red-500 font-semibold">
                         {timeLeft === "tomorrow" ? (
                             <>
                                 {"Tomorrow"}
@@ -360,7 +375,7 @@ const ContestDetails = () => {
                         ) : timeLeft ? (
                             <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
                                 <img src={clock} alt="" className='h-3 w-3 mr-1' />
-                                <span className="font-extrabold ">
+                                <span className="font-bold">
                                     {timeLeft} left
                                 </span>
                             </div>

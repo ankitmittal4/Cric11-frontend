@@ -51,6 +51,7 @@ const Home = () => {
         const diffSec = Math.floor(diffMs / 1000);
         const hours = Math.floor(diffSec / 3600);
         const minutes = Math.floor((diffSec % 3600) / 60);
+        const seconds = diffSec % 60;
 
         return `${hours > 0 ? `${hours} h` : ''} ${minutes}m left`;
     };
