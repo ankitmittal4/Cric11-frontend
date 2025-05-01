@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import ground from '../assets/ground.jpg';
 import Popup from '../features/Popup';
 import { useMemo } from 'react';
+import clock from "../assets/clock.png";
 import warning from '../assets/warning.png';
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -305,6 +306,31 @@ const ContestDetails = () => {
         hours = hours % 12 || 12;
         return `${hours}:${minutes} ${period}`;
     }
+
+    const getTimeLeft = (matchDate, matchTime) => {
+        const matchStart = new Date(`${matchDate}T${matchTime}:00`);
+        const now = new Date();
+
+
+        // const today = new Date();
+        const tomorrow = new Date();
+        tomorrow.setDate(now.getDate() + 1);
+        if (matchStart.getDate() === tomorrow.getDate() &&
+            matchStart.getMonth() === tomorrow.getMonth() &&
+            matchStart.getFullYear() === tomorrow.getFullYear()) {
+            console.log("tomorrow");
+            return "tomorrow"
+        }
+
+        const diffMs = matchStart - now;
+        if (diffMs > 24 * 60 * 60 * 1000) return null;
+
+        const diffSec = Math.floor(diffMs / 1000);
+        const hours = Math.floor(diffSec / 3600);
+        const minutes = Math.floor((diffSec % 3600) / 60);
+
+        return `${hours > 0 ? `${hours} h` : ''} ${minutes}m : ${diffSec % 60}s`;
+    };
     if (!contest)
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -313,8 +339,42 @@ const ContestDetails = () => {
         );
 
     return (
-        <div className="container mx-auto p-4 ">
-            <h1 className="text-2xl font-bold  mb-10 text-gray-600 text-center tracking-wide">
+        <div className="container mx-auto ">
+
+            {(() => {
+                const timeLeft = getTimeLeft(
+                    contest.matchDetails.date,
+                    contest.matchDetails.startTime,
+                );
+                const formattedDate = contest.matchDetails.date
+                    .split('-')
+                    .reverse()
+                    .join('-');
+                return (
+                    <p className="text-center text-sm text-red-500 font-bold">
+                        {timeLeft === "tomorrow" ? (
+                            <>
+                                {"Tomorrow"}
+                                <br />
+                            </>
+                        ) : timeLeft ? (
+                            <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
+                                <img src={clock} alt="" className='h-3 w-3 mr-1' />
+                                <span className="font-extrabold ">
+                                    {timeLeft} left
+                                </span>
+                            </div>
+                        ) : (
+                            <>
+                                {/* {formattedDate} */}
+                                <br />
+                            </>
+                        )}
+
+                    </p>
+                );
+            })()}
+            <h1 className="text-2xl font-bold  mb-5 text-gray-600 text-center tracking-wide">
                 {contest.matchDetails.teamA} <span className='text-gray-400 tracking-tighter'>vs</span> {contest.matchDetails.teamB}
             </h1>
             <div className="flex flex-col md:flex-row">
@@ -374,7 +434,7 @@ const ContestDetails = () => {
                     </p>
                 </div>
 
-                <div className="md:w-[90%]">
+                <div className="md:w-[60%]">
                     <div className='flex '>
                         {Object.entries(teamPlayerCount).map(([teamName, count]) => (
                             <div key={teamName} className='mx-auto'>
@@ -410,19 +470,22 @@ const ContestDetails = () => {
 
 
                     </div>
-                    <div className="flex bg-gray-100 rounded-sm overflow-hidden shadow-md w-full mb-2 mt-4">
+                    <div className="flex bg-gray-100 rounded-sm overflow-hidden shadow-md w-full mt-4">
                         {roles.map(role => (
-                            <button
-                                key={role}
-                                onClick={() => setActiveTab(role)}
-                                className={`flex-1 px-6 py-2 text-sm font-semibold capitalize transition-colors duration-200 ${activeTab === role
-                                    ? "bg-white text-red-600 shadow"
-                                    : "text-gray-600 hover:bg-gray-300"
-                                    }`}
-                            >
-                                {role} ({selectedCounts[role]})
-                            </button>
+                            <>
+                                <button
+                                    key={role}
+                                    onClick={() => setActiveTab(role)}
+                                    className={`flex-1 px-6 py-2 text-sm font-bold capitalize transition-colors duration-200  ${activeTab === role
+                                        ? "bg-white text-red-600 shadow border-b-2 border-red-600"
+                                        : "text-gray-600 hover:bg-gray-300"
+                                        }`}
+                                >
+                                    {role} ({selectedCounts[role]})
+                                </button>
+                            </>
                         ))}
+
                     </div>
                     <form
                         className=""
@@ -431,12 +494,12 @@ const ContestDetails = () => {
 
 
                         <div className="overflow-x-auto">
-                            <div className="max-h-[60vh] overflow-y-auto">
+                            <div className="h-[45vh] overflow-y-auto bg-white border-b-2 border-gray-300">
                                 <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
                                     <thead className="sticky top-0 bg-slate-300 z-10">
                                         <tr className="text-left border-b-2">
-                                            <th className="py-2 text-md px-4 w-40">Role</th>
-                                            <th className="px-4 text-center">Team</th>
+                                            {/* <th className="py-2 text-md px-4 w-40">Role</th> */}
+                                            <th className="px-4">Team</th>
                                             <th className="py-2 text-md px-4 w-56">Player Name</th>
                                             <th className="py-2 px-4 text-center">C</th>
                                             <th className="py-2 px-4 text-center">VC</th>
@@ -454,8 +517,8 @@ const ContestDetails = () => {
                                                 }
                                                 onClick={() => handlePlayerSelection(player.id)}
                                             >
-                                                <td className="py-2 px-4 border-b">{player.role}</td>
-                                                <td className="py-2 px-4 border-b text-center">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym : contest.matchDetails.teamBAcronym}</td>
+                                                {/* <td className="py-2 px-4 border-b">{player.role}</td> */}
+                                                <td className="py-2 px-7 border-b">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym : contest.matchDetails.teamBAcronym}</td>
                                                 <td className="py-2 px-4 border-b">{player.name}</td>
 
                                                 <td className="py-2 px-4 border-b text-center">
@@ -537,7 +600,7 @@ const ContestDetails = () => {
 
                         <button
                             type="submit"
-                            className="bg-green-600 text-white px-4 py-2 rounded mt-10 mb-11 mx-auto block hover:bg-green-700"
+                            className="bg-green-600 text-white px-4 py-2 rounded mt-5 mb-11 mx-auto block hover:bg-green-700"
                         >
                             Submit Team
                         </button>
