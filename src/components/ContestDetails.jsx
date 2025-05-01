@@ -31,6 +31,13 @@ const ContestDetails = () => {
     const [teamACount, setTeamACount] = useState(0);
     const [teamBCount, setTeamBCount] = useState(0);
 
+
+    const [activeTab, setActiveTab] = useState('WK');
+
+
+
+
+
     const teamPlayerCount = useMemo(() => {
         console.log("----", players);
         const count = {};
@@ -240,6 +247,29 @@ const ContestDetails = () => {
     //     const roleB = players.find((p) => p.id === b)?.role || '--';
     //     return rolePriority[roleA] - rolePriority[roleB];
     // });
+    const roleMap = {
+        WK: ['WK-Batsman'],
+        BAT: ['Batsman'],
+        AR: ['Batting Allrounder', 'Bowling Allrounder'],
+        BOWL: ['Bowler'],
+    };
+    const roles = Object.keys(roleMap);
+    const filteredPlayers = sortedPlayers.filter(player =>
+        roleMap[activeTab].includes(player.role)
+    );
+    const selectedCounts = {
+        WK: 0,
+        BAT: 0,
+        AR: 0,
+        BOWL: 0,
+    };
+
+    for (const role in roleMap) {
+        selectedCounts[role] = sortedPlayers.filter(
+            player => isPlayerSelected(player.id) && roleMap[role].includes(player.role)
+        ).length;
+    }
+
 
     const checkTextWidth = (text) => {
         const span = document.createElement('span');
@@ -380,10 +410,26 @@ const ContestDetails = () => {
 
 
                     </div>
+                    <div className="flex bg-gray-100 rounded-sm overflow-hidden shadow-md w-full mb-2 mt-4">
+                        {roles.map(role => (
+                            <button
+                                key={role}
+                                onClick={() => setActiveTab(role)}
+                                className={`flex-1 px-6 py-2 text-sm font-semibold capitalize transition-colors duration-200 ${activeTab === role
+                                    ? "bg-white text-red-600 shadow"
+                                    : "text-gray-600 hover:bg-gray-300"
+                                    }`}
+                            >
+                                {role} ({selectedCounts[role]})
+                            </button>
+                        ))}
+                    </div>
                     <form
                         className=""
                         onSubmit={handleSubmitTeam}
                     >
+
+
                         <div className="overflow-x-auto">
                             <div className="max-h-[60vh] overflow-y-auto">
                                 <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
@@ -397,7 +443,7 @@ const ContestDetails = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {sortedPlayers.map((player) => (
+                                        {filteredPlayers.map((player) => (
                                             <tr
                                                 key={player.id}
                                                 className={` ${isPlayerSelected(player.id)
