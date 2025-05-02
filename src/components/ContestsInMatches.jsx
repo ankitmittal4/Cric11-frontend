@@ -27,20 +27,44 @@ const ContestsInMatches = () => {
         };
         fetchContests();
     }, []);
+
+    const [timeLeft, setTimeLeft] = useState("");
     const getTimeLeft = (matchDate, matchTime) => {
         const matchStart = new Date(`${matchDate}T${matchTime}:00`);
         const now = new Date();
 
+
+        // const today = new Date();
+        const tomorrow = new Date();
+        tomorrow.setDate(now.getDate() + 1);
+        if (matchStart.getDate() === tomorrow.getDate() &&
+            matchStart.getMonth() === tomorrow.getMonth() &&
+            matchStart.getFullYear() === tomorrow.getFullYear()) {
+            console.log("tomorrow");
+            return "tomorrow"
+        }
+
         const diffMs = matchStart - now;
-        // console.log('Diffms', diffMs);
         if (diffMs > 24 * 60 * 60 * 1000) return null;
 
         const diffSec = Math.floor(diffMs / 1000);
         const hours = Math.floor(diffSec / 3600);
         const minutes = Math.floor((diffSec % 3600) / 60);
+        const seconds = diffSec % 60;
 
-        return `${hours}h ${minutes}m`;
+        return `${hours > 0 ? `${hours}h` : ''} ${minutes > 0 ? `${minutes}m` : ''} ${seconds}s`;
     };
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const updated = getTimeLeft(
+                contests[0].match.date,
+                contests[0].match.startTime
+            );
+            setTimeLeft(updated);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [contests[0]?.match?.date, contests[0]?.match?.startTime]);
 
     const convertIn12Hours = (time) => {
         let [hours, minutes] = time.split(':');
@@ -104,10 +128,15 @@ const ContestsInMatches = () => {
                                     .join('-');
                                 return (
                                     <p className="text-center text-xs text-red-500 font-bold">
-                                        {timeLeft ? (
-                                            <div className="mb-1 flex bg-red-100 px-2 py-1 rounded-md items-center">
+                                        {timeLeft === "tomorrow" ? (
+                                            <>
+                                                {"Tomorrow"}
+                                                <br />
+                                            </>
+                                        ) : timeLeft ? (
+                                            <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
                                                 <img src={clock} alt="" className='h-3 w-3 mr-1' />
-                                                <span className="font-extrabold ">
+                                                <span className="font-bold">
                                                     {timeLeft}
                                                 </span>
                                             </div>

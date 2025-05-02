@@ -368,10 +368,10 @@ const ContestDetails = () => {
                 return (
                     <p className="text-center text-sm text-red-500 font-semibold">
                         {timeLeft === "tomorrow" ? (
-                            <>
-                                {"Tomorrow"}
+                            <p className='font-bold mb-1'>
+                                Tomorrow
                                 <br />
-                            </>
+                            </p>
                         ) : timeLeft ? (
                             <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
                                 <img src={clock} alt="" className='h-3 w-3 mr-1' />

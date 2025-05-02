@@ -53,7 +53,7 @@ const Home = () => {
         const minutes = Math.floor((diffSec % 3600) / 60);
         const seconds = diffSec % 60;
 
-        return `${hours > 0 ? `${hours} h` : ''} ${minutes}m left`;
+        return `${hours > 0 ? `${hours}h` : ''} ${minutes}m`;
     };
 
     const convertIn12Hours = (time) => {
