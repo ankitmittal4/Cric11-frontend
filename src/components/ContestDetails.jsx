@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,7 +36,13 @@ const ContestDetails = () => {
     const [activeTab, setActiveTab] = useState('WK');
 
 
+    const scrollRef = useRef(null);
 
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = 0;
+        }
+    }, [activeTab]);
 
 
     const teamPlayerCount = useMemo(() => {
@@ -509,7 +515,7 @@ const ContestDetails = () => {
 
 
                         <div className="overflow-x-auto">
-                            <div className="h-[45vh] overflow-y-auto bg-white border-b-2 border-gray-300">
+                            <div className="h-[45vh] overflow-y-auto bg-white border-b-2 border-gray-300" ref={scrollRef}>
                                 <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
                                     <thead className="sticky top-0 bg-slate-300 z-10">
                                         <tr className="text-left border-b-2">

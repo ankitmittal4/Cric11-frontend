@@ -211,9 +211,10 @@ const UserContestDetails = () => {
         );
         setPlayersSelection(combinedSquad);
         const my11 = contest.user11.map((player) => player.id);
+
         setSelectedPlayerIds(my11);
-        setViceCaptainId(contest.captain);
-        setCaptainId(contest.viceCaptain);
+        setCaptainId(contest.captain);
+        setViceCaptainId(contest.viceCaptain);
     };
     const teamPlayerCount = useMemo(() => {
         const count = {};
@@ -300,11 +301,9 @@ const UserContestDetails = () => {
                     },
                 },
             );
-            console.log(
-                'Response of update team: ',
-                response.data.data[0].matchDetails,
-            );
-            // setContest(response.data.data[0]);
+
+            setContest(response.data.data[0]);
+
             setPlayers(response.data.data[0].user11);
 
             if (response.data.statusCode === 200) {
@@ -365,6 +364,7 @@ const UserContestDetails = () => {
 
     // console.log('user Contests: ', contest);
     // console.log('Opponent Contests: ', opponentContest);
+    const [activeTab, setActiveTab] = useState('WK');
     const rolePriority = {
         'WK-Batsman': 1,
         Batsman: 2,
@@ -383,6 +383,28 @@ const UserContestDetails = () => {
     const sortedOpponentPlayers = opponentPlayers.sort((a, b) => {
         return rolePriority[a.role] - rolePriority[b.role];
     });
+    const roleMap = {
+        WK: ['WK-Batsman'],
+        BAT: ['Batsman'],
+        AR: ['Batting Allrounder', 'Bowling Allrounder'],
+        BOWL: ['Bowler'],
+    };
+    const roles = Object.keys(roleMap);
+    const filteredPlayers = sortedPlayers.filter(player =>
+        roleMap[activeTab].includes(player.role)
+    );
+    const selectedCounts = {
+        WK: 0,
+        BAT: 0,
+        AR: 0,
+        BOWL: 0,
+    };
+
+    for (const role in roleMap) {
+        selectedCounts[role] = sortedPlayers.filter(
+            player => isPlayerSelected(player.id) && roleMap[role].includes(player.role)
+        ).length;
+    }
 
     const checkTextWidth = (text) => {
         const span = document.createElement('span');
@@ -669,7 +691,7 @@ const UserContestDetails = () => {
                     )}
 
                     {isUpdate && (
-                        <div className="md:w-[90%]">
+                        <div className="md:w-[60%]">
                             <div className='flex '>
                                 {Object.entries(teamPlayerCount).map(([teamName, count]) => (
                                     <div key={teamName} className='mx-auto'>
@@ -702,22 +724,39 @@ const UserContestDetails = () => {
 
 
                             </div>
+                            <div className="flex bg-gray-100 rounded-sm overflow-hidden shadow-md w-full mt-4">
+                                {roles.map(role => (
+                                    <>
+                                        <button
+                                            key={role}
+                                            onClick={() => setActiveTab(role)}
+                                            className={`flex-1 px-6 py-2 text-sm font-bold capitalize transition-colors duration-200  ${activeTab === role
+                                                ? "bg-white text-red-600 shadow border-b-2 border-red-600"
+                                                : "text-gray-600 hover:bg-gray-300"
+                                                }`}
+                                        >
+                                            {role} ({selectedCounts[role]})
+                                        </button>
+                                    </>
+                                ))}
+
+                            </div>
                             <form
                                 className=""
                                 onSubmit={handleSubmitTeam}
                             >
                                 <div className="overflow-x-auto">
-                                    <div className="max-h-[60vh] overflow-y-auto">
+                                    <div className="h-[45vh] overflow-y-auto bg-white border-b-2 border-gray-300">
                                         <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
                                             <thead>
                                                 <tr className="text-left border-b-2 bg-slate-300">
-                                                    <th className="py-2 text-md px-4 w-40">
+                                                    {/* <th className="py-2 text-md px-4 w-40">
                                                         Role
-                                                    </th>
+                                                    </th> */}
+                                                    <th className="px-4 ">Team</th>
                                                     <th className="py-2 text-md px-4 w-56">
                                                         Player Name
                                                     </th>
-                                                    <th className="px-4 ">Team</th>
                                                     <th className="py-2 px-4 text-center">
                                                         C
                                                     </th>
@@ -727,12 +766,12 @@ const UserContestDetails = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {playersSelection.map((player) => (
+                                                {filteredPlayers.map((player) => (
                                                     <tr
                                                         key={player.id}
                                                         className={` ${isPlayerSelected(player.id)
-                                                            ? 'bg-yellow-100 cursor-pointer'
-                                                            : 'hover:bg-fuchsia-100'
+                                                            ? 'bg-yellow-50 cursor-pointer'
+                                                            : 'hover:bg-fuchsia-50'
                                                             } ${!isPlayerSelected(player.id) && isMaxSelected ? 'cursor-not-allowed opacity-40 ' : 'cursor-pointer'
                                                             }`
                                                         }
@@ -742,14 +781,12 @@ const UserContestDetails = () => {
                                                             )
                                                         }
                                                     >
-                                                        <td className="py-2 px-4 border-b">
+                                                        {/* <td className="py-2 px-4 border-b">
                                                             {player.role}
-                                                        </td>
+                                                        </td> */}
+                                                        <td className="py-2 px-7 border-b">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym : contest.matchDetails.teamBAcronym}</td>
                                                         <td className="py-2 px-4 border-b">
                                                             {player.name}
-                                                        </td>
-                                                        <td className="py-2 px-4 border-b">
-                                                            {player.team}
                                                         </td>
                                                         <td className="py-2 px-4 border-b text-center">
                                                             <label
