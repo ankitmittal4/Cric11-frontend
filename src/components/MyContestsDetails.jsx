@@ -9,6 +9,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 import ground from '../assets/ground.jpg';
 import Popup from '../features/Popup';
 import warning from '../assets/warning.png';
+import clock from '../assets/clock.png';
 
 import Confetti from 'react-confetti';
 
@@ -37,6 +38,9 @@ const UserContestDetails = () => {
     const [isUpdate, setIsUpdate] = useState(false);
 
     const [matchDetail, setMatchDetail] = useState(null)
+
+    const [activeTab, setActiveTab] = useState('WK');
+    const scrollRef = useRef(null);
 
     const hasFetchded = useRef(false);
     const [confettiSize, setConfettiSize] = useState({
@@ -68,6 +72,7 @@ const UserContestDetails = () => {
             }, 10);
         }
     }, [isWinner]);
+
 
     useEffect(() => {
         if (!hasFetchded.current) {
@@ -364,7 +369,14 @@ const UserContestDetails = () => {
 
     // console.log('user Contests: ', contest);
     // console.log('Opponent Contests: ', opponentContest);
-    const [activeTab, setActiveTab] = useState('WK');
+
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = 0;
+        }
+    }, [activeTab]);
+
     const rolePriority = {
         'WK-Batsman': 1,
         Batsman: 2,
@@ -439,6 +451,44 @@ const UserContestDetails = () => {
         hours = hours % 12 || 12;
         return `${hours}:${minutes} ${period}`;
     }
+    const [timeLeft, setTimeLeft] = useState("");
+
+    const getTimeLeft = (matchDate, matchTime) => {
+        const matchStart = new Date(`${matchDate}T${matchTime}:00`);
+        const now = new Date();
+
+
+        // const today = new Date();
+        const tomorrow = new Date();
+        tomorrow.setDate(now.getDate() + 1);
+        if (matchStart.getDate() === tomorrow.getDate() &&
+            matchStart.getMonth() === tomorrow.getMonth() &&
+            matchStart.getFullYear() === tomorrow.getFullYear()) {
+            console.log("tomorrow");
+            return "tomorrow"
+        }
+
+        const diffMs = matchStart - now;
+        if (diffMs > 24 * 60 * 60 * 1000) return null;
+
+        const diffSec = Math.floor(diffMs / 1000);
+        const hours = Math.floor(diffSec / 3600);
+        const minutes = Math.floor((diffSec % 3600) / 60);
+        const seconds = diffSec % 60;
+
+        return `${hours > 0 ? `${hours}h` : ''} ${minutes > 0 ? `${minutes}m` : ''} ${seconds}s`;
+    };
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const updated = getTimeLeft(
+                contest.matchDetails.date,
+                contest.matchDetails.startTime
+            );
+            setTimeLeft(updated);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [contest?.matchDetails?.date, contest?.matchDetails?.startTime]);
     // console.log(contest.matchDetails);
     if (!contest)
         return (
@@ -457,7 +507,40 @@ const UserContestDetails = () => {
                     gravity={0.2}
                 />
             )}
-            <h1 className="text-2xl font-bold mb-5 text-gray-600 text-center mt-4">
+            {(() => {
+                const timeLeft = getTimeLeft(
+                    contest.matchDetails.date,
+                    contest.matchDetails.startTime,
+                );
+                const formattedDate = contest.matchDetails.date
+                    .split('-')
+                    .reverse()
+                    .join('-');
+                return (
+                    <p className="text-center text-sm text-red-500 font-semibold">
+                        {timeLeft === "tomorrow" ? (
+                            <p className='font-bold mb-1'>
+                                Tomorrow
+                                <br />
+                            </p>
+                        ) : timeLeft ? (
+                            <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
+                                <img src={clock} alt="" className='h-3 w-3 mr-1' />
+                                <span className="font-bold">
+                                    {timeLeft} left
+                                </span>
+                            </div>
+                        ) : (
+                            <>
+                                {/* {formattedDate} */}
+                                <br />
+                            </>
+                        )}
+
+                    </p>
+                );
+            })()}
+            <h1 className="text-2xl font-bold mb-5 text-gray-600 text-center">
                 {contest.matchDetails.name}
             </h1>
 
@@ -746,7 +829,7 @@ const UserContestDetails = () => {
                                 onSubmit={handleSubmitTeam}
                             >
                                 <div className="overflow-x-auto">
-                                    <div className="h-[45vh] overflow-y-auto bg-white border-b-2 border-gray-300">
+                                    <div className="h-[45vh] overflow-y-auto bg-white border-b-2 border-gray-300" ref={scrollRef}>
                                         <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
                                             <thead>
                                                 <tr className="text-left border-b-2 bg-slate-300">
