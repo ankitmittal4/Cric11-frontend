@@ -12,7 +12,6 @@ import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const SignIn = () => {
-    console.log('APi url: ', API_URL);
     const navigate = useNavigate();
     useEffect(() => {
         if (localStorage.getItem('accessToken')) {
