@@ -4,7 +4,7 @@ import axios from "axios";
 import close from '../../assets/close.png';
 const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
-const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, fetchTransactions }, ref) => {
+const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, fetchTransactions = () => { } }, ref) => {
     const [visible, setVisible] = useState(false);
     const [amount, setAmount] = useState("");
     const inputRef = useRef(null);
@@ -151,7 +151,7 @@ AddMoneyPopup.propTypes = {
     API_URL: PropTypes.string.isRequired,
     accessToken: PropTypes.string.isRequired,
     walletBalance: PropTypes.number.isRequired,
-    fetchTransactions: PropTypes.func.isRequired,
+    fetchTransactions: PropTypes.func,
 };
 
 export default AddMoneyPopup;
