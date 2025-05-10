@@ -161,7 +161,16 @@ const ContestDetails = () => {
     const handleJoinContest = async () => {
         const accessToken = localStorage.getItem('accessToken');
 
-
+        const timeLeft = getTimeLeft(
+            contest.matchDetails.date,
+            contest.matchDetails.startTime,
+        );
+        if (timeLeft === "Match Started") {
+            alert('Contest has already started');
+            setIsModalOpen(false);
+            navigate('/');
+            return;
+        }
 
         // console.log("accessToken: ", accessToken);
         const contestData = {
@@ -330,6 +339,7 @@ const ContestDetails = () => {
         }
 
         const diffMs = matchStart - now;
+        if (diffMs <= 0) return "Match Started";
         if (diffMs > 24 * 60 * 60 * 1000) return null;
 
         const diffSec = Math.floor(diffMs / 1000);
@@ -382,7 +392,7 @@ const ContestDetails = () => {
                             <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
                                 <img src={clock} alt="" className='h-3 w-3 mr-1' />
                                 <span className="font-bold">
-                                    {timeLeft} left
+                                    {timeLeft}{timeLeft === "Match Started" ? "" : " left"}
                                 </span>
                             </div>
                         ) : (
