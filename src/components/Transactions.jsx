@@ -16,40 +16,39 @@ const Transactions = () => {
     const limit = 10
 
     // Fetch transactions from API
-    useEffect(() => {
-        const fetchTransactions = async () => {
-            try {
-                const response = await axios.get(
-                    `${API_URL}/transactions/all`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
+    const fetchTransactions = async () => {
+        try {
+            const response = await axios.get(
+                `${API_URL}/transactions/all`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
                     },
-                );
-                // console.log(
-                //     'Transaction response: ',
-                //     response.data.data.walletBalance,
-                // );
-                setWalletBalance(response.data.data.walletBalance);
+                },
+            );
+            // console.log(
+            //     'Transaction response: ',
+            //     response.data.data.walletBalance,
+            // );
+            setWalletBalance(response.data.data.walletBalance);
 
-                const reversedTransactions = [
-                    ...response.data.data.transactions,
-                ].reverse();
+            const reversedTransactions = [
+                ...response.data.data.transactions,
+            ].reverse();
 
-                const totalTransactions = reversedTransactions.length;
-                const startIndex = (currentPage - 1) * limit;
-                const endIndex = startIndex + limit;
-                const paginateTransactions = reversedTransactions.slice(startIndex, endIndex);
-                // console.log(currentPage);
-                // setTransactions(reversedTransactions);
-                setTransactions(paginateTransactions);
-                setTotalPages(Math.ceil(totalTransactions / limit));
-            } catch (error) {
-                console.error('Error fetching transactions:', error);
-            }
-        };
-
+            const totalTransactions = reversedTransactions.length;
+            const startIndex = (currentPage - 1) * limit;
+            const endIndex = startIndex + limit;
+            const paginateTransactions = reversedTransactions.slice(startIndex, endIndex);
+            // console.log(currentPage);
+            // setTransactions(reversedTransactions);
+            setTransactions(paginateTransactions);
+            setTotalPages(Math.ceil(totalTransactions / limit));
+        } catch (error) {
+            console.error('Error fetching transactions:', error);
+        }
+    };
+    useEffect(() => {
         fetchTransactions();
     }, [currentPage]);
 
@@ -71,9 +70,80 @@ const Transactions = () => {
         setAddMoneyPopup(false);
     }
     const addMoney = async () => {
+        setAmount();
         setAddMoneyPopup(true);
-
     }
+
+    //Razorpay payment code
+    const loadRazorpayScript = () => {
+        return new Promise((resolve) => {
+            const script = document.createElement("script");
+            script.src = "https://checkout.razorpay.com/v1/checkout.js";
+            script.onload = () => resolve(true);
+            script.onerror = () => resolve(false);
+            document.body.appendChild(script);
+        });
+    };
+
+    const handlePayment = async (amount) => {
+        setAddMoneyPopup(false);
+        const res = await loadRazorpayScript();
+        if (!res) {
+            alert("Razorpay SDK failed to load");
+            return;
+        }
+
+        const response = await axios.post(`${API_URL}/payment/create-order`, { amount: amount }, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+
+        });
+        const { order } = response.data;
+
+        const options = {
+            key: "rzp_test_p0GiDzjRCTqVZY", // Public key
+            amount: order.amount,
+            currency: order.currency,
+            name: "Cric 11",
+            description: "Test payment",
+            order_id: order.id,
+            prefill: {
+                name: "John Doe",
+                email: "john@example.com",
+                contact: "9999999999",
+            },
+            theme: {
+                color: "#528ff0",
+            },
+            //This function runs only if payment is successful
+            handler: async function (response) {
+                try {
+                    const verifyRes = await axios.post(`${API_URL}/payment/verify`, {
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_signature: response.razorpay_signature,
+                        amount: amount,
+                    }, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+
+                    alert("Payment Successful & Verified ✅");
+                    fetchTransactions();
+                } catch (err) {
+                    alert("Payment succeeded, but verification failed ❌");
+                    console.error(err);
+                }
+            },
+        }
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+    };
 
     return (
         <div className="container mx-auto p-4">
@@ -163,7 +233,7 @@ const Transactions = () => {
                         </p>
 
                         <button
-                            onClick={closeAddMoneyPopup}
+                            onClick={() => handlePayment(amount)}
                             disabled={isDisabled}
                             className={`mt-10 w-full font-bold text-sm px-4 py-2 rounded bg-green-600 text-white
                                 ${isDisabled ? 'cursor-not-allowed' : ' hover:bg-green-700 '}`}
