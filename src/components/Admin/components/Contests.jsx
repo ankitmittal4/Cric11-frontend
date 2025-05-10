@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const API_URL = import.meta.env.VITE_API_URL;
 import Popup from '../../../features/Popup';
 
 const Contests = () => {
+    const navigate = useNavigate();
     const [contests, setContests] = useState([]);
 
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState('');
 
+
     useEffect(() => {
+        if (!localStorage.getItem('adminAccessToken')) {
+            navigate('/admin/signin');
+        }
         const fetchContests = async () => {
             const response = await axios.get(
                 `${API_URL}/contests/all-contests`,

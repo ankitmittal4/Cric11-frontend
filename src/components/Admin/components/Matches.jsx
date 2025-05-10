@@ -11,6 +11,11 @@ const Matches = () => {
     const [loading, setLoading] = useState(false);
     const limit = 10;
     const navigate = useNavigate();
+    useEffect(() => {
+        if (!localStorage.getItem('adminAccessToken')) {
+            navigate('/admin/signin');
+        }
+    }, []);
     const handleCreateContest = (matchId, t1, t2, t1img, t2img, series) => {
         // console.log('matchId: ', t1img);
         // console.log(t1, ":", t2);

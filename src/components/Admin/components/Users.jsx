@@ -1,15 +1,22 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 // import dummyUsers from "../dummyUsers";
 
 const Users = () => {
+    const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
     const limit = 10;
 
+    useEffect(() => {
+        if (!localStorage.getItem('adminAccessToken')) {
+            navigate('/admin/signin');
+        }
+    }, []);
     // const fetchUsers = async (page) => {
     //   setLoading(true);
     //   try {
