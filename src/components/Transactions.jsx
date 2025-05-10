@@ -129,7 +129,7 @@ const Transactions = () => {
 
 // Transaction Card Component
 const TransactionCard = ({ transaction }) => {
-    const { _id, amount, transactionType, transactionStatus, createdAt } =
+    const { _id, amount, transactionType, transactionStatus, message, createdAt } =
         transaction;
     const istDate = toZonedTime(createdAt, 'Asia/Kolkata');
     const formattedDate = format(istDate, 'dd-MM-yyyy', {
@@ -144,27 +144,27 @@ const TransactionCard = ({ transaction }) => {
 
     return (
         <div className="bg-slate-100 p-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <div className="flex justify-between items-center">
-                <div>
+            <div className="flex justify-between ">
+                <div className='flex-col '>
 
-                    <p className="text-lg font-semibold">
+                    <p className="text-lg font-semibold ">
                         {/* Amount:{' '} */}
                         <span
                             className={
                                 transactionType === 'credit'
                                     ? 'text-green-600'
-                                    : transactionType === ''
+                                    : transactionType === 'nothing'
                                         ? 'text-gray-500 line-through'
                                         : 'text-red-600'
                             }
                         >
-                            {transactionType === 'credit' ? '+' : '-'}{' '}
+                            {transactionType === 'credit' ? '+' : transactionType === 'debit' ? '-' : ''}{' '}
                             ₹{amount}
                         </span>
                     </p>
 
                     <p
-                        className={`text-md font-semibold ${transactionStatus === 'success'
+                        className={`text-md font-semibold h-6 ${transactionStatus === 'success'
                             ? 'text-green-600'
                             : transactionStatus === 'pending'
                                 ? 'text-yellow-600'
@@ -178,20 +178,9 @@ const TransactionCard = ({ transaction }) => {
                     </p>
 
                 </div>
-                <div className="text-right">
-                    <p className="text-lg font-semibold">
-                        <span
-                            className={
-                                transactionType === 'credit'
-                                    ? 'text-green-600'
-                                    : transactionType === ''
-                                        ? 'text-gray-600'
-                                        : 'text-red-600'
-
-                            }
-                        >
-                            {capitaliseFirstLetter(transactionType)}
-                        </span>
+                <div className="text-right items-center">
+                    <p className="text-base text-gray-700 mb-2">
+                        {message}
                     </p>
                     <p className="text-gray-600 text-sm">{formattedDate}</p>
                     <p className="text-gray-600 text-sm">{formattedTime}</p>
@@ -206,6 +195,7 @@ TransactionCard.propTypes = {
         _id: PropTypes.string.isRequired,
         amount: PropTypes.number.isRequired,
         transactionType: PropTypes.oneOf(['credit', 'debit']).isRequired,
+        message: PropTypes.string,
         transactionStatus: PropTypes.oneOf(['success', 'failed', 'pending'])
             .isRequired,
         createdAt: PropTypes.string.isRequired,
