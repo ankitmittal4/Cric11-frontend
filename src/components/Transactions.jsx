@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL;
 import PropTypes from 'prop-types';
+import close from '../assets/close.png';
 import { format, toZonedTime } from 'date-fns-tz';
 
 const Transactions = () => {
@@ -131,9 +132,13 @@ const Transactions = () => {
 
                         <button
                             onClick={closeAddMoneyPopup}
-                            className="absolute top-2 right-2  text-red-500 px-3 py-1 text-md font-bold rounded hover:text-red-600"
+                            className="absolute top-2 right-2  text-red-500 px-1 py-1 text-md font-bold rounded hover:text-red-600"
                         >
-                            X
+                            <img
+                                className="h-5 w-5 text-center mx-auto"
+                                src={close}
+                                alt="close"
+                            ></img>
                         </button>
 
                         <div className="">
