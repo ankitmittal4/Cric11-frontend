@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL;
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import { format, toZonedTime } from 'date-fns-tz';
 const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
 const Transactions = () => {
+    const inputRef = useRef(null);
     const accessToken = localStorage.getItem('accessToken');
     const [transactions, setTransactions] = useState([]);
     const [walletBalance, setWalletBalance] = useState(0); // Example wallet balance
@@ -15,6 +16,7 @@ const Transactions = () => {
     const [amount, setAmount] = useState();
     const [addMoneyPopup, setAddMoneyPopup] = useState(false)
     const limit = 10
+
 
     // Fetch transactions from API
     const fetchTransactions = async () => {
@@ -53,6 +55,12 @@ const Transactions = () => {
         fetchTransactions();
     }, [currentPage]);
 
+    useEffect(() => {
+        if (addMoneyPopup && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [addMoneyPopup]);
+
     // useEffect(() => {
     //     // fetchTransactions(currentPage);
     //     console.log(currentPage);
@@ -74,7 +82,11 @@ const Transactions = () => {
         setAmount();
         setAddMoneyPopup(true);
     }
-
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            handlePayment(amount);
+        }
+    }
     //Razorpay payment code
     const loadRazorpayScript = () => {
         return new Promise((resolve) => {
@@ -87,12 +99,13 @@ const Transactions = () => {
     };
 
     const handlePayment = async (amount) => {
-        setAddMoneyPopup(false);
+
         const res = await loadRazorpayScript();
         if (!res) {
             alert("Razorpay SDK failed to load");
             return;
         }
+
 
         const response = await axios.post(`${API_URL}/payment/create-order`, { amount: amount }, {
             headers: {
@@ -101,6 +114,7 @@ const Transactions = () => {
             },
         });
         const { order } = response.data;
+        setAddMoneyPopup(false);
 
         const options = {
             key: RAZORPAY_KEY_ID,
@@ -222,11 +236,13 @@ const Transactions = () => {
                             <div className="relative inline-block ml-1">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">₹</span>
                                 <input
+                                    ref={inputRef}
                                     type="number"
                                     value={amount}
                                     onChange={(e) => setAmount(e.target.value)}
                                     className="border border-gray-300 rounded pl-6 pr-2 py-1 outline-none"
                                     placeholder="Enter amount"
+                                    onKeyDown={(e) => handleKeyDown(e)}
                                 />
 
                             </div>
@@ -234,6 +250,7 @@ const Transactions = () => {
 
                         <button
                             onClick={() => handlePayment(amount)}
+                            // onClick={handlePayment}
                             disabled={isDisabled}
                             className={`mt-10 w-full font-bold text-sm px-4 py-2 rounded bg-green-600 text-white
                                 ${isDisabled ? 'cursor-not-allowed' : ' hover:bg-green-700 '}`}
