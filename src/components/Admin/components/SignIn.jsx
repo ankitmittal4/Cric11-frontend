@@ -126,7 +126,7 @@ const LoginForm = () => {
       <div className=" flex items-center justify-center bg-white">
         <div className="  rounded  w-full max-w-sm">
           <h2 className="text-3xl font-bold mb-10 mt-16 text-center text-black tracking-wider">
-            Login
+            Admin Login
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-6">

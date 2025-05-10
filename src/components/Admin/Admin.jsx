@@ -6,7 +6,7 @@ import DashboardRoutes from "./components/DashboardRoutes";
 function Admin() {
   return (
     <Routes>
-      <Route path="/" element={<SignIn />} />
+      <Route path="/signin" element={<SignIn />} />
       <Route path="dashboard/*" element={<DashboardRoutes />} />
     </Routes>
   );
