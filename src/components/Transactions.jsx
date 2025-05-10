@@ -4,6 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 import PropTypes from 'prop-types';
 import close from '../assets/close.png';
 import { format, toZonedTime } from 'date-fns-tz';
+const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
 const Transactions = () => {
     const accessToken = localStorage.getItem('accessToken');
@@ -98,12 +99,11 @@ const Transactions = () => {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${accessToken}`,
             },
-
         });
         const { order } = response.data;
 
         const options = {
-            key: "rzp_test_p0GiDzjRCTqVZY", // Public key
+            key: RAZORPAY_KEY_ID,
             amount: order.amount,
             currency: order.currency,
             name: "Cric 11",
