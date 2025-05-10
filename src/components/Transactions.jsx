@@ -2,19 +2,17 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL;
 import PropTypes from 'prop-types';
-import close from '../assets/close.png';
 import { format, toZonedTime } from 'date-fns-tz';
-const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
+import AddMoneyPopup from './Payment/AddMoneyPopup';
+
 
 const Transactions = () => {
-    const inputRef = useRef(null);
+    const popupRef = useRef();
     const accessToken = localStorage.getItem('accessToken');
     const [transactions, setTransactions] = useState([]);
     const [walletBalance, setWalletBalance] = useState(0); // Example wallet balance
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1)
-    const [amount, setAmount] = useState();
-    const [addMoneyPopup, setAddMoneyPopup] = useState(false)
     const limit = 10
 
 
@@ -55,17 +53,6 @@ const Transactions = () => {
         fetchTransactions();
     }, [currentPage]);
 
-    useEffect(() => {
-        if (addMoneyPopup && inputRef.current) {
-            inputRef.current.focus();
-        }
-    }, [addMoneyPopup]);
-
-    // useEffect(() => {
-    //     // fetchTransactions(currentPage);
-    //     console.log(currentPage);
-    // }, [currentPage]);
-
     const handlePageChange = (page) => {
         window.scrollTo(0, 0);
         if (page > 0 && page <= totalPages) {
@@ -73,90 +60,8 @@ const Transactions = () => {
         }
     };
 
-    //Payment code
-    const isDisabled = !amount || Number(amount) <= 0;
-    const closeAddMoneyPopup = () => {
-        setAddMoneyPopup(false);
-    }
-    const addMoney = async () => {
-        setAmount();
-        setAddMoneyPopup(true);
-    }
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            handlePayment(amount);
-        }
-    }
-    //Razorpay payment code
-    const loadRazorpayScript = () => {
-        return new Promise((resolve) => {
-            const script = document.createElement("script");
-            script.src = "https://checkout.razorpay.com/v1/checkout.js";
-            script.onload = () => resolve(true);
-            script.onerror = () => resolve(false);
-            document.body.appendChild(script);
-        });
-    };
-
-    const handlePayment = async (amount) => {
-
-        const res = await loadRazorpayScript();
-        if (!res) {
-            alert("Razorpay SDK failed to load");
-            return;
-        }
-
-
-        const response = await axios.post(`${API_URL}/payment/create-order`, { amount: amount }, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`,
-            },
-        });
-        const { order } = response.data;
-        setAddMoneyPopup(false);
-
-        const options = {
-            key: RAZORPAY_KEY_ID,
-            amount: order.amount,
-            currency: order.currency,
-            name: "Cric 11",
-            description: "Test payment",
-            order_id: order.id,
-            prefill: {
-                name: "John Doe",
-                email: "john@example.com",
-                contact: "9999999999",
-            },
-            theme: {
-                color: "#528ff0",
-            },
-            //This function runs only if payment is successful
-            handler: async function (response) {
-                try {
-                    const verifyRes = await axios.post(`${API_URL}/payment/verify`, {
-                        razorpay_payment_id: response.razorpay_payment_id,
-                        razorpay_order_id: response.razorpay_order_id,
-                        razorpay_signature: response.razorpay_signature,
-                        amount: amount,
-                    }, {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    });
-
-                    alert("Payment Successful & Verified ✅");
-                    fetchTransactions();
-                } catch (err) {
-                    alert("Payment succeeded, but verification failed ❌");
-                    console.error(err);
-                }
-            },
-        }
-
-        const rzp = new window.Razorpay(options);
-        rzp.open();
+    const openAddMoneyPopup = () => {
+        popupRef.current?.show();
     };
 
     return (
@@ -169,7 +74,7 @@ const Transactions = () => {
                         ₹{walletBalance}
                     </span>
                 </div>
-                <button className="absolute right-0 text-white bg-red-600 px-5 py-2 rounded-md whitespace-nowrap hover:bg-red-700" onClick={() => addMoney()}>
+                <button className="absolute right-0 text-white bg-red-600 px-5 py-2 rounded-md whitespace-nowrap hover:bg-red-700" onClick={() => openAddMoneyPopup()}>
                     Add money to wallet
                 </button>
             </div>
@@ -209,62 +114,18 @@ const Transactions = () => {
             ) : (
                 <p className="text-gray-500 text-center">No transactions found.</p>
             )}
-            {addMoneyPopup && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="relative bg-white p-6 rounded-lg shadow-lg pl-9 pr-9 min-w-[23%] ">
 
-
-                        <button
-                            onClick={closeAddMoneyPopup}
-                            className="absolute top-2 right-2  text-red-500 px-1 py-1 text-md font-bold rounded hover:text-red-600"
-                        >
-                            <img
-                                className="h-5 w-5 text-center mx-auto"
-                                src={close}
-                                alt="close"
-                            ></img>
-                        </button>
-
-                        <div className="">
-                            <p className="text-lg text-gray-700 font-semibold">
-                                Current Balance: ₹{walletBalance}
-                            </p>
-                        </div>
-
-                        <p className="text-lg text-gray-700 font-semibold mt-8">
-                            Amount to add:
-                            <div className="relative inline-block ml-1">
-                                <span className="absolute inset-y-0 left-0 flex items-center pl-3">₹</span>
-                                <input
-                                    ref={inputRef}
-                                    type="number"
-                                    value={amount}
-                                    onChange={(e) => setAmount(e.target.value)}
-                                    className="border border-gray-300 rounded pl-6 pr-2 py-1 outline-none"
-                                    placeholder="Enter amount"
-                                    onKeyDown={(e) => handleKeyDown(e)}
-                                />
-
-                            </div>
-                        </p>
-
-                        <button
-                            onClick={() => handlePayment(amount)}
-                            // onClick={handlePayment}
-                            disabled={isDisabled}
-                            className={`mt-10 w-full font-bold text-sm px-4 py-2 rounded bg-green-600 text-white
-                                ${isDisabled ? 'cursor-not-allowed' : ' hover:bg-green-700 '}`}
-                        >
-                            VERIFY TO ADD ₹{amount || 0}
-                        </button>
-
-                    </div>
-                </div >
-
-            )}
+            <AddMoneyPopup
+                ref={popupRef}
+                API_URL={API_URL}
+                accessToken={accessToken}
+                walletBalance={walletBalance}
+                fetchTransactions={fetchTransactions}
+            />
         </div >
     );
 };
+
 
 // Transaction Card Component
 const TransactionCard = ({ transaction }) => {
