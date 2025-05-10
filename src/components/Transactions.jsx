@@ -132,10 +132,10 @@ const TransactionCard = ({ transaction }) => {
     const { _id, amount, transactionType, transactionStatus, createdAt } =
         transaction;
     const istDate = toZonedTime(createdAt, 'Asia/Kolkata');
-    const formattedDate = format(istDate, 'dd/MM/yyyy', {
+    const formattedDate = format(istDate, 'dd-MM-yyyy', {
         timeZone: 'Asia/Kolkata',
     });
-    const formattedTime = format(istDate, 'hh:mm:ss a', {
+    const formattedTime = format(istDate, 'hh:mm a', {
         timeZone: 'Asia/Kolkata',
     });
     const capitaliseFirstLetter = (str) => {
@@ -146,49 +146,58 @@ const TransactionCard = ({ transaction }) => {
         <div className="bg-slate-100 p-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
             <div className="flex justify-between items-center">
                 <div>
-                    <p className="text-gray-600 text-sm">
-                        Transaction ID: {_id}
-                    </p>
+
                     <p className="text-lg font-semibold">
-                        Amount:{' '}
+                        {/* Amount:{' '} */}
                         <span
                             className={
                                 transactionType === 'credit'
                                     ? 'text-green-600'
-                                    : 'text-red-600'
+                                    : transactionType === ''
+                                        ? 'text-gray-500 line-through'
+                                        : 'text-red-600'
                             }
                         >
+                            {transactionType === 'credit' ? '+' : '-'}{' '}
                             ₹{amount}
                         </span>
                     </p>
-                    <p className="text-lg font-semibold">
-                        <span
-                            className={
-                                transactionType === 'credit'
-                                    ? 'text-green-600'
-                                    : 'text-red-600'
-                            }
-                        >
-                            {capitaliseFirstLetter(transactionType)}
-                        </span>
-                    </p>
-                </div>
-                <div className="text-right">
-                    <p className="text-gray-600 text-sm">{formattedDate}</p>
-                    <p className="text-gray-600 text-sm">{formattedTime}</p>
+
                     <p
-                        className={`text-sm font-semibold ${transactionStatus === 'success'
+                        className={`text-md font-semibold ${transactionStatus === 'success'
                             ? 'text-green-600'
                             : transactionStatus === 'pending'
                                 ? 'text-yellow-600'
                                 : 'text-red-600'
                             }`}
                     >
-                        {capitaliseFirstLetter(transactionStatus)}
+                        {transactionStatus === 'failed' && capitaliseFirstLetter(transactionStatus)}
                     </p>
+                    <p className="text-gray-600 text-sm">
+                        Transaction ID: {_id}
+                    </p>
+
+                </div>
+                <div className="text-right">
+                    <p className="text-lg font-semibold">
+                        <span
+                            className={
+                                transactionType === 'credit'
+                                    ? 'text-green-600'
+                                    : transactionType === ''
+                                        ? 'text-gray-600'
+                                        : 'text-red-600'
+
+                            }
+                        >
+                            {capitaliseFirstLetter(transactionType)}
+                        </span>
+                    </p>
+                    <p className="text-gray-600 text-sm">{formattedDate}</p>
+                    <p className="text-gray-600 text-sm">{formattedTime}</p>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
