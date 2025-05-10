@@ -129,7 +129,7 @@ const Transactions = () => {
 
 // Transaction Card Component
 const TransactionCard = ({ transaction }) => {
-    const { _id, amount, transactionType, transactionStatus, message, createdAt } =
+    const { _id, amount, transactionId, transactionType, transactionStatus, message, createdAt } =
         transaction;
     const istDate = toZonedTime(createdAt, 'Asia/Kolkata');
     const formattedDate = format(istDate, 'dd-MM-yyyy', {
@@ -174,7 +174,7 @@ const TransactionCard = ({ transaction }) => {
                         {transactionStatus === 'failed' && capitaliseFirstLetter(transactionStatus)}
                     </p>
                     <p className="text-gray-600 text-sm">
-                        Transaction ID: {_id}
+                        Transaction ID: {transactionId || _id}
                     </p>
 
                 </div>
@@ -193,6 +193,7 @@ const TransactionCard = ({ transaction }) => {
 TransactionCard.propTypes = {
     transaction: PropTypes.shape({
         _id: PropTypes.string.isRequired,
+        transactionId: PropTypes.string,
         amount: PropTypes.number.isRequired,
         transactionType: PropTypes.oneOf(['credit', 'debit']).isRequired,
         message: PropTypes.string,

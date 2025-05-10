@@ -47,7 +47,6 @@ const WalletBalance = () => {
                 API_URL={API_URL}
                 accessToken={accessToken}
                 walletBalance={balance}
-            // fetchTransactions={fetchTransactions}
             />
         </>
     );
