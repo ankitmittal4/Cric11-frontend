@@ -65,60 +65,11 @@ const Home = () => {
         return `${hours}:${minutes} ${period}`;
     }
 
-    //Razorpay payment code
-    const loadRazorpayScript = () => {
-        return new Promise((resolve) => {
-            const script = document.createElement("script");
-            script.src = "https://checkout.razorpay.com/v1/checkout.js";
-            script.onload = () => resolve(true);
-            script.onerror = () => resolve(false);
-            document.body.appendChild(script);
-        });
-    };
 
-    const handlePayment = async (amount = 500) => {
-        const res = await loadRazorpayScript();
-        if (!res) {
-            alert("Razorpay SDK failed to load");
-            return;
-        }
-
-
-        const response = await axios.post(`${API_URL}/payment/create-order`, { amount: amount }, {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        const { order } = response.data;
-
-        const options = {
-            key: "rzp_test_p0GiDzjRCTqVZY", // Public key
-            amount: order.amount,
-            currency: order.currency,
-            name: "Your App",
-            description: "Test payment",
-            order_id: order.id,
-            handler: (response) => {
-                alert("Payment Successful: " + response.razorpay_payment_id);
-            },
-            prefill: {
-                name: "John Doe",
-                email: "john@example.com",
-                contact: "9999999999",
-            },
-            theme: {
-                color: "#528ff0",
-            },
-        };
-
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-    };
 
 
     return (
         <div className="container mx-auto p-4">
-            <button onClick={() => handlePayment(500)}>Pay ₹500</button>
             <h1 className="text-2xl font-bold mb-6 text-gray-600">
                 Upcoming Cricket Matches
             </h1>
