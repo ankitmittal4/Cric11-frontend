@@ -469,6 +469,7 @@ const UserContestDetails = () => {
         }
 
         const diffMs = matchStart - now;
+        if (diffMs <= 0) return "Match Started";
         if (diffMs > 24 * 60 * 60 * 1000) return null;
 
         const diffSec = Math.floor(diffMs / 1000);
@@ -527,7 +528,7 @@ const UserContestDetails = () => {
                             <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
                                 <img src={clock} alt="" className='h-3 w-3 mr-1' />
                                 <span className="font-bold">
-                                    {timeLeft} left
+                                    {timeLeft}{timeLeft === "Match Started" ? "" : " left"}
                                 </span>
                             </div>
                         ) : (
