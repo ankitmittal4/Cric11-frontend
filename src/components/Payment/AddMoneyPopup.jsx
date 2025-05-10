@@ -2,6 +2,7 @@ import React, { useState, useRef, useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import close from '../../assets/close.png';
+import { add } from "date-fns";
 const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
 const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, fetchTransactions = () => { } }, ref) => {
@@ -21,6 +22,9 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
         },
         hide() {
             setVisible(false);
+        },
+        paymentFunction(addAmount) {
+            handlePayment(addAmount);
         }
     }));
 
