@@ -10,6 +10,8 @@ const Transactions = () => {
     const [walletBalance, setWalletBalance] = useState(0); // Example wallet balance
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1)
+    const [amount, setAmount] = useState();
+    const [addMoneyPopup, setAddMoneyPopup] = useState(false)
     const limit = 10
 
     // Fetch transactions from API
@@ -61,6 +63,17 @@ const Transactions = () => {
             setCurrentPage(page);
         }
     };
+
+    //Payment code
+    const isDisabled = !amount || Number(amount) <= 0;
+    const closeAddMoneyPopup = () => {
+        setAddMoneyPopup(false);
+    }
+    const addMoney = async () => {
+        setAddMoneyPopup(true);
+
+    }
+
     return (
         <div className="container mx-auto p-4">
             {/* Wallet Balance */}
@@ -71,7 +84,7 @@ const Transactions = () => {
                         ₹{walletBalance}
                     </span>
                 </div>
-                <button className="absolute right-0 text-white bg-red-600 px-5 py-2 rounded-md whitespace-nowrap hover:bg-red-700">
+                <button className="absolute right-0 text-white bg-red-600 px-5 py-2 rounded-md whitespace-nowrap hover:bg-red-700" onClick={() => addMoney()}>
                     Add money to wallet
                 </button>
             </div>
@@ -111,7 +124,53 @@ const Transactions = () => {
             ) : (
                 <p className="text-gray-500 text-center">No transactions found.</p>
             )}
-        </div>
+            {addMoneyPopup && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="relative bg-white p-6 rounded-lg shadow-lg pl-9 pr-9 min-w-[23%] ">
+
+
+                        <button
+                            onClick={closeAddMoneyPopup}
+                            className="absolute top-2 right-2  text-red-500 px-3 py-1 text-md font-bold rounded hover:text-red-600"
+                        >
+                            X
+                        </button>
+
+                        <div className="">
+                            <p className="text-lg text-gray-700 font-semibold">
+                                Current Balance: ₹{walletBalance}
+                            </p>
+                        </div>
+
+                        <p className="text-lg text-gray-700 font-semibold mt-8">
+                            Amount to add:
+                            <div className="relative inline-block ml-1">
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-3">₹</span>
+                                <input
+                                    type="number"
+                                    value={amount}
+                                    onChange={(e) => setAmount(e.target.value)}
+                                    className="border border-gray-300 rounded pl-6 pr-2 py-1 outline-none"
+                                    placeholder="Enter amount"
+                                />
+
+                            </div>
+                        </p>
+
+                        <button
+                            onClick={closeAddMoneyPopup}
+                            disabled={isDisabled}
+                            className={`mt-10 w-full font-bold text-sm px-4 py-2 rounded bg-green-600 text-white
+                                ${isDisabled ? 'cursor-not-allowed' : ' hover:bg-green-700 '}`}
+                        >
+                            VERIFY TO ADD ₹{amount || 0}
+                        </button>
+
+                    </div>
+                </div >
+
+            )}
+        </div >
     );
 };
 
