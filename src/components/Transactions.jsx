@@ -196,8 +196,8 @@ TransactionCard.propTypes = {
     transaction: PropTypes.shape({
         _id: PropTypes.string.isRequired,
         amount: PropTypes.number.isRequired,
-        transactionType: PropTypes.oneOf(['Deposit', 'Withdraw']).isRequired,
-        transactionStatus: PropTypes.oneOf(['Success', 'Failed', 'Pending'])
+        transactionType: PropTypes.oneOf(['credit', 'debit']).isRequired,
+        transactionStatus: PropTypes.oneOf(['success', 'failed', 'pending'])
             .isRequired,
         createdAt: PropTypes.string.isRequired,
     }).isRequired,

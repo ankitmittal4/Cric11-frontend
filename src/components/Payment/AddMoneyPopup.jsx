@@ -91,6 +91,34 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
             },
         };
         const rzp = new window.Razorpay(options);
+        let failureHandled = false;
+        rzp.on('payment.failed', async function (response) {
+
+            if (failureHandled) return;
+            failureHandled = true;
+            const failureData = {
+                code: response.error.code,
+                description: response.error.description,
+                source: response.error.source,
+                reason: response.error.reason,
+                order_id: response.error.metadata.order_id,
+                payment_id: response.error.metadata.payment_id,
+                amount,
+            };
+
+            try {
+                await axios.post(`${API_URL}/payment/failed`, failureData, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                // console.log("Payment failure logged successfully");
+                fetchTransactions();
+            } catch (err) {
+                console.error("Failed to report payment failure:", err);
+            }
+        });
         rzp.open();
     };
 
