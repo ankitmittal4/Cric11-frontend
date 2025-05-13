@@ -114,7 +114,7 @@ const Matches = () => {
     };
     return (
         <>
-            <h2 className="text-2xl font-bold mb-5">All Upcoming Matches</h2>
+            <h2 className="text-2xl font-bold mb-5">All Upcoming Matches of next 5 days</h2>
             <div className="bg-gray-800 w-full rounded-lg">
                 {loading ? (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
