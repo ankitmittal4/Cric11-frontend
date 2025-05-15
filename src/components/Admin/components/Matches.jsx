@@ -112,9 +112,18 @@ const Matches = () => {
             setCurrentPage(page);
         }
     };
+
+    const convertIn12Hours = (time) => {
+        let [hours, minutes] = time.split(':');
+        hours = parseInt(hours);
+
+        const period = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        return `${hours}:${minutes} ${period}`;
+    }
     return (
         <>
-            <h2 className="text-2xl font-bold mb-5">All Upcoming Matches of next 5 days</h2>
+            <h2 className="text-2xl font-bold mb-5">All Upcoming Matches</h2>
             <div className="bg-gray-800 w-full rounded-lg">
                 {loading ? (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -160,7 +169,7 @@ const Matches = () => {
                                         </td>
                                         <td className="py-2">{match.t2}</td>
                                         <td className="py-2">{match.date}</td>
-                                        <td className="py-2">{match.time}</td>
+                                        <td className="py-2">{convertIn12Hours(match.time)}</td>
                                     </tr>
                                 ))}
                             </tbody>
