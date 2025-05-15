@@ -17,7 +17,7 @@ import Transactions from './components/Transactions';
 import Layout from './components/Layout';
 
 import AdminSignIn from "./components/Admin/components/SignIn";
-// import signIn from "./components/Admin/components/SignIn";
+import DashboardRoutes from './components/Admin/components/DashboardRoutes';
 
 
 import Admin from './components/Admin/Admin';
@@ -81,13 +81,13 @@ const AppContent = () => {
                         path="/admin/*"
                         element={<Admin />}
                     /> */}
-                    <Route
+                    {/* <Route
                         path="/admin/signin"
                         element={<AdminSignIn />}
                     />
-                    {/* <Route
+                    <Route
                         path="/admin/dashboard/*"
-                        element={<Admin />}
+                        element={<DashboardRoutes />}
                     /> */}
                 </Routes>
             </div>
