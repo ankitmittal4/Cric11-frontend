@@ -24,7 +24,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (localStorage.getItem('adminAccessToken')) {
-      navigate('/admin/dashboard');
+      navigate('/admin/dashboard/matches');
     }
   }, []);
 
@@ -62,7 +62,7 @@ const LoginForm = () => {
         const res = await axios.post(`${API_URL}/admin/login`, data);
         // console.log('Response: ', res.data.data.accessToken);
         localStorage.setItem('adminAccessToken', res.data.data.accessToken);
-        navigate('/admin/dashboard');
+        navigate('/admin/dashboard/matches');
         action.resetForm();
       } catch (error) {
         console.error('Login failed:', error);
