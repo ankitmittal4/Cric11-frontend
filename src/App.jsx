@@ -16,6 +16,10 @@ import MyContestDetails from './components/MyContestsDetails';
 import Transactions from './components/Transactions';
 import Layout from './components/Layout';
 
+import AdminSignIn from "./components/Admin/components/SignIn";
+// import signIn from "./components/Admin/components/SignIn";
+
+
 import Admin from './components/Admin/Admin';
 
 const AppContent = () => {
@@ -73,10 +77,18 @@ const AppContent = () => {
                             element={<Transactions />}
                         />
                     </Route>
-                    <Route
+                    {/* <Route
                         path="/admin/*"
                         element={<Admin />}
+                    /> */}
+                    <Route
+                        path="/admin/signin"
+                        element={<AdminSignIn />}
                     />
+                    {/* <Route
+                        path="/admin/dashboard/*"
+                        element={<Admin />}
+                    /> */}
                 </Routes>
             </div>
         </div>
