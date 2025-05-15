@@ -1,9 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import logout from '../../../assets/logout.png';
 const Navbar = () => {
     const navigate = useNavigate();
     const cric11 = () => {
         navigate('/');
+    };
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/admin/signin');
     };
     return (
         <div className="fixed top-0 left-0 w-full bg-gray-900 p-3 flex flex-col z-10">
@@ -29,6 +34,14 @@ const Navbar = () => {
                         alt="Admin Profile"
                         className="w-10 h-10 rounded-full object-cover"
                     />
+                </div>
+                <div className="text-black font-medium">
+                    <img
+                        className="h-7 w-7 text-center mx-auto ml-10 cursor-pointer"
+                        onClick={handleLogout}
+                        src={logout}
+                        alt="logout"
+                    ></img>
                 </div>
             </div>
             <hr className="border-gray-400 mt-3" />
