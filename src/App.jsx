@@ -77,18 +77,11 @@ const AppContent = () => {
                             element={<Transactions />}
                         />
                     </Route>
-                    {/* <Route
+                    <Route
                         path="/admin/*"
                         element={<Admin />}
-                    /> */}
-                    {/* <Route
-                        path="/admin/signin"
-                        element={<AdminSignIn />}
                     />
-                    <Route
-                        path="/admin/dashboard/*"
-                        element={<DashboardRoutes />}
-                    /> */}
+
                 </Routes>
             </div>
         </div>
