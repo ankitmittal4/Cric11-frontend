@@ -48,6 +48,15 @@ const ContestDetails = () => {
 
     const scrollRef = useRef(null);
 
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+    useEffect(() => {
+        const img = new Image();
+        img.src = ground;
+        img.onload = () => setIsImageLoaded(true);
+    }, []);
+
+
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollTop = 0;
@@ -678,7 +687,7 @@ const ContestDetails = () => {
                     </form>
 
                     {
-                        isModalOpen && (
+                        isModalOpen && isImageLoaded && (
                             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 overflow-y-auto">
                                 <div
                                     className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
