@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import WalletBalance from './WalletBalance';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,8 @@ import profile from '../assets/profile.svg';
 
 const NavBar = () => {
     const navigate = useNavigate();
+    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
     const cric11 = () => {
         navigate('/');
     };
@@ -71,7 +73,8 @@ const NavBar = () => {
                         <div className="text-black font-medium">
                             <img
                                 className="h-7 w-7 text-center mx-auto ml-10 cursor-pointer"
-                                onClick={handleLogout}
+                                // onClick={handleLogout}
+                                onClick={() => setShowLogoutConfirm(true)}
                                 src={logout}
                                 alt="logout"
                             ></img>
@@ -79,6 +82,28 @@ const NavBar = () => {
                     </div>
                 </div>
             </nav>
+            {showLogoutConfirm && (
+                <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white p-6 rounded-lg shadow-xl text-center w-82">
+                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Logout</h2>
+                        <p className="text-gray-600 mb-6">Are you sure you want to logout?</p>
+                        <div className="flex justify-center gap-4">
+                            <button
+                                onClick={handleLogout}
+                                className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-10 rounded"
+                            >
+                                Log out
+                            </button>
+                            <button
+                                onClick={() => setShowLogoutConfirm(false)}
+                                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-10 rounded"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 };
