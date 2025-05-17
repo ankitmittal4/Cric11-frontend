@@ -42,6 +42,7 @@ const ContestDetails = () => {
     const [balance, setBalance] = useState(0);
     const [remBalance, setRemBalance] = useState(0);
 
+    const [joinContestLoading, setJoinContestLoading] = useState(false);
 
     const [activeTab, setActiveTab] = useState('WK');
 
@@ -199,7 +200,9 @@ const ContestDetails = () => {
     };
 
     const handleJoinContest = async () => {
+        setJoinContestLoading(true);
         setWalletSummaryPopup(false);
+
         const timeLeft = getTimeLeft(
             contest.matchDetails.date,
             contest.matchDetails.startTime,
@@ -255,7 +258,10 @@ const ContestDetails = () => {
             console.log(
                 error.response?.data?.message || 'Failed to create contest',
             );
+        } finally {
+            setJoinContestLoading(false);
         }
+
     };
     const closePopup = () => {
         setIsPopupVisible(false); // Hide the popup
@@ -806,12 +812,18 @@ const ContestDetails = () => {
                     }
                 </div >
             </div >
-            {isPopupVisible && (
-                <Popup
-                    message={popupMessage}
-                    onClose={closePopup}
-                />
-            )}
+
+            {joinContestLoading ?
+                (<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
+                </div>)
+                :
+                isPopupVisible && (
+                    <Popup
+                        message={popupMessage}
+                        onClose={closePopup}
+                    />
+                )}
             {
                 loading ? (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
