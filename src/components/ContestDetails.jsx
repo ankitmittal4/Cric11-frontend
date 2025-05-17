@@ -836,7 +836,7 @@ const ContestDetails = () => {
 
                                         <div className="flex justify-between">
                                             <span className="font-medium">Contest Entry Fee</span>
-                                            <span className="text-red-600 font-semibold">₹{contest.entryFee}</span>
+                                            <span className="text-red-600 font-semibold">- ₹{contest.entryFee}</span>
                                         </div>
 
                                         <div className="flex justify-between border-t pt-4 mt-4">
