@@ -6,7 +6,7 @@ import clock from '../assets/clock.png';
 const API_URL = import.meta.env.VITE_API_URL;
 const UserTeams = () => {
     const [contests, setContests] = useState([]);
-    const [activeTab, setActiveTab] = useState('upcoming');
+    const [activeTab, setActiveTab] = useState('Upcoming');
 
     useEffect(() => {
         const fetchContests = async () => {
@@ -27,9 +27,9 @@ const UserTeams = () => {
     const filteredContests = contests.filter((contest) => {
         const status = contest.matchDetails.matchStarted
             ? contest.matchDetails.matchEnded
-                ? 'completed'
-                : 'live'
-            : 'upcoming';
+                ? 'Completed'
+                : 'Live'
+            : 'Upcoming';
 
         return status === activeTab;
     })
@@ -49,7 +49,7 @@ const UserTeams = () => {
                 {/* Tabs */}
                 <div className="flex justify-center mb-10">
                     <div className="flex bg-gray-100 rounded-full overflow-hidden shadow-md max-w-lg w-full ">
-                        {["upcoming", "live", "completed"].map((tab) => (
+                        {["Upcoming", "Live", "Completed"].map((tab) => (
                             <button
                                 key={tab}
                                 className={`flex-1 px-6 py-2 text-sm font-semibold capitalize transition-colors duration-200 ${activeTab === tab
