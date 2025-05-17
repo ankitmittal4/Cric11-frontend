@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import frameBg from '../assets/frameBg.png';
 import axios from 'axios';
+import logo from "../assets/logo.png"
 const API_URL = import.meta.env.VITE_API_URL;
 
 const SignUp = () => {
@@ -87,8 +88,8 @@ const SignUp = () => {
             <div className="flex flex-col items-center justify-center w-full p-8 bg-white lg:w-1/3  font-custom  rounded-md shadow-lg mx-auto my-auto ">
                 <div className="w-full max-w-md">
                     <img
-                        src="https://play-lh.googleusercontent.com/MS3WHL2xqhJt1YYj3KGW5loOq8Sv9WF1sXLXPt9kuRbFSn5Q1kRRA8st8N-Czh62uVT2=w600-h300-pc0xffffff-pd"
-                        alt="Website Logo"
+                        src={logo}
+                        alt="Cric11"
                         className="w-25 mb-8 h-11 mx-auto"
                     />
                     <h2 className="text-4xl font-semibold text-left">
@@ -115,8 +116,8 @@ const SignUp = () => {
                                     onBlur={handleBlur}
                                     value={values.username}
                                     className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${touched.username && errors.username
-                                            ? 'border-red-500'
-                                            : 'border-gray-500'
+                                        ? 'border-red-500'
+                                        : 'border-gray-500'
                                         }`}
                                 />
                                 {touched.username && errors.username && (
@@ -141,8 +142,8 @@ const SignUp = () => {
                                     onBlur={handleBlur}
                                     value={values.fullName}
                                     className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${touched.fullName && errors.fullName
-                                            ? 'border-red-500'
-                                            : 'border-gray-500'
+                                        ? 'border-red-500'
+                                        : 'border-gray-500'
                                         }`}
                                 />
                                 {touched.fullName && errors.fullName && (
@@ -168,8 +169,8 @@ const SignUp = () => {
                                 onBlur={handleBlur}
                                 value={values.email}
                                 className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${touched.email && errors.email
-                                        ? 'border-red-500'
-                                        : 'border-gray-500'
+                                    ? 'border-red-500'
+                                    : 'border-gray-500'
                                     }`}
                             />
                             {touched.email && errors.email && (
@@ -195,8 +196,8 @@ const SignUp = () => {
                                     onBlur={handleBlur}
                                     value={values.password}
                                     className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${touched.password && errors.password
-                                            ? 'border-red-500'
-                                            : 'border-gray-500'
+                                        ? 'border-red-500'
+                                        : 'border-gray-500'
                                         }`}
                                 />
                                 {touched.password && errors.password && (
@@ -221,9 +222,9 @@ const SignUp = () => {
                                     onBlur={handleBlur}
                                     value={values.confirmPassword}
                                     className={`w-full px-3 py-2 border outline-gray-500 rounded-md bg-red-50 ${touched.confirmPassword &&
-                                            errors.confirmPassword
-                                            ? 'border-red-500'
-                                            : 'border-gray-500'
+                                        errors.confirmPassword
+                                        ? 'border-red-500'
+                                        : 'border-gray-500'
                                         }`}
                                 />
                                 {touched.confirmPassword &&
