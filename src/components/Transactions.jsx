@@ -12,12 +12,14 @@ const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
     const [walletBalance, setWalletBalance] = useState(0); // Example wallet balance
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1)
-    const limit = 10
+    const [totalPages, setTotalPages] = useState(1);
+    const [loading, setLoading] = useState(false);
 
+    const limit = 10
 
     // Fetch transactions from API
     const fetchTransactions = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(
                 `${API_URL}/transactions/all`,
@@ -47,6 +49,8 @@ const Transactions = () => {
             setTotalPages(Math.ceil(totalTransactions / limit));
         } catch (error) {
             console.error('Error fetching transactions:', error);
+        } finally {
+            setLoading(false); // Stop loader
         }
     };
     useEffect(() => {
@@ -63,6 +67,13 @@ const Transactions = () => {
     const openAddMoneyPopup = () => {
         popupRef.current?.show();
     };
+    if (loading) {
+        return (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
+            </div>
+        );
+    }
 
     return (
         <div className="container mx-auto p-4">
