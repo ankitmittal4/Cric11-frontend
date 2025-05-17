@@ -37,9 +37,11 @@ const ContestDetails = () => {
     const [teamACount, setTeamACount] = useState(0);
     const [teamBCount, setTeamBCount] = useState(0);
 
+    const [loading, setLoading] = useState(false);
     const [walletSummaryPopup, setWalletSummaryPopup] = useState(false);
     const [balance, setBalance] = useState(0);
     const [remBalance, setRemBalance] = useState(0);
+
 
     const [activeTab, setActiveTab] = useState('WK');
 
@@ -168,18 +170,25 @@ const ContestDetails = () => {
     };
 
     const handleWalletSummaryPopup = async () => {
-        const response = await axios.get(`${API_URL}/users/get-balance`, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        });
-        // console.log(response.data);
-        setBalance(response.data.data.walletBalance);
+        setLoading(true); // Start loader
 
-        setRemBalance(response.data.data.walletBalance - contest.entryFee);
-        // console.log("Rem balance: ", remBalance);
-        setWalletSummaryPopup(true);
-    }
+        try {
+            const response = await axios.get(`${API_URL}/users/get-balance`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            setBalance(response.data.data.walletBalance);
+            setRemBalance(response.data.data.walletBalance - contest.entryFee);
+            setWalletSummaryPopup(true);
+        } catch (error) {
+            console.error("Error fetching wallet balance", error);
+        } finally {
+            setLoading(false); // Stop loader
+        }
+    };
+
     const handleJoinContest = async () => {
         setWalletSummaryPopup(false);
         const timeLeft = getTimeLeft(
@@ -398,6 +407,7 @@ const ContestDetails = () => {
                 <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
             </div>
         );
+
 
     return (
         <div className="container mx-auto ">
@@ -793,74 +803,84 @@ const ContestDetails = () => {
                     onClose={closePopup}
                 />
             )}
-            {walletSummaryPopup && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="relative bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
-
-                        <button
-                            onClick={closeWalletSummaryPopup}
-                            className="absolute top-4 right-4 text-gray-500 hover:text-red-600 transition"
-                        >
-                            <img className="h-5 w-5" src={close} alt="close" />
-                        </button>
-
-                        {/* Wallet Summary Header */}
-                        <h2 className="text-xl font-semibold text-gray-800 text-center mb-6 border-b pb-4">
-                            Wallet Summary
-                        </h2>
-
-                        {/* Summary Details */}
-                        <div className="space-y-4 text-base text-gray-700">
-                            <div className="flex justify-between">
-                                <span className="font-medium">Current Wallet Balance</span>
-                                <span className="text-green-700 font-semibold">₹{balance}</span>
-                            </div>
-
-                            <div className="flex justify-between">
-                                <span className="font-medium">Contest Entry Fee</span>
-                                <span className="text-red-600 font-semibold">₹{contest.entryFee}</span>
-                            </div>
-
-                            <div className="flex justify-between border-t pt-4 mt-4">
-                                {
-                                    remBalance < 0 ?
-                                        <span className="text-red-600 font-semibold">Insufficient Balance</span>
-                                        :
-                                        <span className="text-gray-700 font-medium">Remaining Balance</span>
-                                }
-                                {/* <span className="font-medium">Remaining Balance</span> */}
-                                {
-                                    remBalance < 0 ?
-                                        <span className="text-red-600 font-semibold">₹{Math.abs(remBalance)}</span>
-                                        :
-                                        <span className="text-green-700 font-medium">₹{remBalance}</span>
-                                }
-
-                            </div>
-                        </div>
-
-
-                        {
-                            remBalance < 0 ?
-                                <button
-                                    onClick={() => handleAddMoneyPopup()}
-                                    className="mt-8 w-full font-bold text-white bg-green-600 py-2 rounded-md hover:bg-green-700 transition"
-                                >
-                                    VERIFY TO ADD ₹{Math.abs(remBalance)}
-                                </button>
-                                :
-                                <button
-                                    onClick={() => handleJoinContest()}
-                                    className="mt-8 w-full font-bold text-white bg-green-600 py-2 rounded-md hover:bg-green-700 transition"
-                                >
-                                    Join Contest
-                                </button>
-                        }
-
+            {
+                loading ? (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                        <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
                     </div>
-                </div>
+                ) :
+                    (
 
-            )}
+                        walletSummaryPopup && (
+                            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                <div className="relative bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
+
+                                    <button
+                                        onClick={closeWalletSummaryPopup}
+                                        className="absolute top-4 right-4 text-gray-500 hover:text-red-600 transition"
+                                    >
+                                        <img className="h-5 w-5" src={close} alt="close" />
+                                    </button>
+
+                                    {/* Wallet Summary Header */}
+                                    <h2 className="text-xl font-semibold text-gray-800 text-center mb-6 border-b pb-4">
+                                        Wallet Summary
+                                    </h2>
+
+                                    {/* Summary Details */}
+                                    <div className="space-y-4 text-base text-gray-700">
+                                        <div className="flex justify-between">
+                                            <span className="font-medium">Current Wallet Balance</span>
+                                            <span className="text-green-700 font-semibold">₹{balance}</span>
+                                        </div>
+
+                                        <div className="flex justify-between">
+                                            <span className="font-medium">Contest Entry Fee</span>
+                                            <span className="text-red-600 font-semibold">₹{contest.entryFee}</span>
+                                        </div>
+
+                                        <div className="flex justify-between border-t pt-4 mt-4">
+                                            {
+                                                remBalance < 0 ?
+                                                    <span className="text-red-600 font-semibold">Insufficient Balance</span>
+                                                    :
+                                                    <span className="text-gray-700 font-medium">Remaining Balance</span>
+                                            }
+                                            {/* <span className="font-medium">Remaining Balance</span> */}
+                                            {
+                                                remBalance < 0 ?
+                                                    <span className="text-red-600 font-semibold">₹{Math.abs(remBalance)}</span>
+                                                    :
+                                                    <span className="text-green-700 font-medium">₹{remBalance}</span>
+                                            }
+
+                                        </div>
+                                    </div>
+
+
+                                    {
+                                        remBalance < 0 ?
+                                            <button
+                                                onClick={() => handleAddMoneyPopup()}
+                                                className="mt-8 w-full font-bold text-white bg-green-600 py-2 rounded-md hover:bg-green-700 transition"
+                                            >
+                                                VERIFY TO ADD ₹{Math.abs(remBalance)}
+                                            </button>
+                                            :
+                                            <button
+                                                onClick={() => handleJoinContest()}
+                                                className="mt-8 w-full font-bold text-white bg-green-600 py-2 rounded-md hover:bg-green-700 transition"
+                                            >
+                                                Join Contest
+                                            </button>
+                                    }
+
+                                </div>
+                            </div>
+
+                        )
+                    )
+            }
             <AddMoneyPopup
                 ref={popupRef}
                 API_URL={API_URL}
