@@ -11,23 +11,30 @@ const UserTeams = () => {
 
     useEffect(() => {
         const fetchContests = async () => {
-            setLoading(true);
-            const accessToken = localStorage.getItem('accessToken');
-            const response = await axios.get(`${API_URL}/user-contest/all`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
+            try {
+                setLoading(true);
+                const accessToken = localStorage.getItem('accessToken');
+                const response = await axios.get(`${API_URL}/user-contest/all`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                console.log("->:", response.data);
+                setContests(response.data.data);
 
-            setContests(response.data.data);
-            setLoading(false);
-            // console.log('contests: ', response.data.data);
+                // console.log('contests: ', response.data.data);
+            }
+            catch (err) {
+                console.log("Error: ", err);
+            } finally {
+                setLoading(false);
+            }
         };
         fetchContests();
     }, []);
     const curTime = new Date();
 
-    const filteredContests = contests.filter((contest) => {
+    const filteredContests = (contests || []).filter((contest) => {
         const status = contest.matchDetails.matchStarted
             ? contest.matchDetails.matchEnded
                 ? 'Completed'
