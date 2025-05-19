@@ -98,7 +98,7 @@ const UserContestDetails = () => {
                         setIsWinner(false);
                     }, 10000);
                 }
-                // console.log(response.data.data[0]);
+                console.log("Contest1: ", response.data.data[0]);
                 setContest(response.data.data[0]);
                 setPlayers(response.data.data[0].user11);
                 const { userId, contestId } = response.data.data[0];
@@ -155,9 +155,10 @@ const UserContestDetails = () => {
                                 // );
 
                                 // console.log(userRes.data.data.updatedUserContest[0]);
-                                // setContest(
-                                //     userRes.data.data.updatedUserContest[0],
-                                // );
+                                console.log("Contest2: ", userRes.data.data.updatedUserContest[0]);
+                                setContest(
+                                    userRes.data.data.updatedUserContest[0],
+                                );
                                 setPlayers(
                                     userRes.data.data.updatedUserContest[0]
                                         .user11,
@@ -528,7 +529,11 @@ const UserContestDetails = () => {
                             <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
                                 <img src={clock} alt="" className='h-3 w-3 mr-1' />
                                 <span className="font-bold">
-                                    {timeLeft}{timeLeft === "Match Started" ? "" : " left"}
+                                    {timeLeft === "Match Started" || timeLeft === "tomorrow" ? (contest.matchDetails.matchStarted
+                                        ? contest.matchDetails.matchEnded
+                                            ? <span className="text-red-600">Match Completed</span>
+                                            : <span className="text-green-500">Match Live</span>
+                                        : "Tomorrow") : `${timeLeft} left`}
                                 </span>
                             </div>
                         ) : (
