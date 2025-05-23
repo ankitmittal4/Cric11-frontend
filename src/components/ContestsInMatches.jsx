@@ -85,7 +85,7 @@ const ContestsInMatches = () => {
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-7 text-gray-600 text-center">
 
-                <span className="text-3xl text-slate-500"> {matchName}</span>
+                <span className="sm:text-3xl text-xl text-slate-500"> {matchName}</span>
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {' '}
@@ -96,7 +96,7 @@ const ContestsInMatches = () => {
                         className="mb-2 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-slate-200 overflow-hidden"
                     >
                         <div
-                            className="bg-orange-200 inline-block text-orange-600 text-sm font-semibold px-3 py-1 pr-10 mb-2 "
+                            className="bg-orange-200 inline-block text-orange-600 sm:text-sm text-xs font-semibold px-3 py-1 sm:pt-1 pt-[.35rem]  pr-10 mb-2 "
                             style={{
                                 clipPath:
                                     'polygon(0 0, calc(100% - 20px) 0, 100% 35px, 100% 100%, 0% 100%)',
@@ -189,7 +189,7 @@ const ContestsInMatches = () => {
                             </p>
                         </div>
                         <div className="flex justify-between items-center px-4 mb-3 text-fuchsia-900">
-                            <p className=" mt-2">
+                            <p className="sm:mt-2 mt-1">
                                 Spots:{' '}
                                 <span className="font-semibold ">
                                     {contest.maxParticipants}
