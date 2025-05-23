@@ -105,7 +105,7 @@ const Home = () => {
                             className="mb-2 rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 hover:bg-slate-200 overflow-hidden"
                         >
                             <div
-                                className="bg-slate-300 inline-block text-gray-700 text-sm font-semibold px-3 py-1 pr-10 mb-2 "
+                                className="bg-slate-300 inline-block text-gray-700 sm:text-sm text-xs font-semibold px-3 py-1 sm:pt-1 pt-[.35rem] pr-10 mb-2"
                                 style={{
                                     clipPath:
                                         'polygon(0 0, calc(100% - 20px) 0, 100% 35px, 100% 100%, 0% 100%)',
