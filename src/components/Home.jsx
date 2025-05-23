@@ -75,7 +75,7 @@ const Home = () => {
         );
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-6 text-gray-600 sm:text-left text-center">
+            <h1 className="text-xl sm:text-2xl font-bold mb-6 text-gray-600 sm:text-left text-center">
                 Upcoming Cricket Matches
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -116,13 +116,13 @@ const Home = () => {
 
                             <div className="flex justify-between  w-full px-3 min-h-16 items-center">
                                 <div className="w-1/2 flex justify-start">
-                                    <h2 className="text-xl font-bold text-gray-600 text-center">
+                                    <h2 className="text-lg sm:text-xl font-bold text-gray-600 text-center">
                                         {match.teamB}
                                     </h2>
                                 </div>
                                 <span className='mx-1'></span>
                                 <div className="w-1/2 flex justify-end">
-                                    <h2 className="text-xl font-bold text-gray-600 text-center">
+                                    <h2 className="text-lg sm:text-xl font-bold text-gray-600 text-center">
                                         {match.teamA}
                                     </h2>
                                 </div>
