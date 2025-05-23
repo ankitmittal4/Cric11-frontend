@@ -700,7 +700,7 @@ const ContestDetails = () => {
                         isModalOpen && isImageLoaded && (
                             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 overflow-y-auto">
                                 <div
-                                    className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
+                                    className="relative bg-green-700 p-4 sm:p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center"
                                     style={{
                                         backgroundImage: `url(${ground})`,
                                         backgroundSize: '99% 96%',
@@ -785,8 +785,8 @@ const ContestDetails = () => {
                                     ))}
 
 
-                                    <hr className="mt-10" />
-                                    <div className="flex mt-5">
+                                    <hr className="mt-5 sm:mt-10" />
+                                    <div className="flex mt-1 sm:mt-5">
                                         <button
                                             className="bg-green-800 text-white px-4 py-2 rounded mt-4 mx-auto block hover:bg-green-700"
                                             onClick={handleWalletSummaryPopup}
