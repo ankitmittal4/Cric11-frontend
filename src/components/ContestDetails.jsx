@@ -599,7 +599,7 @@ const ContestDetails = () => {
                                         {filteredPlayers.map((player) => (
                                             <tr
                                                 key={player.id}
-                                                className={` ${isPlayerSelected(player.id)
+                                                className={`text-xs sm:text-sm ${isPlayerSelected(player.id)
                                                     ? 'bg-yellow-50 cursor-pointer'
                                                     : 'hover:bg-fuchsia-50'
                                                     } ${!isPlayerSelected(player.id) && isMaxSelected ? 'cursor-not-allowed opacity-40 ' : 'cursor-pointer'
