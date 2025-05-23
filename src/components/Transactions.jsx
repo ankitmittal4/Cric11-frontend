@@ -69,51 +69,61 @@ const Transactions = () => {
     };
 
     return (
+
         <div className="container mx-auto p-4">
             {/* Wallet Balance */}
-            <div className="relative flex justify-center items-center mb-4">
-                <div className="text-2xl font-bold text-gray-700 text-center">
+            <div className="relative flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-0 mb-4">
+                <div className="text-xl sm:text-2xl font-bold text-gray-700 text-center">
                     Wallet Balance:{' '}
-                    <span className="text-green-700 text-3xl">
+                    <span className="text-green-700 text-2xl sm:text-3xl">
                         ₹{walletBalance}
                     </span>
                 </div>
-                <button className="absolute right-0 text-white bg-red-600 px-5 py-2 rounded-md whitespace-nowrap hover:bg-red-700" onClick={() => openAddMoneyPopup()}>
+                <button
+                    className="sm:absolute sm:right-0 text-white bg-red-600 px-4 py-2 rounded-md whitespace-nowrap hover:bg-red-700 text-sm sm:text-base  sm:w-auto"
+                    onClick={() => openAddMoneyPopup()}
+                >
                     Add money to wallet
                 </button>
             </div>
 
-            <h1 className="text-2xl font-bold mb-4">All Transactions:</h1>
+            <h1 className="text-xl sm:text-2xl font-bold mb-4">All Transactions:</h1>
+
             {transactions.length > 0 ? (
                 <>
-                    <div className="space-y-3">
+                    <div className="sm:space-y-3">
                         {transactions.map((transaction) => (
-                            <TransactionCard
-                                key={transaction._id}
-                                transaction={transaction}
-                            />
+                            <TransactionCard key={transaction._id} transaction={transaction} />
                         ))}
                     </div>
 
-                    <div className="flex justify-between items-center mt-5">
-                        <button
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                            className="px-4 py-2 ml-10 mb-8 mt-6 text-white bg-gray-500 rounded disabled:opacity-60"
-                        >
-                            Back
-                        </button>
-                        <span className="text-black">
+                    <div className="grid grid-cols-3 items-center gap-2 mt-6 w-full">
+                        <div className="flex justify-start">
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className="px-4 py-2 text-white bg-gray-500 rounded disabled:opacity-60"
+                            >
+                                Back
+                            </button>
+                        </div>
+
+                        <div className="flex justify-center text-black text-center">
                             Page {currentPage} of {totalPages}
-                        </span>
-                        <button
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                            className="px-4 py-2 mr-10 mb-8 mt-6 bg-gray-500 text-white rounded disabled:opacity-60"
-                        >
-                            Next
-                        </button>
+                        </div>
+
+                        <div className="flex justify-end">
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className="px-4 py-2 text-white bg-gray-500 rounded disabled:opacity-60"
+                            >
+                                Next
+                            </button>
+                        </div>
                     </div>
+
+
                 </>
             ) : (
                 <p className="text-gray-500 text-center">No transactions found.</p>
@@ -126,10 +136,14 @@ const Transactions = () => {
                 walletBalance={walletBalance}
                 fetchTransactions={fetchTransactions}
             />
-            {loading && (<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
-            </div>)}
-        </div >
+
+            {loading && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
+                </div>
+            )}
+        </div>
+
     );
 };
 
@@ -150,12 +164,11 @@ const TransactionCard = ({ transaction }) => {
     };
 
     return (
-        <div className="bg-slate-100 p-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <div className="flex justify-between ">
-                <div className='flex-col '>
-
-                    <p className="text-lg font-semibold ">
-                        {/* Amount:{' '} */}
+        <div className="bg-slate-100 p-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-shadow mb-2">
+            <div className="flex justify-between items-start gap-4">
+                {/* Left section: Amount, Status, Transaction ID */}
+                <div className="flex flex-col">
+                    <p className="text-lg font-semibold">
                         <span
                             className={
                                 transactionType === 'credit'
@@ -180,20 +193,23 @@ const TransactionCard = ({ transaction }) => {
                     >
                         {transactionStatus === 'failed' && capitaliseFirstLetter(transactionStatus)}
                     </p>
-                    <p className="text-gray-600 text-sm">
-                        Transaction ID: {transactionId || _id}
-                    </p>
 
-                </div>
-                <div className="text-right items-center">
-                    <p className="text-base text-gray-700 mb-2">
-                        {message}
+                    <p className="text-gray-600 text-sm">
+                        <span className='hidden sm:inline'>Transaction Id: </span>
+                        {(transactionId || _id).slice(0, 12)}
                     </p>
-                    <p className="text-gray-600 text-sm">{formattedDate}</p>
-                    <p className="text-gray-600 text-sm">{formattedTime}</p>
+                </div>
+
+                {/* Right section: Message, Date, Time aligned to right of amount */}
+                <div className="flex flex-col items-end text-right">
+                    <p className="text-gray-700 mb-1">{message}</p>
+                    <p className="text-gray-600 text-xs sm:text-sm">{formattedDate}</p>
+                    <p className="text-gray-600 text-xs sm:text-sm">{formattedTime}</p>
                 </div>
             </div>
-        </div >
+        </div>
+
+
     );
 };
 
