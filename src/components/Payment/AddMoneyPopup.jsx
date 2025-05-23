@@ -139,7 +139,7 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
     return (
         <>
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div className="relative bg-white p-6 rounded-lg shadow-lg pl-9 pr-9 min-w-[23%]">
+                <div className="relative bg-white p-6 rounded-lg shadow-lg pl-9 pr-9 sm:min-w-[23%] sm:w-[27%] w-[90%] ">
                     <button
                         onClick={closePopup}
                         className="absolute top-2 right-2 text-red-500 px-1 py-1 text-md font-bold rounded hover:text-red-600"
@@ -147,11 +147,11 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
                         <img className="h-5 w-5" src={close} alt="close" />
                     </button>
 
-                    <p className="text-lg text-gray-700 font-semibold">
+                    <p className="text-base sm:text-lg text-gray-700 font-semibold">
                         Current Balance: ₹{walletBalance}
                     </p>
 
-                    <p className="text-lg text-gray-700 font-semibold mt-8">
+                    <p className="text-base sm:text-lg text-gray-700 font-semibold mt-8">
                         Amount to add:
                         <div className="relative inline-block ml-1">
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">₹</span>
@@ -170,7 +170,7 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
                     <button
                         onClick={() => handlePayment(amount)}
                         disabled={isDisabled}
-                        className={`mt-10 w-full font-bold text-sm px-4 py-2 rounded bg-green-600 text-white ${isDisabled ? "cursor-not-allowed" : " hover:bg-green-700"
+                        className={`mt-5 sm:mt-7 w-full font-bold text-sm px-4 py-2 rounded bg-green-600 text-white ${isDisabled ? "cursor-not-allowed" : " hover:bg-green-700"
                             }`}
                     >
                         VERIFY TO ADD ₹{amount || 0}
