@@ -66,7 +66,7 @@ const ContestDetails = () => {
 
 
     const teamPlayerCount = useMemo(() => {
-        console.log("----", players);
+
         const count = {};
 
         const teams = Array.from(new Set(players.map(p => p.team)));
@@ -248,7 +248,7 @@ const ContestDetails = () => {
                 `${API_URL}/opponent/create`,
                 opponentData,
             );
-            console.log('Create opponent res: ', res);
+            // console.log('Create opponent res: ', res);
         } catch (error) {
             alert(
                 error.response?.data?.message ||
@@ -273,7 +273,7 @@ const ContestDetails = () => {
             const response = await axios.post(`${API_URL}/contests/get`, {
                 id,
             });
-            console.log("Response: ", response.data.data);
+            // console.log("Response: ", response.data.data);
             setContest(response.data.data);
 
             // Fetch (squad)players for team selection
@@ -379,7 +379,7 @@ const ContestDetails = () => {
         if (matchStart.getDate() === tomorrow.getDate() &&
             matchStart.getMonth() === tomorrow.getMonth() &&
             matchStart.getFullYear() === tomorrow.getFullYear()) {
-            console.log("tomorrow");
+            // console.log("tomorrow");
             return "tomorrow"
         }
 
@@ -723,13 +723,13 @@ const ContestDetails = () => {
                                                     <div className="relative">
                                                         {captainId ===
                                                             player.id && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-1 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                     C
                                                                 </span>
                                                             )}
                                                         {viceCaptainId ===
                                                             player.id && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-1 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                     VC
                                                                 </span>
                                                             )}
@@ -738,11 +738,8 @@ const ContestDetails = () => {
                                                             className="text-green-900 text-3xl"
                                                         />{' '}
                                                     </div>
-                                                    <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                        {formatName(
-                                                            player.name,
-                                                            85,
-                                                        )}
+                                                    <span className="block text-white rounded-sm py-px bg-red-600 sm:text-sm sm:w-20 w-16 whitespace-nowrap overflow-hidden text-ellipsis mt-1 text-xs text-center">
+                                                        {formatName(player.name, 85)}
                                                     </span>
                                                 </div>
                                             );
@@ -752,48 +749,41 @@ const ContestDetails = () => {
                                     {[2, 5, 8].map((startIdx, index) => (
                                         <div
                                             key={index}
-                                            className="grid grid-cols-3 gap-16 mt-12 "
+                                            className="grid grid-cols-3 gap-16 mt-12"
                                         >
                                             {selectedPlayerIds
                                                 .slice(startIdx, startIdx + 3)
                                                 .map((id) => {
-                                                    const player = players.find(
-                                                        (p) => p.id === id,
-                                                    );
+                                                    const player = players.find((p) => p.id === id);
                                                     return (
-                                                        <div
-                                                            key={player.id}
-                                                            className="text-center"
-                                                        >
+                                                        <div key={player.id} className="flex flex-col items-center text-center">
                                                             <div className="relative">
                                                                 {captainId ===
                                                                     player.id && (
-                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 -left-5 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                             C
                                                                         </span>
                                                                     )}
                                                                 {viceCaptainId ===
                                                                     player.id && (
-                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-6 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 -left-5 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                             VC
                                                                         </span>
                                                                     )}
                                                                 <FontAwesomeIcon
                                                                     icon={faUser}
                                                                     className="text-green-900 text-3xl"
-                                                                />{' '}
+                                                                />
                                                             </div>
-                                                            <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                                {formatName(
-                                                                    player.name,
-                                                                    85,
-                                                                )}
+                                                            <span className="block text-white rounded-sm py-px bg-red-600 sm:text-sm sm:w-20 w-16 whitespace-nowrap overflow-hidden text-ellipsis mt-1 text-xs text-center">
+                                                                {formatName(player.name, 85)}
                                                             </span>
                                                         </div>
                                                     );
                                                 })}
                                         </div>
                                     ))}
+
 
                                     <hr className="mt-10" />
                                     <div className="flex mt-5">
