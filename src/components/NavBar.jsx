@@ -84,10 +84,10 @@ const NavBar = () => {
             {/* Logout Confirmation Modal */}
             {showLogoutConfirm && (
                 <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-                    <div className="bg-white p-6 rounded-lg shadow-xl text-center w-80">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Logout</h2>
-                        <p className="text-gray-600 mb-6">Are you sure you want to logout?</p>
-                        <div className="flex justify-center gap-4">
+                    <div className="bg-white p-6 rounded-lg shadow-xl text-center sm:w-80 w-70">
+                        <h2 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">Logout</h2>
+                        <p className="text-gray-600 mb-6 text-sm sm:text-base">Are you sure you want to logout?</p>
+                        <div className="flex justify-center gap-4 text-sm sm:text-base">
                             <button
                                 onClick={handleLogout}
                                 className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded"
