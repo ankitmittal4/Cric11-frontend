@@ -460,19 +460,22 @@ const ContestDetails = () => {
                     </p>
                 );
             })()}
-            <h1 className="text-2xl font-bold  mb-5 text-gray-600 text-center tracking-wide">
-                {contest.matchDetails.teamA} <span className='text-gray-400 tracking-tighter'>vs</span> {contest.matchDetails.teamB}
+            <h1 className="text-xl sm:text-2xl font-bold mb-5 text-gray-600 text-center tracking-wide">
+                <span className="block sm:inline">{contest.matchDetails.teamA}</span>
+                <span className="block sm:inline sm:text-xl text-base text-gray-400 tracking-tighter mx-2">vs</span>
+                <span className="block sm:inline">{contest.matchDetails.teamB}</span>
             </h1>
+
             <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/2 p-4 text-xl text-gray-600">
-                    <h2 className="text-2xl font-bold">Contest Details:</h2>
+                <div className="md:w-1/2 p-4 sm:text-xl text-base text-gray-600">
+                    <h2 className="sm:text-2xl text-lg font-bold">Contest Details:</h2>
                     <p className="mt-4">
                         Series:{' '}
                         <span className="font-semibold text-fuchsia-700">
                             {contest.matchDetails.series}
                         </span>
                     </p>
-                    <p className=" mt-4">
+                    <p className="mt-4 ">
                         Match Type:{' '}
                         <span className="font-semibold uppercase text-blue-600">
                             {contest.matchDetails.matchType}
@@ -519,6 +522,7 @@ const ContestDetails = () => {
                         </span>
                     </p>
                 </div>
+                <p className='sm:hidden border-t-2 border-gray-400 mb-2'></p>
 
                 <div className="md:w-[60%]">
                     <div className='flex '>
@@ -532,15 +536,15 @@ const ContestDetails = () => {
                                                 alt="Team A"
                                                 className="h-9 object-contain"
                                             />
-                                            <p className='text-xl text-gray-600'>{contest.matchDetails.teamAAcronym}</p>
+                                            <p className='text-lg sm:text-xl text-gray-600'>{contest.matchDetails.teamAAcronym}</p>
                                             <p>{" : "}</p>
-                                            <p className='text-2xl text-red-500'>{count}</p>
+                                            <p className='text-xl sm:text-2xl text-red-500'>{count}</p>
 
                                         </div>
                                         : <div className="flex items-center gap-2">
-                                            <p className='text-2xl text-red-500'>{count}</p>
+                                            <p className='text-xl sm:text-2xl text-red-500'>{count}</p>
                                             <p>{" : "}</p>
-                                            <p className='text-xl text-gray-600'>{contest.matchDetails.teamBAcronym}</p>
+                                            <p className='text-lg sm:text-xl text-gray-600'>{contest.matchDetails.teamBAcronym}</p>
                                             <img
                                                 src={contest.matchDetails.teamBImg}
                                                 alt="Team B"
@@ -562,7 +566,7 @@ const ContestDetails = () => {
                                 <button
                                     key={role}
                                     onClick={() => setActiveTab(role)}
-                                    className={`flex-1 px-6 py-2 text-sm font-bold capitalize transition-colors duration-200  ${activeTab === role
+                                    className={`flex-1 sm:px-6 py-2 text-xs sm:text-sm font-bold capitalize transition-colors duration-200  ${activeTab === role
                                         ? "bg-white text-red-600 shadow border-b-2 border-red-600"
                                         : "text-gray-600 hover:bg-gray-300"
                                         }`}
@@ -583,10 +587,10 @@ const ContestDetails = () => {
                             <div className="h-[45vh] overflow-y-auto bg-white border-b-2 border-gray-300" ref={scrollRef}>
                                 <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
                                     <thead className="sticky top-0 bg-slate-300 z-10">
-                                        <tr className="text-left border-b-2">
+                                        <tr className="text-left border-b-2 text-sm sm:text-md">
                                             {/* <th className="py-2 text-md px-4 w-40">Role</th> */}
                                             <th className="px-4">Team</th>
-                                            <th className="py-2 text-md px-4 w-56">Player Name</th>
+                                            <th className="py-2 text-sm sm:text-md px-4 w-56">Player Name</th>
                                             <th className="py-2 px-4 text-center">C</th>
                                             <th className="py-2 px-4 text-center">VC</th>
                                         </tr>
