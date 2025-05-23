@@ -175,6 +175,8 @@ const UserContestDetails = () => {
                             }
                         }
                     } catch {
+                        alert("Sorry! Opponent not found");
+                        navigate('/my-contests');
                         console.log('Error: Opponent not found');
                     }
                 }
