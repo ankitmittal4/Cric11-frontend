@@ -828,7 +828,7 @@ const ContestDetails = () => {
 
                         walletSummaryPopup && (
                             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                                <div className="relative bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
+                                <div className="relative bg-white p-8 rounded-xl shadow-2xl sm:w-full w-[90%]  max-w-md">
 
                                     <button
                                         onClick={closeWalletSummaryPopup}
@@ -837,29 +837,27 @@ const ContestDetails = () => {
                                         <img className="h-5 w-5" src={close} alt="close" />
                                     </button>
 
-                                    {/* Wallet Summary Header */}
-                                    <h2 className="text-xl font-semibold text-gray-800 text-center mb-6 border-b pb-4">
+                                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800 text-center mb-6 border-b pb-4">
                                         Wallet Summary
                                     </h2>
 
-                                    {/* Summary Details */}
                                     <div className="space-y-4 text-base text-gray-700">
                                         <div className="flex justify-between">
-                                            <span className="font-medium">Current Wallet Balance</span>
+                                            <span className="text-sm sm:text-base font-medium">Current Wallet Balance</span>
                                             <span className="text-green-700 font-semibold">₹{balance}</span>
                                         </div>
 
                                         <div className="flex justify-between">
-                                            <span className="font-medium">Contest Entry Fee</span>
+                                            <span className="text-sm sm:text-base font-medium">Contest Entry Fee</span>
                                             <span className="text-red-600 font-semibold">- ₹{contest.entryFee}</span>
                                         </div>
 
                                         <div className="flex justify-between border-t pt-4 mt-4">
                                             {
                                                 remBalance < 0 ?
-                                                    <span className="text-red-600 font-semibold">Insufficient Balance</span>
+                                                    <span className="text-red-600 text-sm sm:text-base  font-semibold">Insufficient Balance</span>
                                                     :
-                                                    <span className="text-gray-700 font-medium">Remaining Balance</span>
+                                                    <span className="text-gray-700 text-sm sm:text-base  font-medium">Remaining Balance</span>
                                             }
                                             {/* <span className="font-medium">Remaining Balance</span> */}
                                             {
