@@ -668,14 +668,14 @@ const ContestDetails = () => {
 
                         {/* //Display error popup  */}
                         {error && (
-                            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                                <div className="bg-white p-6 rounded-lg shadow-lg text-center pl-9 pr-9 min-w-[23%]">
+                            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+                                <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full max-w-sm sm:max-w-sm md:max-w-sm lg:max-w-sm">
                                     <img
-                                        className="h-12 w-12 text-center mx-auto"
+                                        className="sm:h-12 sm:w-12 h-9 w-9 mx-auto"
                                         src={warning}
-                                        alt="Check"
-                                    ></img>
-                                    <p className="text-lg text-gray-700 font-semibold mb-4 mt-6 ">
+                                        alt="Warning"
+                                    />
+                                    <p className="text-base sm:text-lg text-gray-700 font-semibold mb-4 mt-6">
                                         {error}
                                     </p>
                                     <button
