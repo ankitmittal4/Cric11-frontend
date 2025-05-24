@@ -135,7 +135,7 @@ const Home = () => {
                                         <img
                                             src={match.teamBImg}
                                             alt="Team B"
-                                            className="h-9 object-contain"
+                                            className="h-9 object-contain rounded-sm"
                                         />
                                     )}
 
@@ -188,7 +188,7 @@ const Home = () => {
                                         <img
                                             src={match.teamAImg}
                                             alt="Team A"
-                                            className="h-9 object-contain"
+                                            className="h-9 object-contain rounded-sm"
                                         />
                                     )}
                                 </div>
