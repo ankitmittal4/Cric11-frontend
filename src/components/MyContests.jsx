@@ -19,7 +19,7 @@ const UserTeams = () => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                console.log("->:", response.data);
+                // console.log("->:", response.data);
                 setContests(response.data.data);
 
                 // console.log('contests: ', response.data.data);
@@ -84,7 +84,7 @@ const UserTeams = () => {
 
                             filteredContests.length === 0 ? (
 
-                                <h1 className="text-2xl text-center font-bold mb-6 text-gray-600 mt-[10%]">
+                                <h1 className="text-xl sm:text-2xl text-center font-bold mb-6 text-gray-600 mt-[10%]">
                                     No {activeTab} Contests
                                 </h1>
                             ) : (
@@ -107,9 +107,9 @@ const UserTeams = () => {
                                                             'polygon(0 0, calc(100% - 20px) 0, 100% 35px, 100% 100%, 0% 100%)',
                                                     }}
                                                 >
-                                                    <span className=''>{contest.matchDetails.series} </span> {" "}
+                                                    <span className='text-xs sm:text-sm'>{contest.matchDetails.series} </span> {" "}
                                                 </div>
-                                                <div className="flex justify-between w-full px-3 min-h-16 items-center">
+                                                {/* <div className="flex justify-between w-full px-3 min-h-16 items-center">
                                                     <div className="w-1/2 flex justify-start">
                                                         <h2 className="text-xl font-bold text-gray-600 text-center">
                                                             {contest.matchDetails.teamB}
@@ -121,14 +121,14 @@ const UserTeams = () => {
                                                             {contest.matchDetails.teamA}
                                                         </h2>
                                                     </div>
-                                                </div>
-                                                <div className="flex justify-between items-center px-4 my-1">
+                                                </div> */}
+                                                <div className="flex justify-between items-center px-4 mt-2">
                                                     <div className="flex items-center space-x-2">
                                                         {contest.matchDetails.teamBImg && (
                                                             <img
                                                                 src={contest.matchDetails.teamBImg}
                                                                 alt="Team B"
-                                                                className="h-11 object-contain"
+                                                                className="h-9 object-contain rounded-sm"
                                                             />
                                                         )}
 
@@ -136,15 +136,15 @@ const UserTeams = () => {
                                                             {contest.matchDetails.teamBAcronym}
                                                         </p>
                                                     </div>
-                                                    <p className="text-center  text-xs text-red-600 font-bold">
+                                                    <p className="text-center font-semibold text-xs text-red-600 sm:font-bold">
                                                         {contest.matchDetails.date
                                                             .split('-')
                                                             .reverse()
                                                             .join('-')}
                                                         <br></br>
-                                                        <div className="mb-1 flex bg-red-100 px-2 py-1 rounded-md items-center">
+                                                        <div className="mb-1 flex bg-red-100 px-2 py-1 rounded-md items-center mt-1">
                                                             <img src={clock} alt="" className='h-3 w-3 mr-1' />
-                                                            <span className="font-extrabold ">
+                                                            <span className="sm:font-extrabold font-bold">
                                                                 {convertIn12Hours(contest.matchDetails.startTime)}
                                                             </span>
                                                         </div>
@@ -158,7 +158,7 @@ const UserTeams = () => {
                                                             <img
                                                                 src={contest.matchDetails.teamAImg}
                                                                 alt="Team A"
-                                                                className="h-11 object-contain"
+                                                                className="h-9 object-contain rounded-sm"
                                                             />
                                                         )}
                                                     </div>
@@ -190,16 +190,16 @@ const UserTeams = () => {
 
                                                 {contest.matchDetails.matchStarted ? (
                                                     contest.matchDetails.matchEnded ? (
-                                                        <div className="flex justify-center text-red-600 font-medium bg-slate-300 py-1 mt-1 border-t-[1px] border-slate-400">
+                                                        <div className="flex justify-center text-red-600 font-medium bg-slate-300 py-1 mt-1 border-t-[1px] border-slate-400 text-xs sm:text-sm">
                                                             Completed
                                                         </div>
                                                     ) : (
-                                                        <div className="flex justify-center text-green-500 font-medium bg-slate-300 py-1 mt-1 border-t-[1px] border-slate-400">
+                                                        <div className="flex justify-center text-green-500 font-medium bg-slate-300 py-1 mt-1 border-t-[1px] border-slate-400 text-xs sm:text-sm">
                                                             Live
                                                         </div>
                                                     )
                                                 ) : (
-                                                    <div className="flex justify-center text-orange-500 font-medium bg-slate-300 py-1 mt-1 border-t-[1px] border-slate-400">
+                                                    <div className="flex justify-center text-orange-500 font-medium bg-slate-300 py-1 mt-1 border-t-[1px] border-slate-400 text-xs sm:text-sm">
                                                         Upcoming
                                                     </div>
                                                 )}
