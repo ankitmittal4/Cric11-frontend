@@ -26,8 +26,8 @@ const NavBar = () => {
 
     return (
         <>
-            <nav className="bg-[#ed2024] p-4 fixed top-0 left-0 w-full border-b-2 border-gray-400 z-50">
-                <div className="container mx-auto flex justify-between items-center">
+            <nav className="bg-[#ed2024]  fixed top-0 left-0 w-full border-b-2 border-gray-400 z-50">
+                <div className="container mx-auto flex justify-between items-center p-4">
                     <div
                         className="text-white text-xl font-bold cursor-pointer flex items-center"
                         onClick={() => navigate('/')}
@@ -66,17 +66,15 @@ const NavBar = () => {
 
                 {/* Mobile Menu */}
                 {isMobileMenuOpen && (
-                    <div className="md:hidden mt-4 flex flex-col bg-[#ed2024] px-4 pb-4 font-medium space-y-3">
+                    <div className="md:hidden mt- flex flex-col bg-[#b81a1e] px-4 pb-4 font-medium space-y-3 ">
                         <NavLinks onClick={() => setIsMobileMenuOpen(false)} />
-                        {/* <div className="text-black">
-                            <WalletBalance />
-                        </div> */}
+
                         <button
                             onClick={() => {
                                 setIsMobileMenuOpen(false);
                                 setShowLogoutConfirm(true);
                             }}
-                            className="flex items-center gap-2 text-white ml-4"
+                            className="flex items-center gap-2 text-gray-300 hover:rounded md:hover:py-0 hover:py-2 md:py-0 py-2  md:hover:bg-transparent hover:bg-gray-200 md:hover:text-white hover:text-gray-700 px-3"
                         >
                             {/* <img className="h-6 w-6" src={logout} alt="logout" /> */}
                             Logout
@@ -119,7 +117,7 @@ const NavLinks = ({ onClick }) => (
             to="/"
             onClick={onClick}
             className={({ isActive }) =>
-                `text-gray-300 hover:text-white block md:inline px-3 ${isActive ? 'text-white' : ''}`
+                `text-gray-300 block md:inline px-3 md:mt-0 mt-3 hover:rounded md:hover:py-0 hover:py-2 md:py-0 py-2  md:hover:bg-transparent hover:bg-gray-200 md:hover:text-white hover:text-gray-700 ${isActive ? 'text-white' : ''}`
             }
         >
             Home
@@ -128,7 +126,7 @@ const NavLinks = ({ onClick }) => (
             to="/my-contests"
             onClick={onClick}
             className={({ isActive }) =>
-                `text-gray-300 hover:text-white block md:inline px-3 ${isActive ? 'text-white' : ''}`
+                `text-gray-300 block md:inline px-3 hover:rounded md:hover:py-0 hover:py-2 md:py-0 py-2  md:hover:bg-transparent hover:bg-gray-200 md:hover:text-white hover:text-gray-700 ${isActive ? 'text-white' : ''}`
             }
         >
             My Contests
@@ -137,7 +135,7 @@ const NavLinks = ({ onClick }) => (
             to="/transactions"
             onClick={onClick}
             className={({ isActive }) =>
-                `text-gray-300 hover:text-white block md:inline px-3 ${isActive ? 'text-white' : ''}`
+                `text-gray-300 block md:inline px-3 hover:rounded md:hover:py-0 hover:py-2 md:py-0 py-2  md:hover:bg-transparent hover:bg-gray-200 md:hover:text-white hover:text-gray-700 ${isActive ? 'text-white' : ''}`
             }
         >
             Transactions
