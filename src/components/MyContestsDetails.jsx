@@ -521,12 +521,16 @@ const UserContestDetails = () => {
                     .reverse()
                     .join('-');
                 return (
-                    <p className="text-center text-xs sm:text-sm text-red-500 font-semibold">
+                    <p className="text-center text-xs sm:text-sm text-red-500 font-semibold sm:mt-0 mt-2">
                         {timeLeft === "tomorrow" ? (
-                            <p className='font-bold mb-1'>
-                                Tomorrow
-                                <br />
-                            </p>
+                            <div className='mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center'>
+                                <img src={clock} alt="" className='h-3 w-3 mr-1' />
+                                <p className='font-bold'>
+                                    Tomorrow
+                                    <br />
+                                </p>
+
+                            </div>
                         ) : timeLeft ? (
                             <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
                                 <img src={clock} alt="" className='h-3 w-3 mr-1' />
