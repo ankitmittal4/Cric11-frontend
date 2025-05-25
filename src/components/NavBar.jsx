@@ -36,15 +36,20 @@ const NavBar = () => {
                         Cric11
                     </div>
 
-                    {/* Hamburger Menu Button */}
-                    <button
-                        className="md:hidden text-white focus:outline-none"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    >
-                        {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-                    </button>
+                    <div className="flex items-center md:hidden gap-4">
+                        <div className="text-white font-medium">
+                            <WalletBalance />
+                        </div>
+                        <button
+                            className="text-white focus:outline-none"
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        >
+                            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                        </button>
+                    </div>
 
                     {/* Desktop Menu */}
+
                     <div className="hidden md:flex items-center font-medium">
                         <NavLinks />
                         <div className="text-black font-medium ml-4">
@@ -63,9 +68,9 @@ const NavBar = () => {
                 {isMobileMenuOpen && (
                     <div className="md:hidden mt-4 flex flex-col bg-[#ed2024] px-4 pb-4 font-medium space-y-3">
                         <NavLinks onClick={() => setIsMobileMenuOpen(false)} />
-                        <div className="text-black">
+                        {/* <div className="text-black">
                             <WalletBalance />
-                        </div>
+                        </div> */}
                         <button
                             onClick={() => {
                                 setIsMobileMenuOpen(false);
