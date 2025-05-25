@@ -6,7 +6,7 @@ import LinkedIn from '../assets/linkedin.svg';
 const Footer = () => {
     return (
         <>
-            <footer className=" p-4 border-t-2 border-gray-400  text-center mt-10">
+            <footer className="text-sm sm:text-base p-4 border-t-2 border-gray-400  text-center mt-10">
                 <div className="container mx-auto">
                     <p>
                         © {new Date().getFullYear()} Cric11 - All Rights
