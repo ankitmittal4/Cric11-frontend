@@ -644,8 +644,8 @@ const UserContestDetails = () => {
 
                     {!isUpdate && (
                         <div className="md:w-[55%]">
-                            <h2 className="text-xl font-bold text-center mb-1 text-green-500">
-                                Total Points:{' '}
+                            <h2 className="text-xl font-bold text-center text-gray-400">
+                                My Points:{' '}
                                 <span className="text-3xl text-green-600">{contest.points}</span>
                             </h2>
 
@@ -1348,8 +1348,8 @@ const UserContestDetails = () => {
                         //     </div>
                         // </div>
                         <div className="md:w-[55%]">
-                            <h2 className="text-xl font-bold text-center mb-1 text-green-500">
-                                Total Opponent Points:{' '}
+                            <h2 className="text-xl font-bold text-center mb-1 text-gray-400">
+                                Opponent Points:{' '}
                                 <span className="text-3xl text-green-600">{opponentContest.points}</span>
                             </h2>
 
