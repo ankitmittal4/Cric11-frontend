@@ -98,7 +98,7 @@ const UserContestDetails = () => {
                         setIsWinner(false);
                     }, 10000);
                 }
-                console.log("Contest1: ", response.data.data[0]);
+                // console.log("Contest1: ", response.data.data[0]);
                 setContest(response.data.data[0]);
                 setPlayers(response.data.data[0].user11);
                 const { userId, contestId } = response.data.data[0];
@@ -155,7 +155,7 @@ const UserContestDetails = () => {
                                 // );
 
                                 // console.log(userRes.data.data.updatedUserContest[0]);
-                                console.log("Contest2: ", userRes.data.data.updatedUserContest[0]);
+                                // console.log("Contest2: ", userRes.data.data.updatedUserContest[0]);
                                 setContest(
                                     userRes.data.data.updatedUserContest[0],
                                 );
@@ -467,7 +467,7 @@ const UserContestDetails = () => {
         if (matchStart.getDate() === tomorrow.getDate() &&
             matchStart.getMonth() === tomorrow.getMonth() &&
             matchStart.getFullYear() === tomorrow.getFullYear()) {
-            console.log("tomorrow");
+            // console.log("tomorrow");
             return "tomorrow"
         }
 
@@ -521,7 +521,7 @@ const UserContestDetails = () => {
                     .reverse()
                     .join('-');
                 return (
-                    <p className="text-center text-sm text-red-500 font-semibold">
+                    <p className="text-center text-xs sm:text-sm text-red-500 font-semibold">
                         {timeLeft === "tomorrow" ? (
                             <p className='font-bold mb-1'>
                                 Tomorrow
@@ -548,14 +548,19 @@ const UserContestDetails = () => {
                     </p>
                 );
             })()}
-            <h1 className="text-2xl font-bold mb-5 text-gray-600 text-center">
+            {/* <h1 className="text-2xl font-bold mb-5 text-gray-600 text-center">
                 {contest.matchDetails.name}
+            </h1> */}
+            <h1 className="text-xl sm:text-2xl font-bold mb-5 text-gray-600 text-center tracking-wide">
+                <span className="block sm:inline">{contest.matchDetails.teamA}</span>
+                <span className="block sm:inline sm:text-xl text-base text-gray-400 tracking-tighter mx-2">vs</span>
+                <span className="block sm:inline">{contest.matchDetails.teamB}</span>
             </h1>
 
-            <div className="container mx-auto p-4">
+            <div className="container mx-auto">
                 <div className="flex flex-col md:flex-row">
-                    <div className="md:w-1/2 p-4 text-xl text-gray-600">
-                        <h2 className="text-2xl font-bold">Contest Details:</h2>
+                    <div className="md:w-1/2 sm:p-4 sm:text-xl text-base text-gray-600 p-4">
+                        <h2 className="sm:text-2xl text-lg font-bold">Contest Details:</h2>
 
                         <p className="mt-4">
                             Status:{' '}
@@ -628,13 +633,14 @@ const UserContestDetails = () => {
                                 {contest.contestDetails.maxParticipants}
                             </span>
                         </p>
-                        <p className=" mt-4">
+                        <p className="mt-4 mb-3">
                             Status:{' '}
                             <span className={`font-semibold  uppercase ${contest.result === 'win' ? 'text-green-600' : 'text-red-600'}`}>
                                 {contest.result}
                             </span>
                         </p>
                     </div>
+                    <p className='sm:hidden border-t-2 border-gray-400 mb-2'></p>
 
                     {!isUpdate && (
                         <div className="md:w-[55%]">
@@ -646,128 +652,75 @@ const UserContestDetails = () => {
                             </h2>
                             <div className="bg-opacity-50 flex items-center justify-center z-50">
                                 <div
-                                    className={` bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center  ${opponentPlayers?.length === 0
-                                        ? 'w-[65%]'
-                                        : 'w-full'
-                                        } `}
+                                    className={`bg-green-700 p-4 sm:p-6 rounded-lg w-full max-w-full sm:max-w-lg mx-4 my-4 bg-cover bg-center overflow-auto
+      ${opponentPlayers?.length === 0 ? 'sm:w-[65%]' : 'sm:w-full'}`}
                                     style={{
                                         backgroundImage: `url(${ground})`,
                                         backgroundSize: '99% 96%',
                                     }}
                                 >
-                                    <div className="flex justify-center gap-24 mt-4 mb-14">
-                                        {sortedUserPlayers
-                                            .slice(0, 2)
-                                            .map((player) => {
-                                                return (
-                                                    <div
-                                                        key={player.id}
-                                                        className="text-center"
-                                                    >
+                                    {/* First 2 Players */}
+                                    <div className="flex justify-center gap-16 sm:gap-24 mt-4 mb-14 flex-wrap">
+                                        {sortedUserPlayers.slice(0, 2).map((player) => (
+                                            <div key={player.id} className="text-center">
+                                                <div className="relative">
+                                                    {captainId ===
+                                                        player.id && (
+                                                            <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-1 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                C
+                                                            </span>
+                                                        )}
+                                                    {viceCaptainId ===
+                                                        player.id && (
+                                                            <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-1 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                VC
+                                                            </span>
+                                                        )}
+                                                    <FontAwesomeIcon icon={faUser} className="text-green-900 text-3xl mr-3" />
+                                                </div>
+                                                <span className="block text-white rounded-sm py-px bg-red-600 sm:text-sm sm:w-20 w-16 whitespace-nowrap overflow-hidden text-ellipsis mt-1 text-xs text-center">
+                                                    {formatName(player.name, 85)}
+                                                </span>
+                                                <span className="block text-white text-xs w-16 sm:w-20 mx-auto px-1 truncate">
+                                                    {player?.points} Pts
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Remaining Players */}
+                                    <div>
+                                        {[2, 5, 8].map((startIdx, index) => (
+                                            <div key={index} className="grid grid-cols-3 gap-6 sm:gap-14 mt-10 sm:mt-14">
+                                                {sortedUserPlayers.slice(startIdx, startIdx + 3).map((player) => (
+                                                    <div key={player.id} className="text-center">
                                                         <div className="relative">
-                                                            {player.id ===
-                                                                contest.captain && (
-                                                                    <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                        C
-                                                                    </span>
-                                                                )}
-                                                            {player.id ===
-                                                                contest.viceCaptain && (
-                                                                    <span
-                                                                        className={`flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${opponentPlayers?.length ===
-                                                                            0 &&
-                                                                            'left-0'
-                                                                            }`}
-                                                                    >
-                                                                        VC
-                                                                    </span>
-                                                                )}
-                                                            <FontAwesomeIcon
-                                                                icon={faUser}
-                                                                className="text-green-900 text-3xl"
-                                                            />{' '}
-                                                        </div>
-                                                        <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                            {formatName(
-                                                                player.name,
-                                                                85,
+                                                            {player.id === contest.captain && (
+                                                                <span className={`flex items-center justify-center w-6 h-6 absolute -top-3 sm:text-sm text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${opponentPlayers.length ? 'sm:left-1' : 'sm:left-3'}`}>
+                                                                    C
+                                                                </span>
                                                             )}
+                                                            {player.id === contest.viceCaptain && (
+                                                                <span className={`flex items-center justify-center w-6 h-6 absolute -top-3 sm:text-xs text-[.65rem] text-white font-medium bg-gray-500 p-1 rounded-full ${opponentPlayers.length ? 'sm:left-1' : 'sm:left-3'}`}>
+                                                                    VC
+                                                                </span>
+                                                            )}
+                                                            <FontAwesomeIcon icon={faUser} className="text-green-900 text-3xl mr-2" />
+                                                        </div>
+                                                        <span className="block text-white rounded-sm py-px bg-red-600 sm:text-sm sm:w-20 w-16 whitespace-nowrap overflow-hidden text-ellipsis mt-1 text-xs text-center">
+                                                            {formatName(player.name, 85)}
                                                         </span>
-                                                        <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
+                                                        <span className="block text-white text-xs w-16 sm:w-20 mx-auto px-1 truncate">
                                                             {player?.points} Pts
                                                         </span>
                                                     </div>
-                                                );
-                                            })}
-                                    </div>
-
-                                    <div className="">
-                                        {[2, 5, 8].map((startIdx, index) => (
-                                            <div
-                                                key={index}
-                                                className="grid grid-cols-3 gap-14 mt-14 "
-                                            >
-                                                {sortedUserPlayers
-                                                    .slice(
-                                                        startIdx,
-                                                        startIdx + 3,
-                                                    )
-                                                    .map((player) => {
-                                                        return (
-                                                            <div
-                                                                key={player.id}
-                                                                className="text-center"
-                                                            >
-                                                                <div className="relative">
-                                                                    {player.id ===
-                                                                        contest.captain && (
-                                                                            <span
-                                                                                className={`flex items-center justify-center w-6 h-6 absolute -top-3  text-sm text-white font-medium bg-gray-500 p-1 rounded-full ${opponentPlayers.length
-                                                                                    ? 'left-1'
-                                                                                    : 'left-3'
-                                                                                    }`}
-                                                                            >
-                                                                                C
-                                                                            </span>
-                                                                        )}
-                                                                    {player.id ===
-                                                                        contest.viceCaptain && (
-                                                                            <span
-                                                                                className={`flex items-center justify-center w-6 h-6 absolute -top-3  text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${opponentPlayers.length
-                                                                                    ? 'left-1'
-                                                                                    : 'left-3'
-                                                                                    }`}
-                                                                            >
-                                                                                VC
-                                                                            </span>
-                                                                        )}
-                                                                    <FontAwesomeIcon
-                                                                        icon={
-                                                                            faUser
-                                                                        }
-                                                                        className="text-green-900 text-3xl"
-                                                                    />{' '}
-                                                                </div>
-                                                                <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto px-1">
-                                                                    {formatName(
-                                                                        player.name,
-                                                                        70,
-                                                                    )}
-                                                                </span>
-                                                                <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                                                                    {
-                                                                        player?.points
-                                                                    }{' '}
-                                                                    Pts
-                                                                </span>
-                                                            </div>
-                                                        );
-                                                    })}
+                                                ))}
                                             </div>
                                         ))}
                                     </div>
                                 </div>
                             </div>
+
                             {!isMatchStarted && (
                                 <div className="flex justify-center">
                                     <button
@@ -784,7 +737,7 @@ const UserContestDetails = () => {
                     {isUpdate && (
                         <div className="md:w-[60%]">
                             <div className='flex '>
-                                {Object.entries(teamPlayerCount).map(([teamName, count]) => (
+                                {/* {Object.entries(teamPlayerCount).map(([teamName, count]) => (
                                     <div key={teamName} className='mx-auto'>
                                         <div className="px-4 py-2 rounded-xl   font-bold ">
                                             {teamName === matchDetail.teamA ?
@@ -811,6 +764,34 @@ const UserContestDetails = () => {
                                                 </div>}
                                         </div>
                                     </div>
+                                ))} */}
+                                {Object.entries(teamPlayerCount).map(([teamName, count]) => (
+                                    <div key={teamName} className='mx-auto'>
+                                        <div className="px-4 py-2 rounded-xl   font-bold ">
+                                            {teamName === contest.matchDetails.teamA ?
+                                                <div className="flex items-center gap-2">
+                                                    <img
+                                                        src={matchDetail.teamAImg}
+                                                        alt="Team A"
+                                                        className="h-9 object-contain"
+                                                    />
+                                                    <p className='text-lg sm:text-xl text-gray-600'>{contest.matchDetails.teamAAcronym}</p>
+                                                    <p>{" : "}</p>
+                                                    <p className='text-xl sm:text-2xl text-red-500'>{count}</p>
+
+                                                </div>
+                                                : <div className="flex items-center gap-2">
+                                                    <p className='text-xl sm:text-2xl text-red-500'>{count}</p>
+                                                    <p>{" : "}</p>
+                                                    <p className='text-lg sm:text-xl text-gray-600'>{contest.matchDetails.teamBAcronym}</p>
+                                                    <img
+                                                        src={matchDetail.teamBImg}
+                                                        alt="Team B"
+                                                        className="h-9 object-contain"
+                                                    />
+                                                </div>}
+                                        </div>
+                                    </div>
                                 ))}
 
 
@@ -821,7 +802,7 @@ const UserContestDetails = () => {
                                         <button
                                             key={role}
                                             onClick={() => setActiveTab(role)}
-                                            className={`flex-1 px-6 py-2 text-sm font-bold capitalize transition-colors duration-200  ${activeTab === role
+                                            className={`flex-1 sm:px-6 py-2 text-xs sm:text-sm font-bold capitalize transition-colors duration-200  ${activeTab === role
                                                 ? "bg-white text-red-600 shadow border-b-2 border-red-600"
                                                 : "text-gray-600 hover:bg-gray-300"
                                                 }`}
@@ -836,14 +817,12 @@ const UserContestDetails = () => {
                                 className=""
                                 onSubmit={handleSubmitTeam}
                             >
-                                <div className="overflow-x-auto">
+                                {/* <div className="overflow-x-auto">
                                     <div className="h-[45vh] overflow-y-auto bg-white border-b-2 border-gray-300" ref={scrollRef}>
                                         <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
                                             <thead>
                                                 <tr className="text-left border-b-2 bg-slate-300">
-                                                    {/* <th className="py-2 text-md px-4 w-40">
-                                                        Role
-                                                    </th> */}
+                                                    
                                                     <th className="px-4 ">Team</th>
                                                     <th className="py-2 text-md px-4 w-56">
                                                         Player Name
@@ -872,9 +851,7 @@ const UserContestDetails = () => {
                                                             )
                                                         }
                                                     >
-                                                        {/* <td className="py-2 px-4 border-b">
-                                                            {player.role}
-                                                        </td> */}
+                                                        
                                                         <td className="py-2 px-7 border-b">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym : contest.matchDetails.teamBAcronym}</td>
                                                         <td className="py-2 px-4 border-b">
                                                             {player.name}
@@ -933,17 +910,99 @@ const UserContestDetails = () => {
                                             </tbody>
                                         </table>
                                     </div>
+                                </div> */}
+                                <div className="overflow-x-auto">
+                                    <div className="h-[45vh] overflow-y-auto bg-white border-b-2 border-gray-300" ref={scrollRef}>
+                                        <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
+                                            <thead className="sticky top-0 bg-slate-300 z-10">
+                                                <tr className="text-left border-b-2 text-sm sm:text-md">
+                                                    {/* <th className="py-2 text-md px-4 w-40">Role</th> */}
+                                                    <th className="px-4">Team</th>
+                                                    <th className="py-2 text-sm sm:text-md px-4 w-56">Player Name</th>
+                                                    <th className="py-2 px-4 text-center">C</th>
+                                                    <th className="py-2 px-4 text-center">VC</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {filteredPlayers.map((player) => (
+                                                    <tr
+                                                        key={player.id}
+                                                        className={`text-xs sm:text-sm ${isPlayerSelected(player.id)
+                                                            ? 'bg-yellow-50 cursor-pointer'
+                                                            : 'hover:bg-fuchsia-50'
+                                                            } ${!isPlayerSelected(player.id) && isMaxSelected ? 'cursor-not-allowed opacity-40 ' : 'cursor-pointer'
+                                                            }`
+                                                        }
+                                                        onClick={() => handlePlayerSelection(player.id)}
+                                                    >
+                                                        {/* <td className="py-2 px-4 border-b">{player.role}</td> */}
+                                                        <td className="py-2 px-7 border-b">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym : contest.matchDetails.teamBAcronym}</td>
+                                                        <td className="py-2 px-4 border-b">{player.name}</td>
+
+                                                        <td className="py-2 px-4 border-b text-center">
+                                                            <label
+                                                                onClick={(e) => e.stopPropagation()}
+                                                                className={`cursor-pointer inline-block w-10 h-6 leading-6 text-center rounded-full ${captainId === player.id ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'
+                                                                    } ${isPlayerSelected(player.id) && viceCaptainId !== player.id
+                                                                        ? ''
+                                                                        : 'opacity-50 cursor-not-allowed'
+                                                                    }`}
+                                                            >
+                                                                <input
+                                                                    type="radio"
+                                                                    name="captain"
+                                                                    value={player.id}
+                                                                    checked={captainId === player.id}
+                                                                    onClick={(e) => e.stopPropagation()}
+                                                                    onChange={() => handleCaptainChange(player.id)}
+                                                                    className="hidden"
+                                                                    disabled={
+                                                                        !isPlayerSelected(player.id) || viceCaptainId === player.id
+                                                                    }
+                                                                />
+                                                                2x
+                                                            </label>
+                                                        </td>
+                                                        <td className="py-2 px-4 border-b text-center">
+                                                            <label
+                                                                onClick={(e) => e.stopPropagation()}
+                                                                className={`cursor-pointer inline-block w-10 h-6 leading-6 text-center rounded-full ${viceCaptainId === player.id ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'
+                                                                    } ${isPlayerSelected(player.id) && captainId !== player.id
+                                                                        ? ''
+                                                                        : 'opacity-50 cursor-not-allowed'
+                                                                    }`}
+                                                            >
+                                                                <input
+                                                                    type="radio"
+                                                                    name="captain"
+                                                                    value={player.id}
+                                                                    checked={viceCaptainId === player.id}
+                                                                    onClick={(e) => e.stopPropagation()}
+                                                                    onChange={() => handleViceCaptainChange(player.id)}
+                                                                    className="hidden"
+                                                                    disabled={
+                                                                        !isPlayerSelected(player.id) || captainId === player.id
+                                                                    }
+                                                                />
+                                                                1.5x
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 {/* //Display error popup  */}
                                 {error && (
-                                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                                        <div className="bg-white p-6 rounded-lg shadow-lg text-center pl-9 pr-9 min-w-[23%]">
+                                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+                                        <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full max-w-sm sm:max-w-sm md:max-w-sm lg:max-w-sm">
                                             <img
-                                                className="h-12 w-12 text-center mx-auto"
+                                                className="sm:h-12 sm:w-12 h-9 w-9 mx-auto"
                                                 src={warning}
-                                                alt="Check"
-                                            ></img>
-                                            <p className="text-lg text-gray-700 font-semibold mb-4 mt-6 ">
+                                                alt="Warning"
+                                            />
+                                            <p className="text-base sm:text-lg text-gray-700 font-semibold mb-4 mt-6">
                                                 {error}
                                             </p>
                                             <button
@@ -954,6 +1013,7 @@ const UserContestDetails = () => {
                                             </button>
                                         </div>
                                     </div>
+
                                 )}
 
                                 <button
