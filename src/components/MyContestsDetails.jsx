@@ -646,37 +646,37 @@ const UserContestDetails = () => {
                         <div className="md:w-[55%]">
                             <h2 className="text-xl font-bold text-center mb-1 text-green-500">
                                 Total Points:{' '}
-                                <span className="text-3xl text-green-600">
-                                    {contest.points}
-                                </span>
+                                <span className="text-3xl text-green-600">{contest.points}</span>
                             </h2>
-                            <div className="bg-opacity-50 flex items-center justify-center z-50">
+
+                            <div className="bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
                                 <div
-                                    className={`bg-green-700 p-4 sm:p-6 rounded-lg w-full max-w-full sm:max-w-lg mx-4 my-4 bg-cover bg-center overflow-auto
-      ${opponentPlayers?.length === 0 ? 'sm:w-[65%]' : 'sm:w-full'}`}
+                                    className={`relative bg-green-700 p-4 sm:p-6 rounded-lg w-full max-w-full sm:max-w-lg mx-4 my-4 bg-cover bg-center overflow-auto ${opponentPlayers?.length === 0 ? 'sm:w-[65%]' : 'sm:w-full'
+                                        }`}
                                     style={{
                                         backgroundImage: `url(${ground})`,
                                         backgroundSize: '99% 96%',
                                     }}
                                 >
                                     {/* First 2 Players */}
-                                    <div className="flex justify-center gap-16 sm:gap-24 mt-4 mb-14 flex-wrap">
+                                    <div className="flex justify-center gap-20 mt-4 mb-7 flex-wrap">
                                         {sortedUserPlayers.slice(0, 2).map((player) => (
                                             <div key={player.id} className="text-center">
                                                 <div className="relative">
-                                                    {captainId ===
-                                                        player.id && (
-                                                            <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-1 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                C
-                                                            </span>
-                                                        )}
-                                                    {viceCaptainId ===
-                                                        player.id && (
-                                                            <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-1 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                                VC
-                                                            </span>
-                                                        )}
-                                                    <FontAwesomeIcon icon={faUser} className="text-green-900 text-3xl mr-3" />
+                                                    {captainId === player.id && (
+                                                        <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-0 sm:text-sm text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                            C
+                                                        </span>
+                                                    )}
+                                                    {viceCaptainId === player.id && (
+                                                        <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-0 sm:text-xs text-[.67rem] text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                            VC
+                                                        </span>
+                                                    )}
+                                                    <FontAwesomeIcon
+                                                        icon={faUser}
+                                                        className="text-green-900 text-3xl"
+                                                    />
                                                 </div>
                                                 <span className="block text-white rounded-sm py-px bg-red-600 sm:text-sm sm:w-20 w-16 whitespace-nowrap overflow-hidden text-ellipsis mt-1 text-xs text-center">
                                                     {formatName(player.name, 85)}
@@ -689,35 +689,39 @@ const UserContestDetails = () => {
                                     </div>
 
                                     {/* Remaining Players */}
-                                    <div>
-                                        {[2, 5, 8].map((startIdx, index) => (
-                                            <div key={index} className="grid grid-cols-3 gap-6 sm:gap-14 mt-10 sm:mt-14">
-                                                {sortedUserPlayers.slice(startIdx, startIdx + 3).map((player) => (
-                                                    <div key={player.id} className="text-center">
-                                                        <div className="relative">
-                                                            {player.id === contest.captain && (
-                                                                <span className={`flex items-center justify-center w-6 h-6 absolute -top-3 sm:text-sm text-xs text-white font-medium bg-gray-500 p-1 rounded-full ${opponentPlayers.length ? 'sm:left-1' : 'sm:left-3'}`}>
-                                                                    C
-                                                                </span>
-                                                            )}
-                                                            {player.id === contest.viceCaptain && (
-                                                                <span className={`flex items-center justify-center w-6 h-6 absolute -top-3 sm:text-xs text-[.65rem] text-white font-medium bg-gray-500 p-1 rounded-full ${opponentPlayers.length ? 'sm:left-1' : 'sm:left-3'}`}>
-                                                                    VC
-                                                                </span>
-                                                            )}
-                                                            <FontAwesomeIcon icon={faUser} className="text-green-900 text-3xl mr-2" />
-                                                        </div>
-                                                        <span className="block text-white rounded-sm py-px bg-red-600 sm:text-sm sm:w-20 w-16 whitespace-nowrap overflow-hidden text-ellipsis mt-1 text-xs text-center">
-                                                            {formatName(player.name, 85)}
-                                                        </span>
-                                                        <span className="block text-white text-xs w-16 sm:w-20 mx-auto px-1 truncate">
-                                                            {player?.points} Pts
-                                                        </span>
+                                    {[2, 5, 8].map((startIdx, index) => (
+                                        <div
+                                            key={index}
+                                            className="grid grid-cols-3 gap-16 mt-12 justify-items-center"
+                                        >
+                                            {sortedUserPlayers.slice(startIdx, startIdx + 3).map((player) => (
+                                                <div key={player.id} className="text-center">
+                                                    <div className="relative">
+                                                        {player.id === contest.captain && (
+                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 -left-0 sm:left-2 sm:text-sm text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                C
+                                                            </span>
+                                                        )}
+                                                        {player.id === contest.viceCaptain && (
+                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 -left-0 sm:left-2 sm:text-xs text-[.67rem] text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                VC
+                                                            </span>
+                                                        )}
+                                                        <FontAwesomeIcon
+                                                            icon={faUser}
+                                                            className="text-green-900 text-3xl"
+                                                        />
                                                     </div>
-                                                ))}
-                                            </div>
-                                        ))}
-                                    </div>
+                                                    <span className="block text-white rounded-sm py-px bg-red-600 sm:text-sm sm:w-20 w-16 whitespace-nowrap overflow-hidden text-ellipsis mt-1 text-xs text-center">
+                                                        {formatName(player.name, 85)}
+                                                    </span>
+                                                    <span className="block text-white text-xs w-16 sm:w-20 mx-auto px-1 truncate">
+                                                        {player?.points} Pts
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
 
@@ -725,13 +729,14 @@ const UserContestDetails = () => {
                                 <div className="flex justify-center">
                                     <button
                                         onClick={handleUpdateTeam}
-                                        className=" bg-green-600 hover:bg-green-500 text-white rounded-md p-2 mt-2 "
+                                        className="bg-green-600 hover:bg-green-500 text-white rounded-md p-2 mt-2"
                                     >
                                         Update Team
                                     </button>
                                 </div>
                             )}
                         </div>
+
                     )}
 
                     {isUpdate && (
