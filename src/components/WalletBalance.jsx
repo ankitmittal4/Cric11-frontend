@@ -38,7 +38,7 @@ const WalletBalance = () => {
             <div className="text-white ml-4 font-bold cursor-pointer" onClick={() => openAddMoneyPopup()}>
                 <FontAwesomeIcon
                     icon={faWallet}
-                    className="text-white text-2xl"
+                    className="text-white text-2xl sm:h-6 sm:w-6 h-5 w-5"
                 />{' '}
                 <span className="">₹{balance}</span>
             </div>
