@@ -40,7 +40,7 @@ const ContestsInMatches = () => {
         if (matchStart.getDate() === tomorrow.getDate() &&
             matchStart.getMonth() === tomorrow.getMonth() &&
             matchStart.getFullYear() === tomorrow.getFullYear()) {
-            console.log("tomorrow");
+            // console.log("tomorrow");
             return "tomorrow"
         }
 
