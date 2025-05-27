@@ -437,7 +437,7 @@ const ContestDetails = () => {
                     .reverse()
                     .join('-');
                 return (
-                    <p className="text-center text-sm text-red-500 font-semibold">
+                    <div className="text-center text-sm text-red-500 font-semibold">
                         {timeLeft === "tomorrow" ? (
                             <p className='font-bold mb-1'>
                                 Tomorrow
@@ -457,7 +457,7 @@ const ContestDetails = () => {
                             </>
                         )}
 
-                    </p>
+                    </div>
                 );
             })()}
             <h1 className="text-xl sm:text-2xl font-bold mb-5 text-gray-600 text-center tracking-wide">
@@ -562,18 +562,16 @@ const ContestDetails = () => {
                     </div>
                     <div className="flex bg-gray-100 rounded-sm overflow-hidden shadow-md w-full mt-4">
                         {roles.map(role => (
-                            <>
-                                <button
-                                    key={role}
-                                    onClick={() => setActiveTab(role)}
-                                    className={`flex-1 sm:px-6 py-2 text-xs sm:text-sm font-bold capitalize transition-colors duration-200  ${activeTab === role
-                                        ? "bg-white text-red-600 shadow border-b-2 border-red-600"
-                                        : "text-gray-600 hover:bg-gray-300"
-                                        }`}
-                                >
-                                    {role} ({selectedCounts[role]})
-                                </button>
-                            </>
+                            <button
+                                key={role}
+                                onClick={() => setActiveTab(role)}
+                                className={`flex-1 sm:px-6 py-2 text-xs sm:text-sm font-bold capitalize transition-colors duration-200  ${activeTab === role
+                                    ? "bg-white text-red-600 shadow border-b-2 border-red-600"
+                                    : "text-gray-600 hover:bg-gray-300"
+                                    }`}
+                            >
+                                {role} ({selectedCounts[role]})
+                            </button>
                         ))}
 
                     </div>

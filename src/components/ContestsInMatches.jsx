@@ -133,7 +133,7 @@ const ContestsInMatches = () => {
                                     .reverse()
                                     .join('-');
                                 return (
-                                    <p className="text-center text-xs text-red-500 font-bold">
+                                    <div className="text-center text-xs text-red-500 font-bold">
                                         {timeLeft === "tomorrow" ? (
                                             <>
                                                 {"Tomorrow"}
@@ -155,7 +155,7 @@ const ContestsInMatches = () => {
                                         <span className="text-slate-500 font-normal">
                                             {convertIn12Hours(contest.match.startTime)}
                                         </span>
-                                    </p>
+                                    </div>
                                 );
                             })()}
 
