@@ -154,7 +154,7 @@ const Home = () => {
                                         .reverse()
                                         .join('-');
                                     return (
-                                        <p className="text-center text-xs text-red-500 font-bold">
+                                        <div className="text-center text-xs text-red-500 font-bold">
                                             {timeLeft === "tomorrow" ? (
                                                 <>
                                                     {"Tomorrow"}
@@ -176,7 +176,7 @@ const Home = () => {
                                             <span className="text-slate-500 font-normal">
                                                 {convertIn12Hours(match.startTime)}
                                             </span>
-                                        </p>
+                                        </div>
                                     );
                                 })()}
 
