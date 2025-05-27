@@ -1158,7 +1158,7 @@ const UserContestDetails = () => {
                                         <div className="flex justify-center gap-24 mt-8 mb-7">
 
                                             {selectedPlayerIds.slice(0, 2).map((id) => {
-                                                const player = players.find(
+                                                const player = playersSelection.find(
                                                     (p) => p.id === id,
                                                 );
                                                 return (
