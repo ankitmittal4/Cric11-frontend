@@ -485,8 +485,8 @@ const UserContestDetails = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             const updated = getTimeLeft(
-                contest.matchDetails.date,
-                contest.matchDetails.startTime
+                contest?.matchDetails?.date,
+                contest?.matchDetails?.startTime
             );
             setTimeLeft(updated);
         }, 1000);
@@ -521,7 +521,7 @@ const UserContestDetails = () => {
                     .reverse()
                     .join('-');
                 return (
-                    <p className="text-center text-xs sm:text-sm text-red-500 font-semibold sm:mt-0 mt-2">
+                    <div className="text-center text-xs sm:text-sm text-red-500 font-semibold sm:mt-0 mt-2">
                         {timeLeft === "tomorrow" ? (
                             <div className='mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center'>
                                 <img src={clock} alt="" className='h-3 w-3 mr-1' />
@@ -549,7 +549,7 @@ const UserContestDetails = () => {
                             </>
                         )}
 
-                    </p>
+                    </div>
                 );
             })()}
             {/* <h1 className="text-2xl font-bold mb-5 text-gray-600 text-center">
@@ -779,18 +779,16 @@ const UserContestDetails = () => {
                             </div>
                             <div className="flex bg-gray-100 rounded-sm overflow-hidden shadow-md w-full mt-4">
                                 {roles.map(role => (
-                                    <>
-                                        <button
-                                            key={role}
-                                            onClick={() => setActiveTab(role)}
-                                            className={`flex-1 sm:px-6 py-2 text-xs sm:text-sm font-bold capitalize transition-colors duration-200  ${activeTab === role
-                                                ? "bg-white text-red-600 shadow border-b-2 border-red-600"
-                                                : "text-gray-600 hover:bg-gray-300"
-                                                }`}
-                                        >
-                                            {role} ({selectedCounts[role]})
-                                        </button>
-                                    </>
+                                    <button
+                                        key={role}
+                                        onClick={() => setActiveTab(role)}
+                                        className={`flex-1 sm:px-6 py-2 text-xs sm:text-sm font-bold capitalize transition-colors duration-200  ${activeTab === role
+                                            ? "bg-white text-red-600 shadow border-b-2 border-red-600"
+                                            : "text-gray-600 hover:bg-gray-300"
+                                            }`}
+                                    >
+                                        {role} ({selectedCounts[role]})
+                                    </button>
                                 ))}
 
                             </div>
@@ -1001,7 +999,7 @@ const UserContestDetails = () => {
                                     type="submit"
                                     className="bg-green-600 text-white px-4 py-2 rounded mt-10 mb-11 mx-auto block hover:bg-green-700"
                                 >
-                                    Update Team
+                                    Update Team1111
                                 </button>
                             </form>
 
@@ -1146,6 +1144,7 @@ const UserContestDetails = () => {
                                         </h2>
 
                                         <div className="flex justify-center gap-24 mt-8 mb-7">
+
                                             {selectedPlayerIds.slice(0, 2).map((id) => {
                                                 const player = players.find(
                                                     (p) => p.id === id,
@@ -1189,7 +1188,7 @@ const UserContestDetails = () => {
                                                 {selectedPlayerIds
                                                     .slice(startIdx, startIdx + 3)
                                                     .map((id) => {
-                                                        const player = players.find((p) => p.id === id);
+                                                        const player = playersSelection.find((p) => p.id === id);
                                                         return (
                                                             <div key={player.id} className="flex flex-col items-center text-center">
                                                                 <div className="relative">
