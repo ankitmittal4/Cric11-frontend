@@ -127,7 +127,9 @@ const UserContestDetails = () => {
                         //NOTE: get opponent details
                         if (opponentUserContestId) {
                             try {
+                                // console.log("In opponent");
                                 //NOTE: Find points and result of both user and opponent
+                                // console.log("API calling");
                                 const userRes = await axios.post(
                                     `${API_URL}/user-contest/update`,
                                     {
@@ -140,6 +142,23 @@ const UserContestDetails = () => {
                                         },
                                     },
                                 );
+                                // console.log("Contest2: ", userRes);
+                                // setContest(
+                                //     userRes.data.data.updatedUserContest[0],
+                                // );
+                                setPlayers(
+                                    userRes.data.data.updatedUserContest[0]
+                                        .user11,
+                                );
+                                setOpponentContest(
+                                    userRes.data.data.updatedOpponentContest[0],
+                                );
+                                setOpponentPlayers(
+                                    userRes.data.data.updatedOpponentContest[0]
+                                        .user11,
+                                );
+
+
                                 // console.log(
                                 //     'user points: ',
                                 //     userRes.data.data.updatedUserContest[0]
@@ -155,21 +174,8 @@ const UserContestDetails = () => {
                                 // );
 
                                 // console.log(userRes.data.data.updatedUserContest[0]);
-                                // console.log("Contest2: ", userRes.data.data.updatedUserContest[0]);
-                                setContest(
-                                    userRes.data.data.updatedUserContest[0],
-                                );
-                                setPlayers(
-                                    userRes.data.data.updatedUserContest[0]
-                                        .user11,
-                                );
-                                setOpponentContest(
-                                    userRes.data.data.updatedOpponentContest[0],
-                                );
-                                setOpponentPlayers(
-                                    userRes.data.data.updatedOpponentContest[0]
-                                        .user11,
-                                );
+
+
                             } catch {
                                 console.log('Error: Opponent data not found');
                             }
@@ -450,7 +456,7 @@ const UserContestDetails = () => {
         return name;
     };
     const convertIn12Hours = (time) => {
-        let [hours, minutes] = time.split(':');
+        let [hours, minutes] = time ? time.split(':') : "";
         hours = parseInt(hours);
 
         const period = hours >= 12 ? 'PM' : 'AM';
@@ -460,6 +466,7 @@ const UserContestDetails = () => {
     const [timeLeft, setTimeLeft] = useState("");
 
     const getTimeLeft = (matchDate, matchTime) => {
+        // console.log(matchDate);
         const matchStart = new Date(`${matchDate}T${matchTime}:00`);
         const now = new Date();
 
@@ -519,10 +526,10 @@ const UserContestDetails = () => {
                     contest.matchDetails.date,
                     contest.matchDetails.startTime,
                 );
-                const formattedDate = contest.matchDetails.date
-                    .split('-')
-                    .reverse()
-                    .join('-');
+                const formattedDate = contest.matchDetails?.date
+                    ? contest.matchDetails.date.split('-').reverse().join('-')
+                    : '';
+
                 return (
                     <div className="text-center text-xs sm:text-sm text-red-500 font-semibold sm:mt-0 mt-2">
                         {timeLeft === "tomorrow" ? (
@@ -547,7 +554,6 @@ const UserContestDetails = () => {
                             </div>
                         ) : (
                             <>
-                                {/* {formattedDate} */}
                                 <br />
                             </>
                         )}
@@ -608,10 +614,10 @@ const UserContestDetails = () => {
                         <p className=" mt-4">
                             Date:{' '}
                             <span className="font-semibold text-orange-600">
-                                {contest.matchDetails.date
+                                {contest.matchDetails?.date ? contest.matchDetails.date
                                     .split('-')
                                     .reverse()
-                                    .join('-')}
+                                    .join('-') : ""}
                             </span>
                         </p>
                         <p className=" mt-4">
