@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 import Users from "./Users";
 import Matches from "./Matches";
 import Contests from "./Contests";
-import Sellers from "./Sellers";
+
 import CreateContest from "./CreateContest";
 const DashboardRoutes = () => {
   return (
@@ -22,7 +22,6 @@ const DashboardRoutes = () => {
               element={<CreateContest />}
             />
             <Route path="/contests" element={<Contests />} />
-            <Route path="/sellers" element={<Sellers />} />
           </Routes>
         </div>
       </div>
