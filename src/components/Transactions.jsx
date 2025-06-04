@@ -196,7 +196,8 @@ const TransactionCard = ({ transaction }) => {
 
                     <p className="text-gray-600 text-sm">
                         <span className='hidden sm:inline'>Transaction Id: </span>
-                        {(transactionId || _id).slice(0, 12)}
+                        {/* {(transactionId || _id).slice(0, 12)} */}
+                        {_id}
                     </p>
                 </div>
 
