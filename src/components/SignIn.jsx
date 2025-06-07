@@ -55,8 +55,8 @@ const SignIn = () => {
                 const res = await axios.post(`${API_URL}/users/login`, data);
                 // console.log('Response: ', res.data.data);
                 localStorage.setItem('accessToken', res.data.data.accessToken);
-                localStorage.setItem('email', res.data.data.email);
-                localStorage.setItem('fullName', res.data.data.fullName);
+                localStorage.setItem('email', res.data.data.user.email);
+                localStorage.setItem('fullName', res.data.data.user.fullName);
                 navigate('/');
                 action.resetForm();
             } catch (error) {
