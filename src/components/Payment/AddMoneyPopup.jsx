@@ -6,6 +6,9 @@ import { add } from "date-fns";
 const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
 const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, fetchTransactions = () => { } }, ref) => {
+    const userEmail = localStorage.getItem("email");
+    const userName = localStorage.getItem("fullName");
+
     const [visible, setVisible] = useState(false);
     const [amount, setAmount] = useState("");
     const inputRef = useRef(null);
@@ -88,9 +91,18 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
                             Authorization: `Bearer ${accessToken}`,
                         },
                     });
-
                     alert("Payment Successful & Verified ✅");
                     fetchTransactions();
+                    try {
+                        await axios.post(`${API_URL}/email/send-confirmation`, {
+                            email: userEmail,
+                            name: userName,
+                            amount: amount,
+                        });
+                        console.log("Confirmation email sent!");
+                    } catch (error) {
+                        console.error("Error sending email:", error);
+                    }
                 } catch (err) {
                     alert("Payment succeeded, but verification failed ❌");
                     console.error(err);
