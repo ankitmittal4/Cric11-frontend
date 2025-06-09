@@ -94,7 +94,7 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
                     alert("Payment Successful & Verified ✅");
                     fetchTransactions();
                     try {
-                        await axios.post(`${API_URL}/email/send-confirmation`, {
+                        await axios.post(`${API_URL}/email/payment-success`, {
                             email: userEmail,
                             name: userName,
                             amount: amount,
