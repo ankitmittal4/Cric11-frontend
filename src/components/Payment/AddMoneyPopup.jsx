@@ -80,7 +80,7 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
             },
             handler: async (response) => {
                 try {
-                    await axios.post(`${API_URL}/payment/verify`, {
+                    const transaction = await axios.post(`${API_URL}/payment/verify`, {
                         razorpay_payment_id: response.razorpay_payment_id,
                         razorpay_order_id: response.razorpay_order_id,
                         razorpay_signature: response.razorpay_signature,
@@ -91,6 +91,7 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
                             Authorization: `Bearer ${accessToken}`,
                         },
                     });
+                    // console.log("transaction: ", transaction.data.data._id);
                     alert("Payment Successful & Verified ✅");
                     fetchTransactions();
                     try {
@@ -98,8 +99,9 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
                             email: userEmail,
                             name: userName,
                             amount: amount,
+                            transactionId: transaction.data.data._id,
                         });
-                        console.log("Confirmation email sent!");
+                        console.log("Payment successfull Confirmation email sent!");
                     } catch (error) {
                         console.error("Error sending email:", error);
                     }
