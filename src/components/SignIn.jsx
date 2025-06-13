@@ -58,6 +58,18 @@ const SignIn = () => {
                 localStorage.setItem('email', res.data.data.user.email);
                 localStorage.setItem('fullName', res.data.data.user.fullName);
                 navigate('/');
+
+                try {
+                    // const time = new Date().toLocaleString();
+                    await axios.post(`${API_URL}/email/login`, {
+                        email: res.data.data.user.email,
+                        name: res.data.data.user.fullName,
+                        time: new Date().toLocaleString(),
+                    });
+                    console.log("Login successfull and Confirmation email sent!");
+                } catch (error) {
+                    console.error("Error sending email:", error);
+                }
                 action.resetForm();
             } catch (error) {
                 console.error('Login failed:', error);
