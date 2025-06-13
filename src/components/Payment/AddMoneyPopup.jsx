@@ -101,7 +101,7 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
                             amount: amount,
                             transactionId: transaction.data.data._id,
                         });
-                        console.log("Payment successfull Confirmation email sent!");
+                        console.log("Payment successfull and Confirmation email sent!");
                     } catch (error) {
                         console.error("Error sending email:", error);
                     }
@@ -128,12 +128,24 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
             };
 
             try {
-                await axios.post(`${API_URL}/payment/failed`, failureData, {
+                const transaction = await axios.post(`${API_URL}/payment/failed`, failureData, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
+                // console.log(transaction);
+                try {
+                    await axios.post(`${API_URL}/email/payment-failed`, {
+                        email: userEmail,
+                        name: userName,
+                        amount: amount,
+                        transactionId: transaction.data.data._id,
+                    });
+                    console.log("Payment failed and Confirmation email sent!");
+                } catch (error) {
+                    console.error("Error sending email:", error);
+                }
                 // console.log("Payment failure logged successfully");
                 fetchTransactions();
             } catch (err) {
