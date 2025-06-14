@@ -92,10 +92,10 @@ const SignIn = () => {
                 </div>
             )}
             <div
-                className="flex min-h-screen bg-cover bg-center"
+                className="flex min-h-screen bg-cover bg-center px-4 py-8 sm:px-6 lg:px-8"
                 style={{ backgroundImage: `url(${frameBg})` }}
             >
-                <div className="flex flex-col items-center justify-center w-full p-8 bg-white md:w-1/3  font-custom  rounded-md shadow-lg mx-auto my-auto ">
+                <div className="flex flex-col items-center justify-center w-full p-8 bg-white md:w-1/3  font-custom  rounded-md shadow-lg mx-auto my-auto">
                     <div className="w-full max-w-md">
                         <img
                             src={logo}
@@ -158,7 +158,6 @@ const SignIn = () => {
                                 className="w-1/3 block bg-[#7F0019] text-white p-2 rounded-md hover:bg-[#A70024] mx-auto"
                                 onClick={handleSubmit}
                             >
-                                {/* {isLoading === true ? 'Loading...' : 'Login'} */}
                                 Login
                             </button>
                             {errors.submit && (
