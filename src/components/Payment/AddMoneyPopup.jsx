@@ -179,14 +179,14 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
 
                     <div className="text-base sm:text-lg text-gray-700 font-semibold mt-8">
                         Amount to add:
-                        <div className="relative inline-block ml-1">
+                        <div className="relative inline-block ">
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">₹</span>
                             <input
                                 ref={inputRef}
                                 type="number"
                                 value={amount}
                                 onChange={(e) => setAmount(e.target.value)}
-                                className="border border-gray-300 rounded pl-6 pr-2 py-1 outline-none"
+                                className="border border-gray-300 rounded pl-6 pr-2 py-1 outline-none w-[100%]"
                                 placeholder="Enter amount"
                                 onKeyDown={handleKeyDown}
                             />

@@ -92,7 +92,7 @@ const SignUp = () => {
                 </div>
             )}
             <div
-                className="flex min-h-screen bg-cover bg-center"
+                className="flex min-h-screen bg-cover bg-center px-4 py-8 sm:px-6 lg:px-8"
                 style={{ backgroundImage: `url(${frameBg})` }}
             >
                 <div className="flex flex-col items-center justify-center w-full p-8 bg-white lg:w-1/3  font-custom  rounded-md shadow-lg mx-auto my-auto ">
