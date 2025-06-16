@@ -9,24 +9,25 @@ const API_URL = import.meta.env.VITE_API_URL;
 const WalletBalance = () => {
     const [balance, setBalance] = useState(0);
     const popupRef = useRef();
+    const hasInitialized = useRef(false);
     const accessToken = localStorage.getItem('accessToken');
+
     useEffect(() => {
+        if (hasInitialized.current) return;
+        hasInitialized.current = true;
         const fetchBalance = async () => {
-            // Simulate API call to fetch balance
-            const response = await axios.get(`${API_URL}/users/get-balance`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            setBalance(response.data.data.walletBalance);
+            try {
+                const response = await axios.get(`${API_URL}/users/get-balance`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setBalance(response.data.data.walletBalance);
+            } catch (error) {
+                console.error('Error fetching balance:', error);
+            }
         };
-
         fetchBalance();
-
-        // Optional: Set up an interval to periodically update balance
-        const interval = setInterval(fetchBalance, 5000);
-
-        return () => clearInterval(interval);
     }, []);
     const openAddMoneyPopup = () => {
         popupRef.current?.show();
