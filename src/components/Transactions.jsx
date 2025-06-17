@@ -19,7 +19,7 @@ const Transactions = () => {
 
     // Fetch transactions from API
     const fetchTransactions = async () => {
-        console.log("Fetch after add money");
+
         setLoading(true);
         try {
             const response = await axios.get(
@@ -51,14 +51,14 @@ const Transactions = () => {
         } catch (error) {
             console.error('Error fetching transactions:', error);
         } finally {
-            setLoading(false); // Stop loader
+            setLoading(false);
         }
     };
     useEffect(() => {
         fetchTransactions();
         const handleMoneyAdded = () => {
-            console.log("Money added event received");
-            fetchTransactions(); // Refresh transactions
+            // console.log("Money added event received");
+            fetchTransactions();
         };
 
         window.addEventListener('moneyAdded', handleMoneyAdded);
