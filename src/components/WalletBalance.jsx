@@ -29,6 +29,14 @@ const WalletBalance = () => {
         if (hasInitialized.current) return;
         hasInitialized.current = true;
         fetchBalance();
+        const handleUpdateBalance = () => {
+            console.log("Update Balance in navbar event received");
+            fetchBalance();
+        };
+        window.addEventListener('updateBalance', handleUpdateBalance);
+        return () => {
+            window.removeEventListener('updateBalance', handleUpdateBalance);
+        };
     }, []);
     const openAddMoneyPopup = () => {
         popupRef.current?.show();
