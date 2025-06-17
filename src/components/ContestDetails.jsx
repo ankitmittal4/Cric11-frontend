@@ -239,6 +239,7 @@ const ContestDetails = () => {
                 setPopupMessage('Contest Joined Successfully!');
                 setIsPopupVisible(true);
             }
+            window.dispatchEvent(new CustomEvent('updateBalance'));
 
             const opponentData = {
                 userContestId: response.data.data._id,
