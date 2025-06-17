@@ -205,7 +205,7 @@ const TransactionCard = ({ transaction }) => {
                         {transactionStatus === 'failed' && capitaliseFirstLetter(transactionStatus)}
                     </p>
 
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-600 sm:text-sm text-xs">
                         <span className='hidden sm:inline'>Transaction Id: </span>
                         {/* {(transactionId || _id).slice(0, 12)} */}
                         {_id}
@@ -213,7 +213,7 @@ const TransactionCard = ({ transaction }) => {
                 </div>
 
                 {/* Right section: Message, Date, Time aligned to right of amount */}
-                <div className="flex flex-col items-end text-right">
+                <div className="flex flex-col items-end text-right sm:text-sm text-xs">
                     <p className="text-gray-700 mb-1">{message}</p>
                     <p className="text-gray-600 text-xs sm:text-sm">{formattedDate}</p>
                     <p className="text-gray-600 text-xs sm:text-sm">{formattedTime}</p>
