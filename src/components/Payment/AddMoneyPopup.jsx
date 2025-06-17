@@ -5,7 +5,7 @@ import close from '../../assets/close.png';
 import { add } from "date-fns";
 const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
-const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, fetchTransactions = () => { } }, ref) => {
+const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, fetchTransactions = () => { }, onMoneyAdded = () => { } }, ref) => {
     const userEmail = localStorage.getItem("email");
     const userName = localStorage.getItem("fullName");
 
@@ -93,7 +93,9 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
                     });
                     // console.log("transaction: ", transaction.data.data._id);
                     alert("Payment Successful & Verified ✅");
+                    onMoneyAdded();
                     fetchTransactions();
+                    window.dispatchEvent(new CustomEvent('moneyAdded'));
                     try {
                         await axios.post(`${API_URL}/email/payment-success`, {
                             email: userEmail,
@@ -222,6 +224,7 @@ AddMoneyPopup.propTypes = {
     accessToken: PropTypes.string.isRequired,
     walletBalance: PropTypes.number.isRequired,
     fetchTransactions: PropTypes.func,
+    onMoneyAdded: PropTypes.func,
 };
 
 export default AddMoneyPopup;

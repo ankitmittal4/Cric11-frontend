@@ -19,6 +19,7 @@ const Transactions = () => {
 
     // Fetch transactions from API
     const fetchTransactions = async () => {
+        console.log("Fetch after add money");
         setLoading(true);
         try {
             const response = await axios.get(
@@ -55,6 +56,16 @@ const Transactions = () => {
     };
     useEffect(() => {
         fetchTransactions();
+        const handleMoneyAdded = () => {
+            console.log("Money added event received");
+            fetchTransactions(); // Refresh transactions
+        };
+
+        window.addEventListener('moneyAdded', handleMoneyAdded);
+
+        return () => {
+            window.removeEventListener('moneyAdded', handleMoneyAdded);
+        };
     }, [currentPage]);
 
     const handlePageChange = (page) => {

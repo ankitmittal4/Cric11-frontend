@@ -12,21 +12,22 @@ const WalletBalance = () => {
     const hasInitialized = useRef(false);
     const accessToken = localStorage.getItem('accessToken');
 
+    const fetchBalance = async () => {
+        // console.log("Money added");
+        try {
+            const response = await axios.get(`${API_URL}/users/get-balance`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            setBalance(response.data.data.walletBalance);
+        } catch (error) {
+            console.error('Error fetching balance:', error);
+        }
+    };
     useEffect(() => {
         if (hasInitialized.current) return;
         hasInitialized.current = true;
-        const fetchBalance = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/users/get-balance`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                setBalance(response.data.data.walletBalance);
-            } catch (error) {
-                console.error('Error fetching balance:', error);
-            }
-        };
         fetchBalance();
     }, []);
     const openAddMoneyPopup = () => {
@@ -48,6 +49,7 @@ const WalletBalance = () => {
                 API_URL={API_URL}
                 accessToken={accessToken}
                 walletBalance={balance}
+                onMoneyAdded={fetchBalance}
             />
         </>
     );
