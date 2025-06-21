@@ -538,9 +538,6 @@ const UserContestDetails = () => {
                     </div>
                 );
             })()}
-            {/* <h1 className="text-2xl font-bold mb-5 text-gray-600 text-center">
-                {contest.matchDetails.name}
-            </h1> */}
             <h1 className="text-xl sm:text-2xl font-bold mb-5 text-gray-600 text-center tracking-wide">
                 <span className="block sm:inline">{contest.matchDetails.teamA}</span>
                 <span className="block sm:inline sm:text-xl text-base text-gray-400 tracking-tighter mx-2">vs</span>
@@ -619,7 +616,6 @@ const UserContestDetails = () => {
                         <p className=" mt-4">
                             Spots:{' '}
                             <span className="font-semibold text-red-600">
-                                {/* {contest.matchDetails.matchStarted && "Yes"} */}
                                 {contest.contestDetails.maxParticipants}
                             </span>
                         </p>
@@ -1017,114 +1013,6 @@ const UserContestDetails = () => {
                     )}
 
                     {opponentPlayers.length != 0 && (
-                        // <div className="md:w-[55%] ml-5 ">
-                        //     <h2 className="text-xl font-bold text-center mb-1 text-green-500">
-                        //         Total Opponent Points:{' '}
-                        //         <span className="text-3xl text-green-600">
-                        //             {opponentContest.points}
-                        //         </span>
-                        //     </h2>
-                        //     <div className="  bg-opacity-50 flex items-center justify-center z-50">
-                        //         <div
-                        //             className="relative bg-green-700 p-6 rounded-lg  max-w-lg mx-4 my-4 bg-cover bg-center w-full "
-                        //             style={{
-                        //                 backgroundImage: `url(${ground})`,
-                        //                 backgroundSize: '99% 96%',
-                        //             }}
-                        //         >
-                        //             <div className="flex justify-center gap-24 mt-4 mb-14">
-                        //                 {sortedOpponentPlayers
-                        //                     .slice(0, 2)
-                        //                     .map((player) => {
-                        //                         return (
-                        //                             <div
-                        //                                 key={player.id}
-                        //                                 className="text-center"
-                        //                             >
-                        //                                 <div className="relative">
-                        //                                     {player.id ===
-                        //                                         opponentContest.captain && (
-                        //                                             <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                        //                                                 C
-                        //                                             </span>
-                        //                                         )}
-                        //                                     {player.id ===
-                        //                                         opponentContest.viceCaptain && (
-                        //                                             <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-2 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                        //                                                 VC
-                        //                                             </span>
-                        //                                         )}
-                        //                                     <FontAwesomeIcon
-                        //                                         icon={faUser}
-                        //                                         className="text-green-900 text-3xl"
-                        //                                     />{' '}
-                        //                                 </div>
-                        //                                 <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                        //                                     {formatName(
-                        //                                         player.name,
-                        //                                         85,
-                        //                                     )}
-                        //                                 </span>
-                        //                                 <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                        //                                     {player?.points} Pts
-                        //                                 </span>
-                        //                             </div>
-                        //                         );
-                        //                     })}
-                        //             </div>
-
-                        //             {[2, 5, 8].map((startIdx, index) => (
-                        //                 <div
-                        //                     key={index}
-                        //                     className="grid grid-cols-3 gap-14 mt-14"
-                        //                 >
-                        //                     {sortedOpponentPlayers
-                        //                         .slice(startIdx, startIdx + 3)
-                        //                         .map((player) => {
-                        //                             return (
-                        //                                 <div
-                        //                                     key={player.id}
-                        //                                     className="text-center"
-                        //                                 >
-                        //                                     <div className="relative">
-                        //                                         {player.id ===
-                        //                                             opponentContest.captain && (
-                        //                                                 <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-1 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
-                        //                                                     C
-                        //                                                 </span>
-                        //                                             )}
-                        //                                         {player.id ===
-                        //                                             opponentContest.viceCaptain && (
-                        //                                                 <span className="flex items-center justify-center w-6 h-6 absolute -top-3 left-1 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                        //                                                     VC
-                        //                                                 </span>
-                        //                                             )}
-                        //                                         <FontAwesomeIcon
-                        //                                             icon={
-                        //                                                 faUser
-                        //                                             }
-                        //                                             className="text-green-900 text-3xl"
-                        //                                         />
-                        //                                     </div>
-
-                        //                                     <span className="block text-white rounded-sm py-px bg-red-600 text-sm w-20 whitespace-nowrap overflow-hidden text-ellipsis text-center mx-auto px-1">
-                        //                                         {formatName(
-                        //                                             player.name,
-                        //                                             70,
-                        //                                         )}
-                        //                                     </span>
-                        //                                     <span className="block text-white rounded-sm py-px  text-xs w-20 whitespace-nowrap overflow-hidden text-ellipsis mx-auto px-1">
-                        //                                         {player?.points}{' '}
-                        //                                         Pts
-                        //                                     </span>
-                        //                                 </div>
-                        //                             );
-                        //                         })}
-                        //                 </div>
-                        //             ))}
-                        //         </div>
-                        //     </div>
-                        // </div>
                         <div className="md:w-[55%]">
                             <h2 className="text-xl font-bold text-center mb-1 text-gray-400">
                                 Opponent Points:{' '}
