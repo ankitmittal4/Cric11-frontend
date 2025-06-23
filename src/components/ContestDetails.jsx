@@ -131,10 +131,9 @@ const ContestDetails = () => {
         Bowler: 5,
         '--': 6,
     };
-    //TODO: Validation on submit
+
     const handleSubmitTeam = (e) => {
         e.preventDefault();
-        //validation for captain and vc present
         if (selectedPlayerIds.length < 11) {
             setError('Select exactly 11 players');
             return;
@@ -180,7 +179,7 @@ const ContestDetails = () => {
     };
 
     const handleWalletSummaryPopup = async () => {
-        setLoading(true); // Start loader
+        setLoading(true);
 
         try {
             const response = await axios.get(`${API_URL}/users/get-balance`, {
@@ -195,7 +194,7 @@ const ContestDetails = () => {
         } catch (error) {
             console.error("Error fetching wallet balance", error);
         } finally {
-            setLoading(false); // Stop loader
+            setLoading(false);
         }
     };
 
@@ -214,7 +213,6 @@ const ContestDetails = () => {
             return;
         }
 
-        // console.log("accessToken: ", accessToken);
         const contestData = {
             contestId: id,
             players: selectedPlayerIds,
@@ -223,7 +221,6 @@ const ContestDetails = () => {
         };
 
         try {
-            // console.log("user contest id: ", response.data.data._id);
             const response = await axios.post(
                 `${API_URL}/user-contest/create`,
                 contestData,
@@ -235,7 +232,6 @@ const ContestDetails = () => {
             );
             if (response.data.statusCode === 200) {
                 // navigate('/my-contests');
-                // alert('Contest Joined successfully!');
                 setPopupMessage('Contest Joined Successfully!');
                 setIsPopupVisible(true);
             }
@@ -265,7 +261,7 @@ const ContestDetails = () => {
 
     };
     const closePopup = () => {
-        setIsPopupVisible(false); // Hide the popup
+        setIsPopupVisible(false);
         navigate('/my-contests');
     };
 
@@ -304,11 +300,7 @@ const ContestDetails = () => {
     const sortedPlayers = players.sort((a, b) => {
         return rolePriority[a.role] - rolePriority[b.role];
     });
-    // const sortedSelectedPlayers = [...selectedPlayerIds].sort((a, b) => {
-    //     const roleA = players.find((p) => p.id === a)?.role || '--';
-    //     const roleB = players.find((p) => p.id === b)?.role || '--';
-    //     return rolePriority[roleA] - rolePriority[roleB];
-    // });
+
     const roleMap = {
         WK: ['WK-Batsman'],
         BAT: ['Batsman'],
@@ -372,9 +364,6 @@ const ContestDetails = () => {
     const getTimeLeft = (matchDate, matchTime) => {
         const matchStart = new Date(`${matchDate}T${matchTime}:00`);
         const now = new Date();
-
-
-        // const today = new Date();
         const tomorrow = new Date();
         tomorrow.setDate(now.getDate() + 1);
         if (matchStart.getDate() === tomorrow.getDate() &&
@@ -453,7 +442,7 @@ const ContestDetails = () => {
                             </div>
                         ) : (
                             <>
-                                {/* {formattedDate} */}
+                                {formattedDate}
                                 <br />
                             </>
                         )}
@@ -555,11 +544,6 @@ const ContestDetails = () => {
                                 </div>
                             </div>
                         ))}
-                        {/* <div className="px-4 py-2 rounded-xl font-bold">
-                            Selected Players: {selectedPlayerIds.length} / 11
-                        </div> */}
-
-
                     </div>
                     <div className="flex bg-gray-100 rounded-sm overflow-hidden shadow-md w-full mt-4">
                         {roles.map(role => (
@@ -580,8 +564,6 @@ const ContestDetails = () => {
                         className=""
                         onSubmit={handleSubmitTeam}
                     >
-
-
                         <div className="overflow-x-auto">
                             <div className="h-[45vh] overflow-y-auto bg-white border-b-2 border-gray-300" ref={scrollRef}>
                                 <table className="min-w-full bg-white border border-gray-300 rounded-3xl">
@@ -665,7 +647,6 @@ const ContestDetails = () => {
                             </div>
                         </div>
 
-                        {/* //Display error popup  */}
                         {error && (
                             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
                                 <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full max-w-sm sm:max-w-sm md:max-w-sm lg:max-w-sm">
