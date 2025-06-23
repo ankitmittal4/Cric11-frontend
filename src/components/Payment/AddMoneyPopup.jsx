@@ -104,7 +104,7 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
                             amount: amount,
                             transactionId: transaction.data.data._id,
                         });
-                        console.log("Payment successfull and Confirmation email sent!");
+                        // console.log("Payment successfull and Confirmation email sent!");
                     } catch (error) {
                         console.error("Error sending email:", error);
                     }

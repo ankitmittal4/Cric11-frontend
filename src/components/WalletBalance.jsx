@@ -30,7 +30,7 @@ const WalletBalance = () => {
         hasInitialized.current = true;
         fetchBalance();
         const handleUpdateBalance = () => {
-            console.log("Update Balance in navbar event received");
+            // console.log("Update Balance in navbar event received");
             fetchBalance();
         };
         window.addEventListener('updateBalance', handleUpdateBalance);
