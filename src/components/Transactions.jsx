@@ -17,7 +17,6 @@ const Transactions = () => {
 
     const limit = 10
 
-    // Fetch transactions from API
     const fetchTransactions = async () => {
 
         setLoading(true);
@@ -30,10 +29,6 @@ const Transactions = () => {
                     },
                 },
             );
-            // console.log(
-            //     'Transaction response: ',
-            //     response.data.data.walletBalance,
-            // );
             setWalletBalance(response.data.data.walletBalance);
 
             const reversedTransactions = [
@@ -57,7 +52,6 @@ const Transactions = () => {
     useEffect(() => {
         fetchTransactions();
         const handleMoneyAdded = () => {
-            // console.log("Money added event received");
             fetchTransactions();
         };
 

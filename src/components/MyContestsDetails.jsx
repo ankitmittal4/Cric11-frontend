@@ -319,10 +319,9 @@ const UserContestDetails = () => {
         }
     };
     const closePopup = () => {
-        setIsPopupVisible(false); // Hide the popup
+        setIsPopupVisible(false);
     };
 
-    //TODO: Validation on submit
     const handleSubmitTeam = (e) => {
         e.preventDefault();
         //validation for captain and vc present
@@ -443,18 +442,13 @@ const UserContestDetails = () => {
     const [timeLeft, setTimeLeft] = useState("");
 
     const getTimeLeft = (matchDate, matchTime) => {
-        // console.log(matchDate);
         const matchStart = new Date(`${matchDate}T${matchTime}:00`);
         const now = new Date();
-
-
-        // const today = new Date();
         const tomorrow = new Date();
         tomorrow.setDate(now.getDate() + 1);
         if (matchStart.getDate() === tomorrow.getDate() &&
             matchStart.getMonth() === tomorrow.getMonth() &&
             matchStart.getFullYear() === tomorrow.getFullYear()) {
-            // console.log("tomorrow");
             return "tomorrow"
         }
 
@@ -480,7 +474,7 @@ const UserContestDetails = () => {
 
         return () => clearInterval(interval);
     }, [contest?.matchDetails?.date, contest?.matchDetails?.startTime]);
-    // console.log(contest.matchDetails);
+
     if (!contest)
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
