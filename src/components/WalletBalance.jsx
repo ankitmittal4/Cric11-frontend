@@ -21,6 +21,7 @@ const WalletBalance = () => {
                 },
             });
             setBalance(response.data.data.walletBalance);
+            // setBalance(1000); // Mock balance for testing
         } catch (error) {
             console.error('Error fetching balance:', error);
         }
