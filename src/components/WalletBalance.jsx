@@ -1,4 +1,3 @@
-// src/components/WalletBalance.js
 import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet } from '@fortawesome/free-solid-svg-icons';
@@ -21,6 +20,7 @@ const WalletBalance = () => {
                 },
             });
             setBalance(response.data.data.walletBalance);
+            // setBalance(1000); // Mock balance for testing
         } catch (error) {
             console.error('Error fetching balance:', error);
         }
@@ -30,7 +30,7 @@ const WalletBalance = () => {
         hasInitialized.current = true;
         fetchBalance();
         const handleUpdateBalance = () => {
-            console.log("Update Balance in navbar event received");
+            // console.log("Update Balance in navbar event received");
             fetchBalance();
         };
         window.addEventListener('updateBalance', handleUpdateBalance);

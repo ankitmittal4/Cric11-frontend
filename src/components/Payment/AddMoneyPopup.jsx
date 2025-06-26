@@ -71,9 +71,9 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
             description: "Add money to wallet",
             order_id: order.id,
             prefill: {
-                name: "John Doe",
-                email: "john@example.com",
-                contact: "9999999999",
+                name: "Ankit Mittal",
+                email: "cric11@example.com",
+                contact: "9876543210",
             },
             theme: {
                 color: "#528ff0",
@@ -104,7 +104,7 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
                             amount: amount,
                             transactionId: transaction.data.data._id,
                         });
-                        console.log("Payment successfull and Confirmation email sent!");
+                        // console.log("Payment successfull and Confirmation email sent!");
                     } catch (error) {
                         console.error("Error sending email:", error);
                     }
@@ -167,8 +167,14 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
 
     return (
         <>
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div className="relative bg-white p-6 rounded-lg shadow-lg pl-9 pr-9 sm:min-w-[23%] sm:w-[27%] w-[90%] ">
+
+            <div
+                className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                onClick={closePopup}
+            >
+                <div className="relative bg-white p-6 rounded-lg shadow-lg pl-9 pr-9 sm:min-w-[23%] sm:w-[27%] w-[90%]"
+                    onClick={(e) => e.stopPropagation()}
+                >
                     <button
                         onClick={closePopup}
                         className="absolute top-2 right-2 text-red-500 px-1 py-1 text-md font-bold rounded hover:text-red-600"
@@ -205,13 +211,14 @@ const AddMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, f
                         VERIFY TO ADD ₹{amount || 0}
                     </button>
                 </div>
-            </div>
+            </div >
 
             {loading && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
                 </div>
-            )}
+            )
+            }
         </>
     );
 });

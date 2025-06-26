@@ -19,9 +19,7 @@ const UserTeams = () => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                // console.log("->:", response.data);
                 setContests(response.data.data);
-
                 // console.log('contests: ', response.data.data);
             }
             catch (err) {
@@ -51,7 +49,6 @@ const UserTeams = () => {
         hours = hours % 12 || 12;
         return `${hours}:${minutes} ${period}`;
     }
-    // console.log('Time:', contests);
 
     return (
         <div className="container mx-auto p-4">
@@ -109,19 +106,6 @@ const UserTeams = () => {
                                                 >
                                                     <span className='text-xs sm:text-sm'>{contest.matchDetails.series} </span> {" "}
                                                 </div>
-                                                {/* <div className="flex justify-between w-full px-3 min-h-16 items-center">
-                                                    <div className="w-1/2 flex justify-start">
-                                                        <h2 className="text-xl font-bold text-gray-600 text-center">
-                                                            {contest.matchDetails.teamB}
-                                                        </h2>
-                                                    </div>
-                                                    <span className='mx-1'></span>
-                                                    <div className="w-1/2 flex justify-end">
-                                                        <h2 className="text-xl font-bold text-gray-600 text-center">
-                                                            {contest.matchDetails.teamA}
-                                                        </h2>
-                                                    </div>
-                                                </div> */}
                                                 <div className="flex justify-between items-center px-4 mt-2">
                                                     <div className="flex items-center space-x-2">
                                                         {contest.matchDetails.teamBImg && (
@@ -209,7 +193,6 @@ const UserTeams = () => {
                                 </div>
                             )
                         )
-
                     }
                 </div>
             </div>
