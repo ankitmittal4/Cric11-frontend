@@ -4,7 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 import PropTypes from 'prop-types';
 import { format, toZonedTime } from 'date-fns-tz';
 import AddMoneyPopup from './Payment/AddMoneyPopup';
-
+import WithdrawMoneyPopup from './Payment/WithrawMoneyPopup';
 
 const Transactions = () => {
     const popupRef = useRef();
@@ -72,6 +72,9 @@ const Transactions = () => {
     const openAddMoneyPopup = () => {
         popupRef.current?.show();
     };
+    const openWithdrawMoneyPopup = () => {
+        popupRef.current?.show();
+    };
 
     return (
 
@@ -92,7 +95,7 @@ const Transactions = () => {
                 </button>
                 <button
                     className="sm:absolute sm:right-[12rem] text-white bg-red-600 px-4 py-2 rounded-md whitespace-nowrap hover:bg-red-700 text-sm sm:text-base  sm:w-auto"
-                    onClick={() => openAddMoneyPopup()}
+                    onClick={() => openWithdrawMoneyPopup()}
                 >
                     Withdraw Money
                 </button>
@@ -141,6 +144,13 @@ const Transactions = () => {
             )}
 
             <AddMoneyPopup
+                ref={popupRef}
+                API_URL={API_URL}
+                accessToken={accessToken}
+                walletBalance={walletBalance}
+                fetchTransactions={fetchTransactions}
+            />
+            <WithdrawMoneyPopup
                 ref={popupRef}
                 API_URL={API_URL}
                 accessToken={accessToken}
