@@ -43,10 +43,14 @@ const UserContestDetails = () => {
     const scrollRef = useRef(null);
 
     const hasFetchded = useRef(false);
+
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
     const [confettiSize, setConfettiSize] = useState({
         width: 0,
         height: 0,
     });
+
     const updateConfettiSize = () => {
         setConfettiSize({
             width: window.innerWidth,
@@ -65,6 +69,7 @@ const UserContestDetails = () => {
 
         return () => window.removeEventListener('resize', updateConfettiSize);
     }, []);
+
     useEffect(() => {
         if (isWinner) {
             setTimeout(() => {
@@ -73,6 +78,17 @@ const UserContestDetails = () => {
         }
     }, [isWinner]);
 
+    useEffect(() => {
+        if (isPopupOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isPopupOpen]);
 
     useEffect(() => {
         if (!hasFetchded.current) {
@@ -272,10 +288,12 @@ const UserContestDetails = () => {
 
     const closeModal = () => {
         setIsModalOpen(false);
+        setIsPopupOpen(false);
     };
 
     const closeErrorPopup = () => {
         setError('');
+        setIsPopupOpen(false);
     };
     const handleUpdateContest = async () => {
         const accessToken = localStorage.getItem('accessToken');
@@ -317,12 +335,14 @@ const UserContestDetails = () => {
                 error.response?.data?.message || 'Failed to update contest',
             );
         }
+        setIsPopupOpen(false);
     };
     const closePopup = () => {
         setIsPopupVisible(false);
     };
 
     const handleSubmitTeam = (e) => {
+        setIsPopupOpen(true);
         e.preventDefault();
         //validation for captain and vc present
         if (selectedPlayerIds.length < 11) {
@@ -357,6 +377,7 @@ const UserContestDetails = () => {
 
         setSelectedPlayerIds(sorted);
         setIsModalOpen(true);
+        // setIsPopupOpen(false);
     };
 
     useEffect(() => {
@@ -866,8 +887,8 @@ const UserContestDetails = () => {
                                 </div>
                                 {/* //Display error popup  */}
                                 {error && (
-                                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
-                                        <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full max-w-sm sm:max-w-sm md:max-w-sm lg:max-w-sm">
+                                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4" onClick={closeErrorPopup}>
+                                        <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full max-w-sm sm:max-w-sm md:max-w-sm lg:max-w-sm" onClick={(e) => e.stopPropagation()}>
                                             <img
                                                 className="sm:h-12 sm:w-12 h-9 w-9 mx-auto"
                                                 src={warning}
@@ -891,7 +912,7 @@ const UserContestDetails = () => {
                                     type="submit"
                                     className="bg-green-600 text-white px-4 py-2 rounded mt-10 mb-11 mx-auto block hover:bg-green-700"
                                 >
-                                    Update Team
+                                    Update Team1
                                 </button>
                             </form>
 

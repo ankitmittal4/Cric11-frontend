@@ -51,6 +51,8 @@ const ContestDetails = () => {
 
     const [isImageLoaded, setIsImageLoaded] = useState(false);
 
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
     useEffect(() => {
         const img = new Image();
         img.src = ground;
@@ -64,6 +66,17 @@ const ContestDetails = () => {
         }
     }, [activeTab]);
 
+    useEffect(() => {
+        if (isPopupOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isPopupOpen]);
 
     const teamPlayerCount = useMemo(() => {
 
@@ -133,6 +146,7 @@ const ContestDetails = () => {
     };
 
     const handleSubmitTeam = (e) => {
+        setIsPopupOpen(true);
         e.preventDefault();
         if (selectedPlayerIds.length < 11) {
             setError('Select exactly 11 players');
@@ -172,10 +186,12 @@ const ContestDetails = () => {
 
     const closeModal = () => {
         setIsModalOpen(false);
+        setIsPopupOpen(false);
     };
 
     const closeErrorPopup = () => {
         setError('');
+        setIsPopupOpen(false);
     };
 
     const handleWalletSummaryPopup = async () => {
@@ -648,8 +664,8 @@ const ContestDetails = () => {
                         </div>
 
                         {error && (
-                            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
-                                <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full max-w-sm sm:max-w-sm md:max-w-sm lg:max-w-sm">
+                            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-8" onClick={closeErrorPopup}>
+                                <div className="bg-white p-4 rounded-lg shadow-lg text-center w-full max-w-sm sm:max-w-sm md:max-w-sm lg:max-w-sm" onClick={(e) => e.stopPropagation()}>
                                     <img
                                         className="sm:h-12 sm:w-12 h-9 w-9 mx-auto"
                                         src={warning}

@@ -4,10 +4,11 @@ const API_URL = import.meta.env.VITE_API_URL;
 import PropTypes from 'prop-types';
 import { format, toZonedTime } from 'date-fns-tz';
 import AddMoneyPopup from './Payment/AddMoneyPopup';
-
+import WithdrawMoneyPopup from './Payment/WithrawMoneyPopup';
 
 const Transactions = () => {
-    const popupRef = useRef();
+    const addMoneyRef = useRef();
+    const withdrawMoneyRef = useRef();
     const accessToken = localStorage.getItem('accessToken');
     const [transactions, setTransactions] = useState([]);
     const [walletBalance, setWalletBalance] = useState(0); // Example wallet balance
@@ -70,7 +71,10 @@ const Transactions = () => {
     };
 
     const openAddMoneyPopup = () => {
-        popupRef.current?.show();
+        addMoneyRef.current?.show();
+    };
+    const openWithdrawMoneyPopup = () => {
+        withdrawMoneyRef.current?.show();
     };
 
     return (
@@ -88,7 +92,13 @@ const Transactions = () => {
                     className="sm:absolute sm:right-0 text-white bg-red-600 px-4 py-2 rounded-md whitespace-nowrap hover:bg-red-700 text-sm sm:text-base  sm:w-auto"
                     onClick={() => openAddMoneyPopup()}
                 >
-                    Add money to wallet
+                    Add Money to Wallet
+                </button>
+                <button
+                    className="sm:absolute sm:right-[12rem] text-white bg-red-600 px-4 py-2 rounded-md whitespace-nowrap hover:bg-red-700 text-sm sm:text-base  sm:w-auto"
+                    onClick={() => openWithdrawMoneyPopup()}
+                >
+                    Withdraw Money
                 </button>
             </div>
 
@@ -135,7 +145,14 @@ const Transactions = () => {
             )}
 
             <AddMoneyPopup
-                ref={popupRef}
+                ref={addMoneyRef}
+                API_URL={API_URL}
+                accessToken={accessToken}
+                walletBalance={walletBalance}
+                fetchTransactions={fetchTransactions}
+            />
+            <WithdrawMoneyPopup
+                ref={withdrawMoneyRef}
                 API_URL={API_URL}
                 accessToken={accessToken}
                 walletBalance={walletBalance}
