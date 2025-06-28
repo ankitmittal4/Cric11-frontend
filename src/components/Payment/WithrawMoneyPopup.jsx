@@ -2,7 +2,7 @@ import React, { useState, useRef, useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import close from '../../assets/close.png';
-import { add } from "date-fns";
+import { add, set } from "date-fns";
 const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
 const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, fetchTransactions = () => { }, onMoneyAdded = () => { } }, ref) => {
@@ -34,130 +34,28 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
 
     const closePopup = () => setVisible(false);
 
-    const loadRazorpayScript = () => {
-        return new Promise((resolve) => {
-            const script = document.createElement("script");
-            script.src = "https://checkout.razorpay.com/v1/checkout.js";
-            script.onload = () => resolve(true);
-            script.onerror = () => resolve(false);
-            document.body.appendChild(script);
-        });
-    };
-
     const handlePayment = async (amount) => {
         setLoading(true);
-        const res = await loadRazorpayScript();
-        if (!res) {
-            alert("Razorpay SDK failed to load");
-            return;
+
+        try {
+            const transaction = await axios.post(`${API_URL}/withdraw/withdraw-money`, { amount }, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            fetchTransactions();
+            //email code
+        } catch (err) {
+            console.error("payment failure:", err);
         }
-
-        const response = await axios.post(`${API_URL}/payment/create-order`, { amount }, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`,
-            },
-        });
-        setLoading(false);
-
-        const { order } = response.data;
-        setVisible(false);
-
-        const options = {
-            key: RAZORPAY_KEY_ID,
-            amount: order.amount,
-            currency: order.currency,
-            name: "Cric 11",
-            description: "Add money to wallet",
-            order_id: order.id,
-            prefill: {
-                name: "Ankit Mittal",
-                email: "cric11@example.com",
-                contact: "9876543210",
-            },
-            theme: {
-                color: "#528ff0",
-            },
-            handler: async (response) => {
-                try {
-                    const transaction = await axios.post(`${API_URL}/payment/verify`, {
-                        razorpay_payment_id: response.razorpay_payment_id,
-                        razorpay_order_id: response.razorpay_order_id,
-                        razorpay_signature: response.razorpay_signature,
-                        amount,
-                    }, {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    });
-                    // console.log("transaction: ", transaction.data.data._id);
-                    alert("Payment Successful & Verified ✅");
-                    onMoneyAdded();
-                    fetchTransactions();
-                    window.dispatchEvent(new CustomEvent('updateBalance'));
-                    window.dispatchEvent(new CustomEvent('moneyAdded'));
-                    try {
-                        await axios.post(`${API_URL}/email/payment-success`, {
-                            email: userEmail,
-                            name: userName,
-                            amount: amount,
-                            transactionId: transaction.data.data._id,
-                        });
-                        // console.log("Payment successfull and Confirmation email sent!");
-                    } catch (error) {
-                        console.error("Error sending email:", error);
-                    }
-                } catch (err) {
-                    alert("Payment succeeded, but verification failed ❌");
-                    console.error(err);
-                }
-            },
-        };
-        const rzp = new window.Razorpay(options);
-        let failureHandled = false;
-        rzp.on('payment.failed', async function (response) {
-
-            if (failureHandled) return;
-            failureHandled = true;
-            const failureData = {
-                code: response.error.code,
-                description: response.error.description,
-                source: response.error.source,
-                reason: response.error.reason,
-                order_id: response.error.metadata.order_id,
-                payment_id: response.error.metadata.payment_id,
-                amount,
-            };
-
-            try {
-                const transaction = await axios.post(`${API_URL}/payment/failed`, failureData, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                // console.log(transaction);
-                try {
-                    await axios.post(`${API_URL}/email/payment-failed`, {
-                        email: userEmail,
-                        name: userName,
-                        amount: amount,
-                        transactionId: transaction.data.data._id,
-                    });
-                    console.log("Payment failed and Confirmation email sent!");
-                } catch (error) {
-                    console.error("Error sending email:", error);
-                }
-                // console.log("Payment failure logged successfully");
-                fetchTransactions();
-            } catch (err) {
-                console.error("Failed to report payment failure:", err);
-            }
-        });
-
-        rzp.open();
-    };
+        finally {
+            setTimeout(() => {
+                setLoading(false);
+                setVisible(false);
+            }, 500);
+        }
+    }
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") handlePayment(amount);
@@ -167,7 +65,6 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
 
     return (
         <>
-
             <div
                 className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
                 onClick={closePopup}
