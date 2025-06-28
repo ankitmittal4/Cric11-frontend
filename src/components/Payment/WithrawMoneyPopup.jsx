@@ -14,7 +14,7 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
     const inputRef = useRef(null);
     const [loading, setLoading] = useState(false);
 
-    const isDisabled = !amount || Number(amount) <= 0;
+    const isDisabled = !amount || Number(amount) <= 0 || walletBalance < Number(amount);
 
     useImperativeHandle(ref, () => ({
         show() {
@@ -205,7 +205,7 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
                     <button
                         onClick={() => handlePayment(amount)}
                         disabled={isDisabled}
-                        className={`mt-5 sm:mt-7 w-full font-bold text-sm px-4 py-2 rounded bg-green-600 text-white ${isDisabled ? "cursor-not-allowed" : " hover:bg-green-700"
+                        className={`mt-5 sm:mt-7 w-full font-bold text-sm px-4 py-2 rounded bg-green-600 text-white ${isDisabled ? "cursor-not-allowed" : "hover:bg-green-700"
                             }`}
                     >
                         VERIFY TO WITHDRAW ₹{amount || 0}
