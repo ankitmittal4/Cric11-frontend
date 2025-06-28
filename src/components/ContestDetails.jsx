@@ -51,6 +51,8 @@ const ContestDetails = () => {
 
     const [isImageLoaded, setIsImageLoaded] = useState(false);
 
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
     useEffect(() => {
         const img = new Image();
         img.src = ground;
@@ -64,6 +66,17 @@ const ContestDetails = () => {
         }
     }, [activeTab]);
 
+    useEffect(() => {
+        if (isPopupOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isPopupOpen]);
 
     const teamPlayerCount = useMemo(() => {
 
@@ -133,6 +146,7 @@ const ContestDetails = () => {
     };
 
     const handleSubmitTeam = (e) => {
+        setIsPopupOpen(true);
         e.preventDefault();
         if (selectedPlayerIds.length < 11) {
             setError('Select exactly 11 players');
@@ -172,10 +186,12 @@ const ContestDetails = () => {
 
     const closeModal = () => {
         setIsModalOpen(false);
+        setIsPopupOpen(false);
     };
 
     const closeErrorPopup = () => {
         setError('');
+        setIsPopupOpen(false);
     };
 
     const handleWalletSummaryPopup = async () => {
