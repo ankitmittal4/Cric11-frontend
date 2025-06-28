@@ -88,7 +88,13 @@ const Transactions = () => {
                     className="sm:absolute sm:right-0 text-white bg-red-600 px-4 py-2 rounded-md whitespace-nowrap hover:bg-red-700 text-sm sm:text-base  sm:w-auto"
                     onClick={() => openAddMoneyPopup()}
                 >
-                    Add money to wallet
+                    Add Money to Wallet
+                </button>
+                <button
+                    className="sm:absolute sm:right-[12rem] text-white bg-red-600 px-4 py-2 rounded-md whitespace-nowrap hover:bg-red-700 text-sm sm:text-base  sm:w-auto"
+                    onClick={() => openAddMoneyPopup()}
+                >
+                    Withdraw Money
                 </button>
             </div>
 
