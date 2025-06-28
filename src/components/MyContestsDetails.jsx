@@ -887,8 +887,8 @@ const UserContestDetails = () => {
                                 </div>
                                 {/* //Display error popup  */}
                                 {error && (
-                                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
-                                        <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full max-w-sm sm:max-w-sm md:max-w-sm lg:max-w-sm">
+                                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4" onClick={closeErrorPopup}>
+                                        <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full max-w-sm sm:max-w-sm md:max-w-sm lg:max-w-sm" onClick={(e) => e.stopPropagation()}>
                                             <img
                                                 className="sm:h-12 sm:w-12 h-9 w-9 mx-auto"
                                                 src={warning}
