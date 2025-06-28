@@ -912,7 +912,7 @@ const UserContestDetails = () => {
                                     type="submit"
                                     className="bg-green-600 text-white px-4 py-2 rounded mt-10 mb-11 mx-auto block hover:bg-green-700"
                                 >
-                                    Update Team1
+                                    Update Team
                                 </button>
                             </form>
 
