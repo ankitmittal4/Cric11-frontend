@@ -7,7 +7,8 @@ import AddMoneyPopup from './Payment/AddMoneyPopup';
 import WithdrawMoneyPopup from './Payment/WithrawMoneyPopup';
 
 const Transactions = () => {
-    const popupRef = useRef();
+    const addMoneyRef = useRef();
+    const withdrawMoneyRef = useRef();
     const accessToken = localStorage.getItem('accessToken');
     const [transactions, setTransactions] = useState([]);
     const [walletBalance, setWalletBalance] = useState(0); // Example wallet balance
@@ -70,10 +71,10 @@ const Transactions = () => {
     };
 
     const openAddMoneyPopup = () => {
-        popupRef.current?.show();
+        addMoneyRef.current?.show();
     };
     const openWithdrawMoneyPopup = () => {
-        popupRef.current?.show();
+        withdrawMoneyRef.current?.show();
     };
 
     return (
@@ -144,14 +145,14 @@ const Transactions = () => {
             )}
 
             <AddMoneyPopup
-                ref={popupRef}
+                ref={addMoneyRef}
                 API_URL={API_URL}
                 accessToken={accessToken}
                 walletBalance={walletBalance}
                 fetchTransactions={fetchTransactions}
             />
             <WithdrawMoneyPopup
-                ref={popupRef}
+                ref={withdrawMoneyRef}
                 API_URL={API_URL}
                 accessToken={accessToken}
                 walletBalance={walletBalance}
