@@ -8,9 +8,7 @@ import { formatDate } from 'date-fns';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
-
     const navigate = useNavigate();
-
     const [matches, setMatches] = useState([]);
 
     useEffect(() => {
