@@ -32,7 +32,7 @@ const CreateContest = () => {
             matchId,
             entryFee,
             prizePool,
-            maxParticipants: totalSpots,
+            maxParticipants: totalSpots || '2',
             t1,
             t2,
             t1img,
@@ -116,7 +116,7 @@ const CreateContest = () => {
                             required
                         />
                     </div>
-                    <div>
+                    {/* <div>
                         <label
                             className="block mb-1"
                             htmlFor="totalSpots"
@@ -134,7 +134,7 @@ const CreateContest = () => {
                     </div>
                     {errorMessage && (
                         <div className="text-red-500">{errorMessage}</div>
-                    )}
+                    )} */}
                     <button
                         type="submit"
                         className="w-full py-2 bg-blue-600 hover:bg-blue-700 rounded-md"
