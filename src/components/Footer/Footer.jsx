@@ -40,7 +40,7 @@ const Footer = () => {
                                 className="w-8 h-8"
                             />
                         </a>
-                        <a href="https://www.twitter/" target="_blank" rel="noopener noreferrer">
+                        <a href="https://x.com/AnkitMi02714408" target="_blank" rel="noopener noreferrer">
                             <img
                                 src={Twitter}
                                 alt="Twitter"
