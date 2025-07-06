@@ -9,9 +9,9 @@ import {
 import SignIn from './components/Authentication/SignIn';
 import SignUp from './components/Authentication/SignUp';
 import NavBar from './components/NavBar';
-import Home from './components/Home';
-import ContestDetails from './components/ContestDetails';
-import ContestsInMatches from './components/ContestsInMatches';
+import Home from './components/Contest/Home';
+import ContestDetails from './components/Contest/ContestDetails';
+import ContestsInMatches from './components/Contest/ContestsInMatches';
 import MyContests from './components/MyContetsts/MyContests';
 import MyContestDetails from './components/MyContetsts/MyContestsDetails';
 import Transactions from './components/Transactions';
