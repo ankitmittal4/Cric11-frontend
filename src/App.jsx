@@ -17,14 +17,14 @@ import MyContestDetails from './components/MyContestsDetails';
 import Transactions from './components/Transactions';
 import Layout from './components/Layout';
 
-import AdminSignIn from "./components/Admin/components/SignIn";
-import DashboardRoutes from './components/Admin/components/DashboardRoutes';
+// import AdminSignIn from "./components/Admin/components/SignIn";
+// import DashboardRoutes from './components/Admin/components/DashboardRoutes';
 
 import Terms from './components/Footer/Terms';
 import Privacy from './components/Footer/Privacy';
 import Contact from './components/Footer/Contact';
 
-import Admin from './components/Admin/Admin';
+import Admin from './Admin/Admin';
 
 const AppContent = () => {
     const location = useLocation();
