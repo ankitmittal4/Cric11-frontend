@@ -44,16 +44,29 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
+            setLoading(false);
+            setVisible(false);
+            window.dispatchEvent(new CustomEvent('updateBalance'));
             fetchTransactions();
-            //email code
+            try {
+                await axios.post(`${API_URL}/email/payment-withdraw-success`, {
+                    email: userEmail,
+                    name: userName,
+                    amount: amount,
+                    transactionId: transaction.data.data._id,
+                });
+                console.log("Payment successfull and Confirmation email sent!");
+            } catch (error) {
+                console.error("Error sending email:", error);
+            }
         } catch (err) {
             console.error("payment failure:", err);
         }
         finally {
-            setTimeout(() => {
-                setLoading(false);
-                setVisible(false);
-            }, 500);
+            // setTimeout(() => {
+            setLoading(false);
+            setVisible(false);
+            // }, 1);
         }
     }
 

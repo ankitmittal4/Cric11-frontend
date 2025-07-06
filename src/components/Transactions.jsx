@@ -56,11 +56,11 @@ const Transactions = () => {
             fetchTransactions();
         };
 
-        window.addEventListener('moneyAdded', handleMoneyAdded);
+        // window.addEventListener('moneyAdded', handleMoneyAdded);
 
-        return () => {
-            window.removeEventListener('moneyAdded', handleMoneyAdded);
-        };
+        // return () => {
+        //     window.removeEventListener('moneyAdded', handleMoneyAdded);
+        // };
     }, [currentPage]);
 
     const handlePageChange = (page) => {

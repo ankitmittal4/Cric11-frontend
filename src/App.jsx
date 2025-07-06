@@ -20,6 +20,9 @@ import Layout from './components/Layout';
 import AdminSignIn from "./components/Admin/components/SignIn";
 import DashboardRoutes from './components/Admin/components/DashboardRoutes';
 
+import Terms from './components/Footer/Terms';
+import Privacy from './components/Footer/Privacy';
+import Contact from './components/Footer/Contact';
 
 import Admin from './components/Admin/Admin';
 
@@ -48,6 +51,18 @@ const AppContent = () => {
                     <Route
                         path="/signup"
                         element={<SignUp />}
+                    />
+                    <Route
+                        path="/terms"
+                        element={<Terms />}
+                    />
+                    <Route
+                        path="/privacy"
+                        element={<Privacy />}
+                    />
+                    <Route
+                        path="/contact"
+                        element={<Contact />}
                     />
                     <Route
                         path="/"
