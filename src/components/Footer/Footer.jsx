@@ -33,21 +33,21 @@ const Footer = () => {
                         </a>
                     </div>
                     <div className="flex space-x-4 md:mb-0 justify-center mt-4">
-                        <a href="#">
+                        <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
                             <img
                                 src={facebook}
                                 alt="Facebook"
                                 className="w-8 h-8"
                             />
                         </a>
-                        <a href="#">
+                        <a href="https://www.twitter/" target="_blank" rel="noopener noreferrer">
                             <img
                                 src={Twitter}
                                 alt="Twitter"
                                 className="w-8 h-8"
                             />
                         </a>
-                        <a href="#">
+                        <a href="https://www.linkedin.com/in/ankit305/" target="_blank" rel="noopener noreferrer">
                             <img
                                 src={LinkedIn}
                                 alt="LinkedIn"
@@ -56,7 +56,7 @@ const Footer = () => {
                         </a>
                     </div>
                 </div>
-            </footer>
+            </footer >
         </>
     );
 };
