@@ -21,8 +21,11 @@ const NavBar = () => {
             navigate('/signin');
         }
         setName(localStorage.getItem("fullName"));
-        localStorage.getItem("email");
     }, [navigate]);
+
+    const handleClickOutside = () => {
+        setShowProfileMenu(false);
+    }
 
     const handleLogout = () => {
         localStorage.clear();
@@ -91,6 +94,7 @@ const NavBar = () => {
             </nav>
 
             {/* Logout Confirmation Modal */}
+
             {showLogoutConfirm && (
                 <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center" onClick={() => setShowLogoutConfirm(false)}>
                     <div className="bg-white p-6 rounded-lg shadow-xl text-center sm:w-80 w-70" onClick={(e) => e.stopPropagation()}>
@@ -113,31 +117,35 @@ const NavBar = () => {
                     </div>
                 </div>
             )}
-            {showProfileMenu && (
-                <div className="absolute right-6 top-16 bg-white border rounded-lg shadow-lg w-48 z-50 py-2">
-                    <div className="px-4 py-2 text-base text-gray-700 font-medium border-b">{name}</div>
-                    <button
-                        onClick={() => {
-                            setShowProfileMenu(false);
-                            navigate('/add-bank');
-                        }}
-                        className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                        ➕ Add Bank Account
-                    </button>
-                    <button
-                        onClick={() => {
-                            setShowProfileMenu(false);
-                            setShowLogoutConfirm(true);
-                        }}
-                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                    >
-                        <span className="flex items-center gap-2">
-                            <img src="https://thumb.ac-illust.com/fc/fcf4d81871da64c22aca19fe3ee776af_t.jpeg" alt="logout" className='h-6 w-6' />
-                            Logout
 
-                        </span>
-                    </button>
+            {/* Profile menu Modal */}
+            {showProfileMenu && (
+                <div onClick={handleClickOutside} className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-end">
+                    <div className="absolute right-6 top-16 bg-white border rounded-lg shadow-lg w-48 z-50 py-2">
+                        <div className="px-4 py-2 text-base text-gray-700 font-medium border-b">{name}</div>
+                        <button
+                            onClick={() => {
+                                setShowProfileMenu(false);
+                                navigate('/add-bank');
+                            }}
+                            className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                            ➕ Add Bank Account
+                        </button>
+                        <button
+                            onClick={() => {
+                                setShowProfileMenu(false);
+                                setShowLogoutConfirm(true);
+                            }}
+                            className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                        >
+                            <span className="flex items-center gap-2">
+                                <img src="https://thumb.ac-illust.com/fc/fcf4d81871da64c22aca19fe3ee776af_t.jpeg" alt="logout" className='h-6 w-6' />
+                                Logout
+
+                            </span>
+                        </button>
+                    </div>
                 </div>
             )}
 
