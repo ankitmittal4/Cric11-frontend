@@ -44,6 +44,19 @@ const NavBar = () => {
         setShowProfileMenu(false);
         setShowAddBankAccountForm(true);
     };
+    const handleAddBank = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = {
+            accountHolder: formData.get('accountHolder'),
+            accountNumber: formData.get('accountNumber'),
+            ifsc: formData.get('ifsc'),
+            bankName: formData.get('bankName'),
+        };
+        console.log(data);
+        // Make API call here
+        setShowAddBankAccountForm(false);
+    };
 
     const handleLogout = () => {
         localStorage.clear();
@@ -189,7 +202,7 @@ const NavBar = () => {
                         </h2>
 
                         <form
-                            // onSubmit={onSubmit}
+                            onSubmit={handleAddBank}
                             className="space-y-4"
                         >
                             <div>
