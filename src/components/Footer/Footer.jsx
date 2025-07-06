@@ -22,12 +22,14 @@ const Footer = () => {
                         </a>
                         <a
                             href="/privacy"
+                            target='_blank'
                             className="hover:underline"
                         >
                             Privacy Policy
                         </a>
                         <a
                             href="/contact"
+                            target='_blank'
                             className="hover:underline"
                         >
                             Contact Us

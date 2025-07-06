@@ -5,7 +5,7 @@ const Privacy = () => {
         <div className="max-w-4xl mx-auto px-4 py-8 text-gray-800">
             <h1 className="text-3xl font-bold mb-6 text-center">Privacy Policy – Cric11</h1>
 
-            <p className="text-sm text-gray-600 mb-6 text-center">Effective Date: [Insert Date]</p>
+            <p className="text-sm text-gray-600 mb-6 text-center">Effective Date: 1 July, 2025</p>
 
             <section className="mb-6">
                 <h2 className="text-xl font-semibold mb-2">1. Introduction</h2>
@@ -76,7 +76,7 @@ const Privacy = () => {
                 <h2 className="text-xl font-semibold mb-2">9. Contact Us</h2>
                 <p>
                     If you have any questions or concerns about this Privacy Policy, please contact us at:{" "}
-                    <a href="mailto:youremail@example.com" className="text-blue-600 underline">youremail@example.com</a>
+                    <a href="mailto:ankitmittal0814@gmail.com" className="text-blue-600 underline">ankitmittal0814@gmail.com</a>
                 </p>
             </section>
         </div>

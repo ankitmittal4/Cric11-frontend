@@ -22,6 +22,7 @@ import DashboardRoutes from './components/Admin/components/DashboardRoutes';
 
 import Terms from './components/Footer/Terms';
 import Privacy from './components/Footer/Privacy';
+import Contact from './components/Footer/Contact';
 
 import Admin from './components/Admin/Admin';
 
@@ -56,8 +57,12 @@ const AppContent = () => {
                         element={<Terms />}
                     />
                     <Route
-                        path="/terms"
+                        path="/privacy"
                         element={<Privacy />}
+                    />
+                    <Route
+                        path="/contact"
+                        element={<Contact />}
                     />
                     <Route
                         path="/"
