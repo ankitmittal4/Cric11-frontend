@@ -6,14 +6,14 @@ import {
     Routes,
     useLocation,
 } from 'react-router-dom';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
+import SignIn from './components/Authentication/SignIn';
+import SignUp from './components/Authentication/SignUp';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import ContestDetails from './components/ContestDetails';
 import ContestsInMatches from './components/ContestsInMatches';
-import MyContests from './components/MyContests';
-import MyContestDetails from './components/MyContestsDetails';
+import MyContests from './components/MyContetsts/MyContests';
+import MyContestDetails from './components/MyContetsts/MyContestsDetails';
 import Transactions from './components/Transactions';
 import Layout from './components/Layout';
 
