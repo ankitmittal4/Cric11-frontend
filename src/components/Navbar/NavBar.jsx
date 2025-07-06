@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import WalletBalance from './WalletBalance';
-import logout from '../assets/logout.png';
-import logo from '../assets/logo.png';
-import profile from '../assets/profile.svg';
+import WalletBalance from '../WalletBalance';
+import logout from '../../assets/logout.png';
+import logo from '../../assets/logo.png';
+import profile from '../../assets/profile.svg';
 import { Menu, X } from 'lucide-react';
 import PropTypes from 'prop-types';
 

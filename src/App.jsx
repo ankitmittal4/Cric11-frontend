@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import SignIn from './components/Authentication/SignIn';
 import SignUp from './components/Authentication/SignUp';
-import NavBar from './components/NavBar';
+import NavBar from './components/Navbar/NavBar';
 import Home from './components/Contest/Home';
 import ContestDetails from './components/Contest/ContestDetails';
 import ContestsInMatches from './components/Contest/ContestsInMatches';
