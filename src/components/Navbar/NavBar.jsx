@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import WalletBalance from '../WalletBalance';
+import WalletBalance from '../Payment/WalletBalance';
 import logout from '../../assets/logout.png';
 import logo from '../../assets/logo.png';
 import profile from '../../assets/profile.svg';

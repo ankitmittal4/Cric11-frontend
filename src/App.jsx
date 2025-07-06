@@ -14,7 +14,7 @@ import ContestDetails from './components/Contest/ContestDetails';
 import ContestsInMatches from './components/Contest/ContestsInMatches';
 import MyContests from './components/MyContetsts/MyContests';
 import MyContestDetails from './components/MyContetsts/MyContestsDetails';
-import Transactions from './components/Transactions';
+import Transactions from './components/Payment/Transactions';
 import Layout from './components/Layout';
 
 // import AdminSignIn from "./components/Admin/components/SignIn";
