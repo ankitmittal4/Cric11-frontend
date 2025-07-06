@@ -16,11 +16,13 @@ const NavBar = () => {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
 
     const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     useEffect(() => {
         if (!localStorage.getItem('accessToken')) {
             navigate('/signin');
         }
         setName(localStorage.getItem("fullName"));
+        setEmail(localStorage.getItem("email"));
     }, [navigate]);
 
     const handleClickOutside = () => {
@@ -121,8 +123,9 @@ const NavBar = () => {
             {/* Profile menu Modal */}
             {showProfileMenu && (
                 <div onClick={handleClickOutside} className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-end">
-                    <div className="absolute right-6 top-16 bg-white border rounded-lg shadow-lg w-48 z-50 py-2">
-                        <div className="px-4 py-2 text-base text-gray-700 font-medium border-b">{name}</div>
+                    <div className="absolute right-6 top-16 bg-white border rounded-lg shadow-lg w-54 z-50 py-2">
+                        <div className="px-4 text-base text-gray-700 font-medium ">Hi, {name}</div>
+                        <div className="px-4 py-2 text-xs text-gray-500 font-medium border-b">{email}</div>
                         <button
                             onClick={() => {
                                 setShowProfileMenu(false);
