@@ -15,6 +15,7 @@ const NavBar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const [showProfileMenu, setShowProfileMenu] = useState(false);
+    const [showAddBankAccountForm, setShowAddBankAccountForm] = useState(false);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -39,11 +40,17 @@ const NavBar = () => {
 
     }, [])
 
+    const setShowAddBankAccountModal = () => {
+        setShowProfileMenu(false);
+        setShowAddBankAccountForm(true);
+    };
 
     const handleLogout = () => {
         localStorage.clear();
         navigate('/signin');
     };
+
+
 
     return (
         <>
@@ -79,7 +86,6 @@ const NavBar = () => {
                         <img
                             className="h-7 w-7 ml-4 cursor-pointer rounded-full bg-white"
                             onClick={() => setShowProfileMenu(prev => !prev)}
-                            // onClick={() => setShowLogoutConfirm(true)}
                             src="https://icones.pro/wp-content/uploads/2021/02/icone-utilisateur-rouge.png"
                             alt="profile"
                         />
@@ -140,12 +146,16 @@ const NavBar = () => {
                         <div className="px-4 py-2 text-xs text-gray-500 font-medium border-b">{email}</div>
                         <button
                             onClick={() => {
-                                setShowProfileMenu(false);
-                                navigate('/add-bank');
+                                setShowAddBankAccountModal();
+                                // navigate('/add-bank');
                             }}
                             className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100"
                         >
-                            ➕ Add Bank Account
+                            <span className="flex items-center gap-2">
+                                <img src="https://www.svgrepo.com/show/438323/bank-account.svg" alt="bank-icon" className='h-6 w-6' />
+                                Add Bank Account
+                            </span>
+
                         </button>
                         <button
                             onClick={() => {
@@ -164,6 +174,75 @@ const NavBar = () => {
                 </div>
             )}
 
+            {showAddBankAccountForm && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                    <div className="bg-white rounded-xl shadow-xl w-96 p-6 relative">
+                        <button
+                            onClick={() => setShowAddBankAccountForm(false)}
+                            className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
+                        >
+                            ×
+                        </button>
+
+                        <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+                            Add Bank Account
+                        </h2>
+
+                        <form
+                            // onSubmit={onSubmit}
+                            className="space-y-4"
+                        >
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Account Holder Name</label>
+                                <input
+                                    type="text"
+                                    name="accountHolder"
+                                    required
+                                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-red-400"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Account Number</label>
+                                <input
+                                    type="text"
+                                    name="accountNumber"
+                                    required
+                                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-red-400"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">IFSC Code</label>
+                                <input
+                                    type="text"
+                                    name="ifsc"
+                                    required
+                                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-red-400"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Bank Name</label>
+                                <input
+                                    type="text"
+                                    name="bankName"
+                                    required
+                                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-red-400"
+                                />
+                            </div>
+
+                            <div className="text-center">
+                                <button
+                                    type="submit"
+                                    className="bg-[#ed2024] text-white px-6 py-2 rounded hover:bg-red-600"
+                                >
+                                    Add Account
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </>
     );
 };
