@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import WalletBalance from '../Payment/WalletBalance';
 import logout from '../../assets/logout.png';
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 
 const NavBar = () => {
     const navigate = useNavigate();
+    const menuRef = useRef(null);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -25,9 +26,19 @@ const NavBar = () => {
         setEmail(localStorage.getItem("email"));
     }, [navigate]);
 
-    const handleClickOutside = () => {
-        setShowProfileMenu(false);
-    }
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                setShowProfileMenu(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+
+    }, [])
+
 
     const handleLogout = () => {
         localStorage.clear();
@@ -122,8 +133,9 @@ const NavBar = () => {
 
             {/* Profile menu Modal */}
             {showProfileMenu && (
-                <div onClick={handleClickOutside} className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-end">
-                    <div className="absolute right-6 top-16 bg-white border rounded-lg shadow-lg w-54 z-50 py-2">
+                <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-end">
+                    <div className="absolute right-6 top-16 bg-white border rounded-lg shadow-lg w-54 z-50 py-2"
+                        ref={menuRef}>
                         <div className="px-4 text-base text-gray-700 font-medium ">Hi, {name}</div>
                         <div className="px-4 py-2 text-xs text-gray-500 font-medium border-b">{email}</div>
                         <button
