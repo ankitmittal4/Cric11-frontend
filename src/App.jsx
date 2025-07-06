@@ -21,7 +21,7 @@ import AdminSignIn from "./components/Admin/components/SignIn";
 import DashboardRoutes from './components/Admin/components/DashboardRoutes';
 
 import Terms from './components/Footer/Terms';
-
+import Privacy from './components/Footer/Privacy';
 
 import Admin from './components/Admin/Admin';
 
@@ -54,6 +54,10 @@ const AppContent = () => {
                     <Route
                         path="/terms"
                         element={<Terms />}
+                    />
+                    <Route
+                        path="/terms"
+                        element={<Privacy />}
                     />
                     <Route
                         path="/"
