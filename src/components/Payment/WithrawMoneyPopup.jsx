@@ -46,6 +46,7 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
             });
             setLoading(false);
             setVisible(false);
+            window.dispatchEvent(new CustomEvent('updateBalance'));
             fetchTransactions();
             try {
                 await axios.post(`${API_URL}/email/payment-withdraw-success`, {
