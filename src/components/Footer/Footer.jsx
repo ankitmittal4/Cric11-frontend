@@ -15,6 +15,7 @@ const Footer = () => {
                     <div className="flex justify-center space-x-4 mt-3">
                         <a
                             href="/terms"
+                            target='_blank'
                             className="hover:underline"
                         >
                             Terms
