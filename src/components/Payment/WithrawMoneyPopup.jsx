@@ -44,6 +44,8 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
+            setLoading(false);
+            setVisible(false);
             fetchTransactions();
             try {
                 await axios.post(`${API_URL}/email/payment-withdraw-success`, {
@@ -60,10 +62,10 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
             console.error("payment failure:", err);
         }
         finally {
-            setTimeout(() => {
-                setLoading(false);
-                setVisible(false);
-            }, 500);
+            // setTimeout(() => {
+            setLoading(false);
+            setVisible(false);
+            // }, 1);
         }
     }
 
