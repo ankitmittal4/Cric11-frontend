@@ -1,8 +1,10 @@
-import React, { useState, useRef, useImperativeHandle } from "react";
+import React, { useState, useRef, useImperativeHandle, useEffect } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import close from '../../assets/close.png';
 import { add, set } from "date-fns";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
 const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalance, fetchTransactions = () => { }, onMoneyAdded = () => { } }, ref) => {
@@ -10,15 +12,43 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
     const userName = localStorage.getItem("fullName");
 
     const [visible, setVisible] = useState(false);
-    const [amount, setAmount] = useState("");
+
+    // const [amount, setAmount] = useState("");
+    // const [upiId, setUpiId] = useState("");
+    // const [amountError, setAmountError] = useState("");
+    // const [upiError, setUpiError] = useState("");
+
     const inputRef = useRef(null);
     const [loading, setLoading] = useState(false);
 
-    const isDisabled = !amount || Number(amount) <= 0 || walletBalance < Number(amount);
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
+
+    const formik = useFormik({
+        initialValues: {
+            amount: "",
+            upiId: "",
+        },
+        validationSchema: Yup.object({
+            amount: Yup.number()
+                .typeError("Amount must be a number")
+                .positive("Amount must be greater than 0")
+                .required("Amount is required")
+                .max(walletBalance, `Amount cannot exceed ₹${walletBalance}`),
+            upiId: Yup.string()
+                .matches(/^[\w.-]+@[\w.-]+$/, "Invalid UPI ID")
+                .required("UPI ID is required"),
+        }),
+        onSubmit: (values, { setSubmitting }) => {
+            handlePayment(values.amount, values.upiId);
+            setSubmitting(false);
+        },
+    });
 
     useImperativeHandle(ref, () => ({
         show() {
-            setAmount("");
+            // setAmount("");
             setVisible(true);
             setTimeout(() => {
                 inputRef.current?.focus();
@@ -32,9 +62,12 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
         }
     }));
 
-    const closePopup = () => setVisible(false);
+    const closePopup = () => {
+        setVisible(false);
+        formik.resetForm();
+    };
 
-    const handlePayment = async (amount) => {
+    const handlePayment = async (amount, upiId) => {
         setLoading(true);
 
         try {
@@ -63,16 +96,15 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
             console.error("payment failure:", err);
         }
         finally {
-            // setTimeout(() => {
             setLoading(false);
             setVisible(false);
-            // }, 1);
+            formik.resetForm();
         }
     }
 
-    const handleKeyDown = (e) => {
-        if (e.key === "Enter") handlePayment(amount);
-    };
+    // const handleKeyDown = (e) => {
+    //     if (e.key === "Enter") handlePayment(amount);
+    // };
 
     if (!visible) return null;
 
@@ -96,30 +128,62 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
                         Current Balance: ₹{walletBalance}
                     </p>
 
-                    <div className="text-base sm:text-lg text-gray-700 font-semibold mt-8">
-                        Amount to withdraw:
-                        <div className="relative inline-block ">
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3">₹</span>
-                            <input
-                                ref={inputRef}
-                                type="number"
-                                value={amount}
-                                onChange={(e) => setAmount(e.target.value)}
-                                className="border border-gray-300 rounded pl-6 pr-2 py-1 outline-none w-[100%]"
-                                placeholder="Enter amount"
-                                onKeyDown={handleKeyDown}
-                            />
+                    <form onSubmit={formik.handleSubmit} className="mt-6">
+                        <div className="text-base sm:text-lg text-gray-700 font-semibold mb-4">
+                            Amount to withdraw:
+                            <div className="relative inline-block mt-1">
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-3">₹</span>
+                                <input
+                                    ref={inputRef}
+                                    type="number"
+                                    name="amount"
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.amount}
+                                    className={`border rounded pl-6 pr-2 py-1 outline-none w-full ${formik.touched.amount && formik.errors.amount
+                                        ? "border-red-500"
+                                        : "border-gray-300"
+                                        }`}
+                                    placeholder="Enter amount"
+                                />
+                            </div>
+                            {formik.touched.amount && formik.errors.amount && (
+                                <p className="text-red-500 text-sm mt-1">{formik.errors.amount}</p>
+                            )}
                         </div>
-                    </div>
 
-                    <button
-                        onClick={() => handlePayment(amount)}
-                        disabled={isDisabled}
-                        className={`mt-5 sm:mt-7 w-full font-bold text-sm px-4 py-2 rounded bg-green-600 text-white ${isDisabled ? "cursor-not-allowed" : "hover:bg-green-700"
-                            }`}
-                    >
-                        VERIFY TO WITHDRAW ₹{amount || 0}
-                    </button>
+                        {/* UPI Input */}
+                        <div className="text-base sm:text-lg text-gray-700 font-semibold mb-4">
+                            Enter UPI ID:
+                            <div className="relative inline-block mt-1">
+                                <input
+                                    type="text"
+                                    name="upiId"
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.upiId}
+                                    className={`border rounded pl-3 pr-2 py-1 outline-none w-full ${formik.touched.upiId && formik.errors.upiId
+                                        ? "border-red-500"
+                                        : "border-gray-300"
+                                        }`}
+                                    placeholder="name@bank"
+                                />
+                            </div>
+                            {formik.touched.upiId && formik.errors.upiId && (
+                                <p className="text-red-500 text-sm mt-1">{formik.errors.upiId}</p>
+                            )}
+                        </div>
+
+                        {/* Submit Button */}
+                        <button
+                            type="submit"
+                            disabled={formik.isSubmitting}
+                            className={`mt-5 sm:mt-7 w-full font-bold text-sm px-4 py-2 rounded bg-green-600 text-white ${formik.isSubmitting ? "cursor-not-allowed opacity-70" : "hover:bg-green-700"
+                                }`}
+                        >
+                            {formik.isSubmitting ? "Processing..." : `VERIFY TO WITHDRAW ₹${formik.values.amount || 0}`}
+                        </button>
+                    </form>
                 </div>
             </div >
 
