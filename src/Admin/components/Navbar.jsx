@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import logout from '../../../assets/logout.png';
+import logout from '../../assets/logout.png';
 const Navbar = () => {
     const navigate = useNavigate();
     const cric11 = () => {

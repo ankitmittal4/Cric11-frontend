@@ -3,8 +3,8 @@ import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL;
 import PropTypes from 'prop-types';
 import { format, toZonedTime } from 'date-fns-tz';
-import AddMoneyPopup from './Payment/AddMoneyPopup';
-import WithdrawMoneyPopup from './Payment/WithrawMoneyPopup';
+import AddMoneyPopup from './AddMoneyPopup';
+import WithdrawMoneyPopup from './WithrawMoneyPopup';
 
 const Transactions = () => {
     const addMoneyRef = useRef();
@@ -56,11 +56,11 @@ const Transactions = () => {
             fetchTransactions();
         };
 
-        // window.addEventListener('moneyAdded', handleMoneyAdded);
+        window.addEventListener('moneyAdded', handleMoneyAdded);
 
-        // return () => {
-        //     window.removeEventListener('moneyAdded', handleMoneyAdded);
-        // };
+        return () => {
+            window.removeEventListener('moneyAdded', handleMoneyAdded);
+        };
     }, [currentPage]);
 
     const handlePageChange = (page) => {

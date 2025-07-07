@@ -6,25 +6,25 @@ import {
     Routes,
     useLocation,
 } from 'react-router-dom';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
-import NavBar from './components/NavBar';
-import Home from './components/Home';
-import ContestDetails from './components/ContestDetails';
-import ContestsInMatches from './components/ContestsInMatches';
-import MyContests from './components/MyContests';
-import MyContestDetails from './components/MyContestsDetails';
-import Transactions from './components/Transactions';
+import SignIn from './components/Authentication/SignIn';
+import SignUp from './components/Authentication/SignUp';
+import NavBar from './components/Navbar/NavBar';
+import Home from './components/Contest/Home';
+import ContestDetails from './components/Contest/ContestDetails';
+import ContestsInMatches from './components/Contest/ContestsInMatches';
+import MyContests from './components/MyContetsts/MyContests';
+import MyContestDetails from './components/MyContetsts/MyContestsDetails';
+import Transactions from './components/Payment/Transactions';
 import Layout from './components/Layout';
 
-import AdminSignIn from "./components/Admin/components/SignIn";
-import DashboardRoutes from './components/Admin/components/DashboardRoutes';
+// import AdminSignIn from "./components/Admin/components/SignIn";
+// import DashboardRoutes from './components/Admin/components/DashboardRoutes';
 
 import Terms from './components/Footer/Terms';
 import Privacy from './components/Footer/Privacy';
 import Contact from './components/Footer/Contact';
 
-import Admin from './components/Admin/Admin';
+import Admin from './Admin/Admin';
 
 const AppContent = () => {
     const location = useLocation();

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import AddMoneyPopup from './Payment/AddMoneyPopup';
+import AddMoneyPopup from './AddMoneyPopup';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const WalletBalance = () => {

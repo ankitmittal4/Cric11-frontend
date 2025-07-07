@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { format, toZonedTime } from 'date-fns-tz';
-import clock from "../assets/clock.png";
+import clock from "../../assets/clock.png";
 import { formatDate } from 'date-fns';
 const API_URL = import.meta.env.VITE_API_URL;
 

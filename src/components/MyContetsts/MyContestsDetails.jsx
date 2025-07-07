@@ -6,10 +6,10 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 const API_URL = import.meta.env.VITE_API_URL;
-import ground from '../assets/ground.jpg';
-import Popup from '../features/Popup';
-import warning from '../assets/warning.png';
-import clock from '../assets/clock.png';
+import ground from '../../assets/ground.jpg';
+import Popup from '../../features/Popup';
+import warning from '../../assets/warning.png';
+import clock from '../../assets/clock.png';
 
 import Confetti from 'react-confetti';
 
