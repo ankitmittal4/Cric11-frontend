@@ -128,7 +128,7 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
                     </p>
 
                     <form onSubmit={formik.handleSubmit} className="mt-6">
-                        <div className="text-base text-gray-700 font-semibold mb-4">
+                        <div className="text-base text-gray-700 font-semibold mb-2">
                             Amount to withdraw:
                             <div className="relative inline-block mt-1 w-[80%]">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">₹</span>
