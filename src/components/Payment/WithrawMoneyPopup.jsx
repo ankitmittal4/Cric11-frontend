@@ -70,8 +70,15 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
     const handlePayment = async (amount, upiId) => {
         setLoading(true);
 
+        const data = {
+            name: userName,
+            email: userEmail,
+            amount: amount,
+            upi: upiId,
+        }
+
         try {
-            const transaction = await axios.post(`${API_URL}/withdraw/withdraw-money`, { amount }, {
+            const transaction = await axios.post(`${API_URL}/withdraw/withdraw-money`, data, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${accessToken}`,
@@ -86,7 +93,8 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
                     email: userEmail,
                     name: userName,
                     amount: amount,
-                    transactionId: transaction.data.data._id,
+                    transactionId: transaction.data.data.transactionId,
+                    upiId: upiId,
                 });
                 console.log("Payment successfull and Confirmation email sent!");
             } catch (error) {
