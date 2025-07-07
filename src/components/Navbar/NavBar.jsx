@@ -4,6 +4,7 @@ import WalletBalance from '../Payment/WalletBalance';
 import logout from '../../assets/logout.png';
 import logo from '../../assets/logo.png';
 import profile from '../../assets/profile.svg';
+import close from '../../assets/close.png';
 import { Menu, X } from 'lucide-react';
 import PropTypes from 'prop-types';
 
@@ -194,7 +195,7 @@ const NavBar = () => {
                             onClick={() => setShowAddBankAccountForm(false)}
                             className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
                         >
-                            ×
+                            <img className="h-5 w-5" src={close} alt="close" />
                         </button>
 
                         <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
@@ -211,7 +212,7 @@ const NavBar = () => {
                                     type="text"
                                     name="accountHolder"
                                     required
-                                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-red-400"
+                                    className="w-full border border-gray-300 rounded px-3 py-2 outline-none"
                                 />
                             </div>
 
@@ -221,7 +222,7 @@ const NavBar = () => {
                                     type="text"
                                     name="accountNumber"
                                     required
-                                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-red-400"
+                                    className="w-full border border-gray-300 rounded px-3 py-2 outline-none"
                                 />
                             </div>
 
@@ -231,7 +232,7 @@ const NavBar = () => {
                                     type="text"
                                     name="ifsc"
                                     required
-                                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-red-400"
+                                    className="w-full border border-gray-300 rounded px-3 py-2 outline-none"
                                 />
                             </div>
                             <div>
@@ -240,7 +241,7 @@ const NavBar = () => {
                                     type="text"
                                     name="bankName"
                                     required
-                                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-red-400"
+                                    className="w-full border border-gray-300 rounded px-3 py-2 outline-none"
                                 />
                             </div>
 

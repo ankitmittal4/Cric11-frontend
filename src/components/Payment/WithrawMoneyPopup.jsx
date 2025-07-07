@@ -13,11 +13,6 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
 
     const [visible, setVisible] = useState(false);
 
-    // const [amount, setAmount] = useState("");
-    // const [upiId, setUpiId] = useState("");
-    // const [amountError, setAmountError] = useState("");
-    // const [upiError, setUpiError] = useState("");
-
     const inputRef = useRef(null);
     const [loading, setLoading] = useState(false);
 
@@ -110,10 +105,6 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
         }
     }
 
-    // const handleKeyDown = (e) => {
-    //     if (e.key === "Enter") handlePayment(amount);
-    // };
-
     if (!visible) return null;
 
     return (
@@ -137,9 +128,9 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
                     </p>
 
                     <form onSubmit={formik.handleSubmit} className="mt-6">
-                        <div className="text-base sm:text-lg text-gray-700 font-semibold mb-4">
+                        <div className="text-base text-gray-700 font-semibold mb-4">
                             Amount to withdraw:
-                            <div className="relative inline-block mt-1">
+                            <div className="relative inline-block mt-1 w-[80%]">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">₹</span>
                                 <input
                                     ref={inputRef}
@@ -155,38 +146,40 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
                                     placeholder="Enter amount"
                                 />
                             </div>
-                            {formik.touched.amount && formik.errors.amount && (
-                                <p className="text-red-500 text-sm mt-1">{formik.errors.amount}</p>
-                            )}
+                            <p className="text-red-500 text-xs mt-1 min-h-[16px]">
+                                {formik.touched.amount && formik.errors.amount ? formik.errors.amount : " "}
+                            </p>
                         </div>
 
                         {/* UPI Input */}
-                        <div className="text-base sm:text-lg text-gray-700 font-semibold mb-4">
+                        <div className="text-base text-gray-700 font-semibold mb-4">
                             Enter UPI ID:
-                            <div className="relative inline-block mt-1">
+                            <br></br>
+                            <div className="relative inline-block mt-1 w-[80%]">
                                 <input
                                     type="text"
                                     name="upiId"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.upiId}
-                                    className={`border rounded pl-3 pr-2 py-1 outline-none w-full ${formik.touched.upiId && formik.errors.upiId
+                                    className={`border rounded pl-3 pr-4 py-1 outline-none w-full ${formik.touched.upiId && formik.errors.upiId
                                         ? "border-red-500"
                                         : "border-gray-300"
                                         }`}
                                     placeholder="name@bank"
                                 />
                             </div>
-                            {formik.touched.upiId && formik.errors.upiId && (
-                                <p className="text-red-500 text-sm mt-1">{formik.errors.upiId}</p>
-                            )}
+                            <p className="text-red-500 text-xs mt-1 min-h-[16px]">
+                                {formik.touched.upiId && formik.errors.upiId ? formik.errors.upiId : " "}
+                            </p>
+
                         </div>
 
                         {/* Submit Button */}
                         <button
                             type="submit"
                             disabled={formik.isSubmitting}
-                            className={`mt-5 sm:mt-7 w-full font-bold text-sm px-4 py-2 rounded bg-green-600 text-white ${formik.isSubmitting ? "cursor-not-allowed opacity-70" : "hover:bg-green-700"
+                            className={`mt-5 sm:mt-2 w-full font-bold text-sm px-4 py-2 rounded bg-green-600 text-white ${formik.isSubmitting ? "cursor-not-allowed opacity-70" : "hover:bg-green-700"
                                 }`}
                         >
                             {formik.isSubmitting ? "Processing..." : `VERIFY TO WITHDRAW ₹${formik.values.amount || 0}`}
