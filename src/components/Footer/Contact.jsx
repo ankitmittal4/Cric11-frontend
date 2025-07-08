@@ -18,6 +18,7 @@ const Contact = () => {
     };
 
     const handleSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
 
         try {
@@ -26,19 +27,13 @@ const Contact = () => {
         } catch (error) {
             console.error("Error sending email:", error);
         }
-        // console.log("Message submitted:", formData);
-
-        // Reset form and show confirmation
+        finally {
+            setLoading(false);
+        }
         setFormData({ name: "", email: "", message: "" });
         setSubmitted(true);
     };
 
-    if (loading)
-        return (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
-            </div>
-        );
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-12">
             <div className="max-w-xl w-full bg-white shadow-md rounded-lg p-8">
@@ -104,6 +99,11 @@ const Contact = () => {
                     </form>
                 )}
             </div>
+            {loading && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
+                </div>
+            )}
         </div>
     );
 };
