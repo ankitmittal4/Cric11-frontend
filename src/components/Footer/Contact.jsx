@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -7,23 +9,36 @@ const Contact = () => {
         message: ""
     });
 
+    const [loading, setLoading] = useState(false);
+
     const [submitted, setSubmitted] = useState(false);
 
     const handleChange = (e) => {
         setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // You can send the formData to backend API here using axios/fetch
-        console.log("Message submitted:", formData);
+        try {
+            await axios.post(`${API_URL}/email/contact-us`, formData,);
+            console.log("Payment successfull and Confirmation email sent!");
+        } catch (error) {
+            console.error("Error sending email:", error);
+        }
+        // console.log("Message submitted:", formData);
 
         // Reset form and show confirmation
         setFormData({ name: "", email: "", message: "" });
         setSubmitted(true);
     };
 
+    if (loading)
+        return (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
+            </div>
+        );
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-12">
             <div className="max-w-xl w-full bg-white shadow-md rounded-lg p-8">
@@ -31,7 +46,7 @@ const Contact = () => {
 
                 {submitted ? (
                     <p className="text-green-600 text-center font-medium">
-                        Thank you for reaching out! We'll get back to you shortly.
+                        Thank you for reaching out! We will get back to you shortly.
                     </p>
                 ) : (
                     <form onSubmit={handleSubmit} className="space-y-5">
