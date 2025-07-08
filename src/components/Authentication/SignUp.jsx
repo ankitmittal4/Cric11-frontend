@@ -25,10 +25,10 @@ const SignUp = () => {
         fullName: Yup.string().required('Enter Full Name'),
         email: Yup.string()
             .email('Invalid email')
-            .matches(
-                /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
-                'Only Gmail addresses are allowed',
-            )
+            // .matches(
+            //     /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+            //     'Only Gmail addresses are allowed',
+            // )
             .required('Enter Email'),
         password: Yup.string()
             .min(6, 'Password must be at least 6 characters')

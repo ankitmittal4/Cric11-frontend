@@ -66,10 +66,10 @@ const SignIn = () => {
     const loginSchema = Yup.object({
         email: Yup.string()
             .email('Invalid email')
-            .matches(
-                /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
-                'Only Gmail addresses are allowed',
-            )
+            // .matches(
+            //     /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+            //     'Only Gmail addresses are allowed',
+            // )
             .required('Email is required'),
         password: Yup.string().required('Password is required'),
     });
