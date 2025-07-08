@@ -193,14 +193,14 @@ const TransactionCard = ({ transaction }) => {
                     <p className="text-lg font-semibold">
                         <span
                             className={
-                                transactionType === 'credit'
+                                transactionType === 'credit' || transactionType === 'refund'
                                     ? 'text-green-600'
                                     : transactionType === 'nothing'
                                         ? 'text-gray-500 line-through'
                                         : 'text-red-600'
                             }
                         >
-                            {transactionType === 'credit' ? '+' : transactionType === 'debit' ? '-' : ''}{' '}
+                            {transactionType === 'credit' || transactionType === 'refund' ? '+' : transactionType === 'debit' ? '-' : ''}{' '}
                             ₹{amount}
                         </span>
                     </p>
