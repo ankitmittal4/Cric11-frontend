@@ -14,6 +14,7 @@ import clock from '../../assets/clock.png';
 import Confetti from 'react-confetti';
 
 const UserContestDetails = () => {
+    const accessToken = localStorage.getItem('accessToken');
     const { id } = useParams();
     const navigate = useNavigate();
     const [contest, setContest] = useState(null);
@@ -95,7 +96,7 @@ const UserContestDetails = () => {
             hasFetchded.current = true;
 
             const fetchContestDetails = async () => {
-                const accessToken = localStorage.getItem('accessToken');
+
                 const response = await axios.post(
                     `${API_URL}/user-contest/get`,
                     {
@@ -114,6 +115,7 @@ const UserContestDetails = () => {
                         setIsWinner(false);
                     }, 10000);
                 }
+
                 // console.log("Contest1: ", response.data.data[0]);
                 setContest(response.data.data[0]);
                 setPlayers(response.data.data[0].user11);
@@ -178,8 +180,26 @@ const UserContestDetails = () => {
                             }
                         }
                     } catch {
-                        alert("Sorry! Opponent not found");
+                        alert("Sorry! Opponent not found. Your money will be refunded.");
+                        try {
+                            const response = await axios.post(
+                                `${API_URL}/user-contest/delete`,
+                                {
+                                    id,
+                                },
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${accessToken}`,
+                                    },
+                                },
+                            );
+
+                        }
+                        catch (error) {
+                            console.log('Error: Failed to delete user contest');
+                        }
                         navigate('/my-contests');
+                        window.dispatchEvent(new CustomEvent('updateBalance'));
                         console.log('Error: Opponent not found');
                     }
                 }
