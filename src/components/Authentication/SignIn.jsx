@@ -10,6 +10,7 @@ import { useFormik } from 'formik';
 import frameBg from '../../assets/frameBg.png';
 import axios from 'axios';
 import logo from "../../assets/logo.png"
+import { set } from 'date-fns';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const SignIn = () => {
@@ -188,6 +189,9 @@ const SignIn = () => {
     };
 
     const handleResendOtp = async () => {
+        setOtp(["", "", "", ""])
+        setOtpError('')
+        setLoading(true);
         const data = {
             email: values.email,
         };
@@ -195,20 +199,20 @@ const SignIn = () => {
         try {
             const res = await axios.post(`${API_URL}/users/resend-login-otp`, data);
             // console.log(res.message);
+            setLoading(false);
             setCounter(RESEND_INTERVAL);
         } catch (err) {
             setOtpError("Failed to resend OTP");
+        }
+        finally {
+            setLoading(false);
         }
     };
 
 
     return (
         <div className="relative">
-            {loading && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
-                </div>
-            )}
+
             {showOtpPage && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm">
                     <div className="bg-white rounded-xl shadow-lg w-[90%] max-w-lg px-6 py-10 relative">
@@ -286,7 +290,6 @@ const SignIn = () => {
 
             )
             }
-
 
             <div
                 className="flex min-h-screen bg-cover bg-center px-4 py-8 sm:px-6 lg:px-8"
@@ -378,6 +381,12 @@ const SignIn = () => {
                     </div>
                 </div>
             </div>
+
+            {loading && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
+                    <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
+                </div>
+            )}
         </div >
     );
 };
