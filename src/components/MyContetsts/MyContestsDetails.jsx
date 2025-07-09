@@ -10,6 +10,7 @@ import ground from '../../assets/ground.jpg';
 import Popup from '../../features/Popup';
 import warning from '../../assets/warning.png';
 import clock from '../../assets/clock.png';
+import clock2 from '../../assets/clock2.png';
 
 import Confetti from 'react-confetti';
 import { set } from 'date-fns';
@@ -573,13 +574,13 @@ const UserContestDetails = () => {
                                             )
                                             : (
                                                 <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
-                                                    <img src={clock} alt="" className='h-3 w-3 mr-1 ' />
+                                                    <img src={clock2} alt="" className='h-3 w-3 mr-1 ' />
                                                     <span className="text-green-500">Match Live</span>
                                                 </div>
                                             )
                                         : (
                                             <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
-                                                <img src={clock} alt="" className='h-3 w-3 mr-1 ' />
+                                                <img src={clock2} alt="" className='h-3 w-3 mr-1 ' />
                                                 <span className="text-green-500">Match Live</span>
                                             </div>
                                         )) : (
