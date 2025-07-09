@@ -12,6 +12,7 @@ import warning from '../../assets/warning.png';
 import clock from '../../assets/clock.png';
 
 import Confetti from 'react-confetti';
+import { set } from 'date-fns';
 
 const UserContestDetails = () => {
     const accessToken = localStorage.getItem('accessToken');
@@ -19,6 +20,7 @@ const UserContestDetails = () => {
     const navigate = useNavigate();
     const [contest, setContest] = useState(null);
     const [players, setPlayers] = useState([]);
+    const [userPoints, setUserPoints] = useState(0);
 
     const [isWinner, setIsWinner] = useState(false);
 
@@ -116,7 +118,8 @@ const UserContestDetails = () => {
                     }, 10000);
                 }
 
-                // console.log("Contest1: ", response.data.data[0]);
+                // console.log("Contest1: ", response.data.data[0]?.points);
+                setUserPoints(response.data.data[0]?.points);
                 setContest(response.data.data[0]);
                 setPlayers(response.data.data[0].user11);
                 const { userId, contestId } = response.data.data[0];
@@ -160,10 +163,12 @@ const UserContestDetails = () => {
                                         },
                                     },
                                 );
-                                // console.log("Contest2: ", userRes);
+                                // console.log("Contest2: ", userRes.data.data.updatedUserContest[0].points);
+                                setUserPoints(userRes.data.data.updatedUserContest[0]?.points);
                                 // setContest(
                                 //     userRes.data.data.updatedUserContest[0],
                                 // );
+
                                 setPlayers(
                                     userRes.data.data.updatedUserContest[0]
                                         .user11,
@@ -555,22 +560,44 @@ const UserContestDetails = () => {
                             </div>
                         ) : timeLeft ? (
                             <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
-                                <img src={clock} alt="" className='h-3 w-3 mr-1' />
+                                {/* <img src={clock} alt="" className='h-3 w-3 mr-1 ' /> */}
                                 <span className="font-bold">
                                     {timeLeft === "Match Started" || timeLeft === "tomorrow" ? (contest.matchDetails.matchStarted
                                         ? contest.matchDetails.matchEnded
-                                            ? <span className="text-red-600">Match Completed</span>
-                                            : <span className="text-green-500">Match Live</span>
-                                        : "Tomorrow") : `${timeLeft} left`}
+                                            ? (
+                                                <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
+                                                    <img src={clock} alt="" className='h-3 w-3 mr-1 ' />
+                                                    <span className="text-red-600">Match Completed</span>
+                                                </div>
+
+                                            )
+                                            : (
+                                                <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
+                                                    <img src={clock} alt="" className='h-3 w-3 mr-1 ' />
+                                                    <span className="text-green-500">Match Live</span>
+                                                </div>
+                                            )
+                                        : (
+                                            <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
+                                                <img src={clock} alt="" className='h-3 w-3 mr-1 ' />
+                                                <span className="text-green-500">Match Live</span>
+                                            </div>
+                                        )) : (
+                                        < div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
+                                            <img src={clock} alt="" className='h-3 w-3 mr-1 ' />
+                                            <span className="text-red-600">{timeLeft} left</span>
+                                        </div>
+                                    )}
                                 </span>
                             </div>
                         ) : (
                             <>
                                 <br />
                             </>
-                        )}
+                        )
+                        }
 
-                    </div>
+                    </div >
                 );
             })()}
             <h1 className="text-xl sm:text-2xl font-bold mb-5 text-gray-600 text-center tracking-wide">
@@ -667,7 +694,8 @@ const UserContestDetails = () => {
                         <div className="md:w-[55%]">
                             <h2 className="text-xl font-bold text-center text-gray-400">
                                 My Points:{' '}
-                                <span className="text-3xl text-green-600">{contest.points}</span>
+                                <span className="text-3xl text-green-600">{userPoints}</span>
+                                {/* <span className="text-3xl text-green-600">{contest.points}</span> */}
                             </h2>
 
                             <div className="bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
