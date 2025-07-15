@@ -400,10 +400,26 @@ const ContestDetails = () => {
 
         return `${hours > 0 ? `${hours}h` : ''} ${minutes > 0 ? `${minutes}m` : ''} ${seconds}s`;
     };
+    const getTimeLeft1 = (matchDate, matchTime) => {
+        const matchStart = new Date(`${matchDate}T${matchTime}:00`);
+        const now = new Date();
+
+        const diffMs = matchStart - now;
+        if (diffMs <= 0) return "Match Started";
+        const diffSec = Math.floor(diffMs / 1000);
+
+        const days = Math.floor(diffSec / (3600 * 24))
+        const hours = Math.floor(diffSec % (3600 * 24) / 3600);
+        const minutes = Math.floor((diffSec % 3600) / 60);
+        const seconds = diffSec % 60;
+
+        const t = `${days > 0 ? (days == 1 ? `${days} day` : `${days} days`) : ''} ${hours > 0 ? `${hours}h` : ''} ${minutes > 0 ? `${minutes}m` : ''} ${seconds}s`
+        return t;
+    };
 
     useEffect(() => {
         const interval = setInterval(() => {
-            const updated = getTimeLeft(
+            const updated = getTimeLeft1(
                 contest.matchDetails.date,
                 contest.matchDetails.startTime
             );
@@ -434,34 +450,19 @@ const ContestDetails = () => {
         <div className="container mx-auto ">
 
             {(() => {
-                const timeLeft = getTimeLeft(
+                const timeLeft = getTimeLeft1(
                     contest.matchDetails.date,
                     contest.matchDetails.startTime,
                 );
-                const formattedDate = contest.matchDetails.date
-                    .split('-')
-                    .reverse()
-                    .join('-');
                 return (
                     <div className="text-center text-sm text-red-500 font-semibold">
-                        {timeLeft === "tomorrow" ? (
-                            <p className='font-bold mb-1'>
-                                Tomorrow
-                                <br />
-                            </p>
-                        ) : timeLeft ? (
-                            <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
-                                <img src={clock} alt="" className='h-3 w-3 mr-1' />
-                                <span className="font-bold">
-                                    {timeLeft}{timeLeft === "Match Started" ? "" : " left"}
-                                </span>
-                            </div>
-                        ) : (
-                            <>
-                                {formattedDate}
-                                <br />
-                            </>
-                        )}
+                        <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
+                            <img src={clock} alt="" className='h-3 w-3 mr-1' />
+                            <span className="font-bold">
+                                {timeLeft}{timeLeft === "Match Started" ? "" : " left"}
+                            </span>
+                        </div>
+
 
                     </div>
                 );
