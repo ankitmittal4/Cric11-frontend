@@ -491,24 +491,18 @@ const UserContestDetails = () => {
     const getTimeLeft = (matchDate, matchTime) => {
         const matchStart = new Date(`${matchDate}T${matchTime}:00`);
         const now = new Date();
-        const tomorrow = new Date();
-        tomorrow.setDate(now.getDate() + 1);
-        if (matchStart.getDate() === tomorrow.getDate() &&
-            matchStart.getMonth() === tomorrow.getMonth() &&
-            matchStart.getFullYear() === tomorrow.getFullYear()) {
-            return "tomorrow"
-        }
 
         const diffMs = matchStart - now;
         if (diffMs <= 0) return "Match Started";
-        if (diffMs > 24 * 60 * 60 * 1000) return null;
-
         const diffSec = Math.floor(diffMs / 1000);
-        const hours = Math.floor(diffSec / 3600);
+
+        const days = Math.floor(diffSec / (3600 * 24))
+        const hours = Math.floor(diffSec % (3600 * 24) / 3600);
         const minutes = Math.floor((diffSec % 3600) / 60);
         const seconds = diffSec % 60;
 
-        return `${hours > 0 ? `${hours}h` : ''} ${minutes > 0 ? `${minutes}m` : ''} ${seconds}s`;
+        const t = `${days > 0 ? (days == 1 ? `${days} day` : `${days} days`) : ''} ${hours > 0 ? `${hours}h` : ''} ${minutes > 0 ? `${minutes}m` : ''} ${seconds}s`
+        return t;
     };
     useEffect(() => {
         const interval = setInterval(() => {
@@ -544,61 +538,17 @@ const UserContestDetails = () => {
                     contest.matchDetails.date,
                     contest.matchDetails.startTime,
                 );
-                const formattedDate = contest.matchDetails?.date
-                    ? contest.matchDetails.date.split('-').reverse().join('-')
-                    : '';
-
                 return (
-                    <div className="text-center text-xs sm:text-sm text-red-500 font-semibold sm:mt-0 mt-2">
-                        {timeLeft === "tomorrow" ? (
-                            <div className='mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center'>
-                                <img src={clock} alt="" className='h-3 w-3 mr-1' />
-                                <p className='font-bold'>
-                                    Tomorrow
-                                    <br />
-                                </p>
+                    <div className="text-center text-sm text-red-500 font-semibold">
+                        <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
+                            <img src={clock} alt="" className='h-3 w-3 mr-1' />
+                            <span className="font-bold">
+                                {timeLeft}{timeLeft === "Match Started" ? "" : " left"}
+                            </span>
+                        </div>
 
-                            </div>
-                        ) : timeLeft ? (
-                            <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
-                                {/* <img src={clock} alt="" className='h-3 w-3 mr-1 ' /> */}
-                                <span className="font-bold">
-                                    {timeLeft === "Match Started" || timeLeft === "tomorrow" ? (contest.matchDetails.matchStarted
-                                        ? contest.matchDetails.matchEnded
-                                            ? (
-                                                <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
-                                                    <img src={clock} alt="" className='h-3 w-3 mr-1 ' />
-                                                    <span className="text-red-600">Match Completed</span>
-                                                </div>
 
-                                            )
-                                            : (
-                                                <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
-                                                    <img src={clock2} alt="" className='h-3 w-3 mr-1 ' />
-                                                    <span className="text-green-500">Match Live</span>
-                                                </div>
-                                            )
-                                        : (
-                                            <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
-                                                <img src={clock2} alt="" className='h-3 w-3 mr-1 ' />
-                                                <span className="text-green-500">Match Live</span>
-                                            </div>
-                                        )) : (
-                                        < div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
-                                            <img src={clock} alt="" className='h-3 w-3 mr-1 ' />
-                                            <span className="text-red-600">{timeLeft} left</span>
-                                        </div>
-                                    )}
-                                </span>
-                            </div>
-                        ) : (
-                            <>
-                                <br />
-                            </>
-                        )
-                        }
-
-                    </div >
+                    </div>
                 );
             })()}
             <h1 className="text-xl sm:text-2xl font-bold mb-5 text-gray-600 text-center tracking-wide">

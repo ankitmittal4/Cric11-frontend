@@ -380,29 +380,6 @@ const ContestDetails = () => {
     const getTimeLeft = (matchDate, matchTime) => {
         const matchStart = new Date(`${matchDate}T${matchTime}:00`);
         const now = new Date();
-        const tomorrow = new Date();
-        tomorrow.setDate(now.getDate() + 1);
-        if (matchStart.getDate() === tomorrow.getDate() &&
-            matchStart.getMonth() === tomorrow.getMonth() &&
-            matchStart.getFullYear() === tomorrow.getFullYear()) {
-            // console.log("tomorrow");
-            return "tomorrow"
-        }
-
-        const diffMs = matchStart - now;
-        if (diffMs <= 0) return "Match Started";
-        if (diffMs > 24 * 60 * 60 * 1000) return null;
-
-        const diffSec = Math.floor(diffMs / 1000);
-        const hours = Math.floor(diffSec / 3600);
-        const minutes = Math.floor((diffSec % 3600) / 60);
-        const seconds = diffSec % 60;
-
-        return `${hours > 0 ? `${hours}h` : ''} ${minutes > 0 ? `${minutes}m` : ''} ${seconds}s`;
-    };
-    const getTimeLeft1 = (matchDate, matchTime) => {
-        const matchStart = new Date(`${matchDate}T${matchTime}:00`);
-        const now = new Date();
 
         const diffMs = matchStart - now;
         if (diffMs <= 0) return "Match Started";
@@ -419,7 +396,7 @@ const ContestDetails = () => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            const updated = getTimeLeft1(
+            const updated = getTimeLeft(
                 contest.matchDetails.date,
                 contest.matchDetails.startTime
             );
@@ -450,7 +427,7 @@ const ContestDetails = () => {
         <div className="container mx-auto ">
 
             {(() => {
-                const timeLeft = getTimeLeft1(
+                const timeLeft = getTimeLeft(
                     contest.matchDetails.date,
                     contest.matchDetails.startTime,
                 );
