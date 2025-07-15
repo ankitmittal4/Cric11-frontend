@@ -51,7 +51,7 @@ const CreateContest = () => {
                 setIsPopupVisible(true);
             }
         } catch (error) {
-            console.log("create error: ", error);
+            // console.log("create error: ", error);
             setErrorMessage(
                 error.response?.data?.message || 'Failed to create contest',
             );

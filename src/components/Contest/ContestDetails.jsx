@@ -289,7 +289,7 @@ const ContestDetails = () => {
             // console.log("Response: ", response.data.data);
             setContest(response.data.data);
 
-            console.log(response.data.data.squadDetails.squad[0].teamName);
+            // console.log(response.data.data.squadDetails.squad[0].teamName);
             // Fetch (squad)players for team selection
             const playersResponse1 =
                 response.data.data.squadDetails.squad[0].players;
