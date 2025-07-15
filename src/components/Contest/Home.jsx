@@ -10,14 +10,17 @@ const API_URL = import.meta.env.VITE_API_URL;
 const Home = () => {
     const navigate = useNavigate();
     const [matches, setMatches] = useState([]);
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
+        setLoading(true);
         if (!localStorage.getItem('accessToken')) {
             navigate('/signin');
         }
-
         const fetchMatches = async () => {
             const response = await axios.get(`${API_URL}/match/all`);
+            setLoading(false)
             setMatches(response.data.data);
         };
         fetchMatches();
@@ -65,7 +68,7 @@ const Home = () => {
 
 
 
-    if (!matches.length)
+    if (loading)
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                 <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>

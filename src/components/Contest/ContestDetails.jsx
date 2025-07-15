@@ -289,6 +289,7 @@ const ContestDetails = () => {
             // console.log("Response: ", response.data.data);
             setContest(response.data.data);
 
+            console.log(response.data.data.squadDetails.squad[0].teamName);
             // Fetch (squad)players for team selection
             const playersResponse1 =
                 response.data.data.squadDetails.squad[0].players;
@@ -583,7 +584,7 @@ const ContestDetails = () => {
                                                 onClick={() => handlePlayerSelection(player.id)}
                                             >
                                                 {/* <td className="py-2 px-4 border-b">{player.role}</td> */}
-                                                <td className="py-2 px-7 border-b">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym : contest.matchDetails.teamBAcronym}</td>
+                                                <td className="py-2 px-4 border-b">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym || contest.matchDetails.teamA : contest.matchDetails.teamBAcronym || contest.matchDetails.teamB}</td>
                                                 <td className="py-2 px-4 border-b">{player.name}</td>
 
                                                 <td className="py-2 px-4 border-b text-center">

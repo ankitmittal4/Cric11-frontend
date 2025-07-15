@@ -51,9 +51,12 @@ const CreateContest = () => {
                 setIsPopupVisible(true);
             }
         } catch (error) {
+            console.log("create error: ", error);
             setErrorMessage(
                 error.response?.data?.message || 'Failed to create contest',
             );
+            alert(error.response?.data?.message);
+            navigate('/admin/dashboard/matches');
         }
     };
     const closePopup = () => {
@@ -132,9 +135,10 @@ const CreateContest = () => {
                             required
                         />
                     </div>
+                    */}
                     {errorMessage && (
                         <div className="text-red-500">{errorMessage}</div>
-                    )} */}
+                    )}
                     <button
                         type="submit"
                         className="w-full py-2 bg-blue-600 hover:bg-blue-700 rounded-md"
