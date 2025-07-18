@@ -17,8 +17,6 @@ const Matches = () => {
         }
     }, []);
     const handleCreateContest = (matchId, t1, t2, t1img, t2img, series) => {
-        // console.log('matchId: ', t1img);
-        // console.log(t1, ":", t2);
         const matchDetails = {
             t1,
             t2,

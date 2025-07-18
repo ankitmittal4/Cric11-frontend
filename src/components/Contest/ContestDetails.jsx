@@ -286,11 +286,7 @@ const ContestDetails = () => {
             const response = await axios.post(`${API_URL}/contests/get`, {
                 id,
             });
-            // console.log("Response: ", response.data.data);
             setContest(response.data.data);
-
-            // console.log(response.data.data.squadDetails.squad[0].teamName);
-            // Fetch (squad)players for team selection
             const playersResponse1 =
                 response.data.data.squadDetails.squad[0].players;
             const updatedPlayersResponse1 = playersResponse1.map((player) => ({
@@ -308,7 +304,6 @@ const ContestDetails = () => {
                 updatedPlayersResponse2,
             );
             setPlayers(combinedSquad);
-            // console.log('Players: ', players);
         };
         fetchContestDetails();
     }, [id]);
