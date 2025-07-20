@@ -108,21 +108,33 @@ const NavBar = () => {
 
                 {/* Mobile Menu */}
                 {isMobileMenuOpen && (
-                    <div className="md:hidden mt- flex flex-col bg-[#b81a1e] px-4 pb-4 font-medium space-y-3 ">
-                        <NavLinks onClick={() => setIsMobileMenuOpen(false)} />
+                    <>
+                        <div className="md:hidden mt- flex flex-col bg-[#b81a1e] px-4 pb-4 font-medium space-y-3 ">
+                            <NavLinks onClick={() => setIsMobileMenuOpen(false)} />
 
-                        <button
-                            onClick={() => {
-                                setIsMobileMenuOpen(false);
-                                setShowLogoutConfirm(true);
-                            }}
-                            className="flex items-center gap-2 text-gray-300 hover:rounded md:hover:py-0 hover:py-2 md:py-0 py-2  md:hover:bg-transparent hover:bg-gray-200 md:hover:text-white hover:text-gray-700 px-3"
-                        >
-                            {/* <img className="h-6 w-6" src={logout} alt="logout" /> */}
-                            Logout
+                            <button
+                                onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    setShowProfileMenu(true);
+                                }}
+                                className="flex items-center gap-2 text-gray-300 hover:rounded md:hover:py-0 hover:py-2 md:py-0 py-2  md:hover:bg-transparent hover:bg-gray-200 md:hover:text-white hover:text-gray-700 px-3"
+                            >
+                                Profile
 
-                        </button>
-                    </div>
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    setShowLogoutConfirm(true);
+                                }}
+                                className="flex items-center gap-2 text-gray-300 hover:rounded md:hover:py-0 hover:py-2 md:py-0 py-2  md:hover:bg-transparent hover:bg-gray-200 md:hover:text-white hover:text-gray-700 px-3"
+                            >
+                                {/* <img className="h-6 w-6" src={logout} alt="logout" /> */}
+                                Logout
+
+                            </button>
+                        </div>
+                    </>
                 )}
             </nav>
 
