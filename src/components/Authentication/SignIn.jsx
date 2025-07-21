@@ -143,7 +143,7 @@ const SignIn = () => {
 
 
     const handleOtpVerify = async (e) => {
-        // setLoading(true);
+        setLoading(true);
         const code = otp.join("");
         if (code.length !== 4) {
             setOtpError("Please enter all 4 digits");
