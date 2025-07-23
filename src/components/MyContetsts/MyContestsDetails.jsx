@@ -111,7 +111,6 @@ const UserContestDetails = () => {
                         },
                     },
                 );
-                // console.log('User Response: ', response.data.data[0]);
                 if (response.data.data[0].result === 'win') {
                     setIsWinner(true);
                     setTimeout(() => {
@@ -119,7 +118,6 @@ const UserContestDetails = () => {
                     }, 10000);
                 }
 
-                // console.log("Contest1: ", response.data.data[0]?.points);
                 setUserPoints(response.data.data[0]?.points);
                 setContest(response.data.data[0]);
                 setPlayers(response.data.data[0].user11);
@@ -256,6 +254,7 @@ const UserContestDetails = () => {
         setViceCaptainId(contest.viceCaptain);
         setPlayersLoading(false);
     };
+
     const teamPlayerCount = useMemo(() => {
         const count = {};
 
@@ -274,6 +273,7 @@ const UserContestDetails = () => {
 
         return count;
     }, [selectedPlayerIds, players]);
+
     const isMaxSelected = selectedPlayerIds.length >= 11;
 
     const handlePlayerSelection = (playerId) => {
@@ -321,10 +321,10 @@ const UserContestDetails = () => {
         setError('');
         setIsPopupOpen(false);
     };
+
     const handleUpdateContest = async () => {
         const accessToken = localStorage.getItem('accessToken');
-        // const id = contest.contestId;
-        // console.log("accessToken: ", accessToken);
+
         const contestData = {
             id,
             players: selectedPlayerIds,
@@ -333,7 +333,6 @@ const UserContestDetails = () => {
         };
 
         try {
-            // console.log("user contest id: ", response.data.data._id);
             const response = await axios.post(
                 `${API_URL}/user-contest/update-team`,
                 contestData,
@@ -363,6 +362,7 @@ const UserContestDetails = () => {
         }
         setIsPopupOpen(false);
     };
+
     const closePopup = () => {
         setIsPopupVisible(false);
     };
