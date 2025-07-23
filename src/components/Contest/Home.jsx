@@ -20,7 +20,7 @@ const Home = () => {
         }
         const fetchMatches = async () => {
             const response = await axios.get(`${API_URL}/match/all`);
-            setLoading(false)
+            setLoading(false);
             setMatches(response.data.data);
             // setMatches([]);
         };
@@ -78,13 +78,13 @@ const Home = () => {
                     {[1, 2, 3, 4, 5].map((_, index) => (
                         <div
                             key={index}
-                            className="animate-pulse rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 overflow-hidden p-4 space-y-4 h-44"
+                            className="animate-pulse rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 overflow-hidden p-4 space-y-4 min-h-44"
                         >
                             <div className="bg-gray-300 h-6 w-2/3 rounded-md"></div>
 
                             <div className="flex justify-between items-center">
-                                <div className="h-5 w-1/3 bg-gray-300 rounded"></div>
-                                <div className="h-5 w-1/3 bg-gray-300 rounded"></div>
+                                <div className="h-6 w-1/3 bg-gray-300 rounded my-1"></div>
+                                <div className="h-6 w-1/3 bg-gray-300 rounded"></div>
                             </div>
 
                             <div className="flex justify-between items-center mt-6">
