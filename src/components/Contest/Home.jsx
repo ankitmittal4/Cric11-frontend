@@ -22,6 +22,7 @@ const Home = () => {
             const response = await axios.get(`${API_URL}/match/all`);
             setLoading(false)
             setMatches(response.data.data);
+            // setMatches([]);
         };
         fetchMatches();
     }, []);
@@ -67,13 +68,48 @@ const Home = () => {
     }
 
 
-
-    if (loading)
+    if (loading) {
         return (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
+            <div className="container mx-auto p-4">
+                <h1 className="text-xl sm:text-2xl font-bold mb-6 text-gray-600 sm:text-left text-center">
+                    Upcoming Cricket Matches
+                </h1>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {[1, 2, 3, 4, 5].map((_, index) => (
+                        <div
+                            key={index}
+                            className="animate-pulse rounded-lg shadow-md border-2 border-gray-400 bg-gray-100 overflow-hidden p-4 space-y-4 h-44"
+                        >
+                            <div className="bg-gray-300 h-6 w-2/3 rounded-md"></div>
+
+                            <div className="flex justify-between items-center">
+                                <div className="h-5 w-1/3 bg-gray-300 rounded"></div>
+                                <div className="h-5 w-1/3 bg-gray-300 rounded"></div>
+                            </div>
+
+                            <div className="flex justify-between items-center mt-6">
+                                <div className="flex items-center space-x-2">
+                                    <div className="h-9 w-9 bg-gray-300 rounded-full"></div>
+                                    <div className="h-4 w-12 bg-gray-300 rounded"></div>
+                                </div>
+
+                                <div className="text-center space-y-1">
+                                    <div className="h-4 w-16 bg-gray-300 rounded mx-auto"></div>
+                                    <div className="h-4 w-10 bg-gray-300 rounded mx-auto"></div>
+                                </div>
+
+                                <div className="flex items-center space-x-2">
+                                    <div className="h-4 w-12 bg-gray-300 rounded"></div>
+                                    <div className="h-9 w-9 bg-gray-300 rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         );
+    }
+
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-xl sm:text-2xl font-bold mb-6 text-gray-600 sm:text-left text-center">
