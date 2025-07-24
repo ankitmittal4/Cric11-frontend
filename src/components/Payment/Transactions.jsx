@@ -26,7 +26,7 @@ const Transactions = () => {
                 page: currentPage,
                 limit: limit,
             }
-            const response = await axios.get(
+            const response = await axios.post(
                 `${API_URL}/transactions/all`,
                 data,
                 {
@@ -36,19 +36,10 @@ const Transactions = () => {
                 },
             );
             setWalletBalance(response.data.data.walletBalance);
-
-            const reversedTransactions = [
-                ...response.data.data.transactions,
-            ].reverse();
-
-            const totalTransactions = reversedTransactions.length;
-            const startIndex = (currentPage - 1) * limit;
+            const startIndex = (response.data.data.pagination.page - 1) * limit;
             const endIndex = startIndex + limit;
-            const paginateTransactions = reversedTransactions.slice(startIndex, endIndex);
-            // console.log(currentPage);
-            // setTransactions(reversedTransactions);
-            setTransactions(paginateTransactions);
-            setTotalPages(Math.ceil(totalTransactions / limit));
+            setTransactions(response.data.data.transactions);
+            setTotalPages(response.data.data.pagination.totalPages);
         } catch (error) {
             console.error('Error fetching transactions:', error);
         } finally {
