@@ -22,8 +22,13 @@ const Transactions = () => {
 
         setLoading(true);
         try {
-            const response = await axios.get(
+            const data = {
+                page: currentPage,
+                limit: limit,
+            }
+            const response = await axios.post(
                 `${API_URL}/transactions/all`,
+                data,
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -31,19 +36,10 @@ const Transactions = () => {
                 },
             );
             setWalletBalance(response.data.data.walletBalance);
-
-            const reversedTransactions = [
-                ...response.data.data.transactions,
-            ].reverse();
-
-            const totalTransactions = reversedTransactions.length;
-            const startIndex = (currentPage - 1) * limit;
+            const startIndex = (response.data.data.pagination.page - 1) * limit;
             const endIndex = startIndex + limit;
-            const paginateTransactions = reversedTransactions.slice(startIndex, endIndex);
-            // console.log(currentPage);
-            // setTransactions(reversedTransactions);
-            setTransactions(paginateTransactions);
-            setTotalPages(Math.ceil(totalTransactions / limit));
+            setTransactions(response.data.data.transactions);
+            setTotalPages(response.data.data.pagination.totalPages);
         } catch (error) {
             console.error('Error fetching transactions:', error);
         } finally {
@@ -104,7 +100,28 @@ const Transactions = () => {
 
             <h1 className="text-xl sm:text-2xl font-bold mb-4">All Transactions:</h1>
 
-            {transactions.length > 0 ? (
+            {loading ? (
+                <div>
+                    {[...Array(4)].map((_, index) => (
+                        <div key={index} className="bg-slate-100 p-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-shadow mb-2 animate-pulse">
+                            <div className="flex justify-between items-start gap-4">
+
+                                <div className="flex flex-col space-y-2">
+                                    <div className="h-5 w-24 bg-gray-300 rounded mb-3"></div>
+                                    <div className="h-4 w-40 bg-gray-300 rounded"></div>
+                                </div>
+
+                                {/* Right section: Message, Date, Time */}
+                                <div className="flex flex-col items-end space-y-2 text-right">
+                                    <div className="h-4 w-32 bg-gray-300 rounded"></div>
+                                    <div className="h-4 w-24 bg-gray-300 rounded"></div>
+                                    <div className="h-4 w-16 bg-gray-300 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : transactions.length > 0 ? (
                 <>
                     <div className="sm:space-y-3">
                         {transactions.map((transaction) => (
@@ -137,8 +154,6 @@ const Transactions = () => {
                             </button>
                         </div>
                     </div>
-
-
                 </>
             ) : (
                 <p className="text-gray-500 text-center">No transactions found.</p>
@@ -159,11 +174,7 @@ const Transactions = () => {
                 fetchTransactions={fetchTransactions}
             />
 
-            {loading && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
-                </div>
-            )}
+
         </div>
 
     );
@@ -231,8 +242,6 @@ const TransactionCard = ({ transaction }) => {
                 </div>
             </div>
         </div>
-
-
     );
 };
 
@@ -250,3 +259,42 @@ TransactionCard.propTypes = {
 };
 
 export default Transactions;
+
+
+{/* {transactions.length > 0 ? (
+                <>
+                    <div className="sm:space-y-3">
+                        {transactions.map((transaction) => (
+                            <TransactionCard key={transaction._id} transaction={transaction} />
+                        ))}
+                    </div>
+
+                    <div className="grid grid-cols-3 items-center gap-2 mt-6 w-full">
+                        <div className="flex justify-start">
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className="px-4 py-2 text-white bg-gray-500 rounded disabled:opacity-60"
+                            >
+                                Back
+                            </button>
+                        </div>
+
+                        <div className="flex justify-center text-black text-center">
+                            Page {currentPage} of {totalPages}
+                        </div>
+
+                        <div className="flex justify-end">
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className="px-4 py-2 text-white bg-gray-500 rounded disabled:opacity-60"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </>
+            ) : (
+                <p className="text-gray-500 text-center">No transactions found.</p>
+            )} */}
