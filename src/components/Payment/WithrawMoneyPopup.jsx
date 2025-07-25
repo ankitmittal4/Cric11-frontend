@@ -32,7 +32,7 @@ const WithdrawMoneyPopup = React.forwardRef(({ API_URL, accessToken, walletBalan
                 .required("Amount is required")
                 .max(walletBalance, `Amount cannot exceed ₹${walletBalance}`),
             upiId: Yup.string()
-                .matches(/^[\w.-]+@[\w.-]+$/, "Invalid UPI ID")
+                .matches(/^[\w.-]+@[a-zA-Z]{2,}$/, "Invalid UPI ID")
                 .required("UPI ID is required"),
         }),
         onSubmit: (values, { setSubmitting }) => {

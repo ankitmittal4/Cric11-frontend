@@ -119,7 +119,9 @@ const UserContestDetails = () => {
                 }
 
                 setUserPoints(response.data.data[0]?.points);
+                // console.log("---> ", response.data.data[0]);
                 setContest(response.data.data[0]);
+                // setContest(null);
                 setPlayers(response.data.data[0].user11);
                 const { userId, contestId } = response.data.data[0];
                 const matchDateAndTime = new Date(
@@ -162,11 +164,11 @@ const UserContestDetails = () => {
                                         },
                                     },
                                 );
-                                // console.log("Contest2: ", userRes.data.data.updatedUserContest[0].points);
+                                // console.log("Contest details: ", userRes.data.data.updatedUserContest[0]);
                                 setUserPoints(userRes.data.data.updatedUserContest[0]?.points);
-                                // setContest(
-                                //     userRes.data.data.updatedUserContest[0],
-                                // );
+                                setContest(
+                                    userRes.data.data.updatedUserContest[0],
+                                );
 
                                 setPlayers(
                                     userRes.data.data.updatedUserContest[0]
@@ -518,9 +520,95 @@ const UserContestDetails = () => {
 
     if (!contest)
         return (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
-            </div>
+            <>
+                <div className="flex-col justify-start items-center px-4 animate-pulse">
+                    <div className="h-5 w-32 bg-gray-300 rounded mb-2 mx-auto" />
+                    <div className="h-6 w-48 bg-gray-300 rounded mx-auto" />
+
+                </div>
+                <div className="flex flex-col lg:flex-row justify-between gap-6 animate-pulse px-24 py-6 mt-5">
+                    {/* Left: Contest Details */}
+
+                    <div className="w-full lg:w-1/3 space-y-8">
+                        <div className="h-6 w-3/4 bg-gray-300 rounded" />
+                        <div className="space-y-6">
+                            <div className="h-4 w-2/5 bg-gray-300 rounded" />
+                            <div className="h-4 w-1/2 bg-gray-300 rounded" />
+                            <div className="h-4 w-2/5 bg-gray-300 rounded" />
+                            <div className="h-4 w-1/2 bg-gray-300 rounded" />
+                            <div className="h-4 w-2/5 bg-gray-300 rounded" />
+                            <div className="h-4 w-1/2 bg-gray-300 rounded" />
+
+                        </div>
+                    </div>
+
+                    {/* Right: Player List */}
+                    <div className="w-full min-h-screen flex flex-col items-center">
+                        <h2 className="text-2xl font-bold text-gray-500 mb-4">My Points: <span className="text-green-500">0</span></h2>
+
+                        <div className="bg-green-600 rounded-2xl w-[360px] h-[430px] relative p-4" style={{
+                            backgroundImage: `url(${ground})`,
+                            backgroundSize: '99% 96%',
+                        }}>
+
+                            <div className="absolute top-6 left-1/2 -translate-x-1/2 flex gap-24 mt-4">
+                                {[...Array(2)].map((_, i) => (
+                                    <div key={i} className="flex flex-col items-center">
+                                        <FontAwesomeIcon
+                                            icon={faUser}
+                                            className="text-green-800 text-3xl mb-1"
+                                        />
+                                        <div className="w-14 h-3 bg-gray-300 rounded" />
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="absolute top-[120px] left-1/2 -translate-x-1/2 flex gap-20 mt-2">
+                                {[...Array(3)].map((_, i) => (
+                                    <div key={i} className="flex flex-col items-center">
+                                        <FontAwesomeIcon
+                                            icon={faUser}
+                                            className="text-green-800 text-3xl mb-1"
+                                        />
+                                        <div className="w-14 h-3 bg-gray-300 rounded" />
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="absolute top-[220px] left-1/2 -translate-x-1/2 flex gap-20">
+                                {[...Array(3)].map((_, i) => (
+                                    <div key={i} className="flex flex-col items-center">
+                                        <FontAwesomeIcon
+                                            icon={faUser}
+                                            className="text-green-800 text-3xl mb-1"
+                                        />
+                                        <div className="w-14 h-3 bg-gray-300 rounded" />
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="absolute top-[320px] left-1/2 -translate-x-1/2 flex gap-20">
+                                {[...Array(3)].map((_, i) => (
+                                    <div key={i} className="flex flex-col items-center">
+                                        <FontAwesomeIcon
+                                            icon={faUser}
+                                            className="text-green-800 text-3xl mb-1"
+                                        />
+                                        <div className="w-14 h-3 bg-gray-300 rounded" />
+                                    </div>
+                                ))}
+                            </div>
+
+
+
+
+
+                        </div>
+
+                        <button className="mt-6 bg-gray-300 text-white px-6 py-2 rounded cursor-not-allowed">
+                            Loading...
+                        </button>
+                    </div>
+                </div>
+            </>
         );
 
     return (
@@ -542,9 +630,11 @@ const UserContestDetails = () => {
                     <div className="text-center text-sm text-red-500 font-semibold">
                         <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
                             <img src={clock} alt="" className='h-3 w-3 mr-1' />
-                            <span className="font-bold">
-                                {timeLeft}{timeLeft === "Match Started" ? "" : " left"}
-                            </span>
+                            {contest?.matchDetails?.matchEnded ? "Match Ended" : (
+                                <span className="font-bold">
+                                    {timeLeft}{timeLeft === "Match Started" ? "" : " left"}
+                                </span>
+                            )}
                         </div>
 
 
