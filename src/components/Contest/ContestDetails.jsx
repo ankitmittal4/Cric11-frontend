@@ -99,6 +99,7 @@ const ContestDetails = () => {
     }, [selectedPlayerIds, players]);
 
     const isMaxSelected = selectedPlayerIds.length >= 11;
+
     const handlePlayerSelection = (playerId) => {
         setSelectedPlayerIds((prev) => {
             const isSelected = prev.includes(playerId);
@@ -287,6 +288,7 @@ const ContestDetails = () => {
                 id,
             });
             setContest(response.data.data);
+            // setContest(null);
             const playersResponse1 =
                 response.data.data.squadDetails.squad[0].players;
             const updatedPlayersResponse1 = playersResponse1.map((player) => ({
@@ -413,11 +415,51 @@ const ContestDetails = () => {
 
     if (!contest)
         return (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
-            </div>
-        );
+            <>
+                <div className="flex-col justify-start items-center px-4 animate-pulse">
+                    <div className="h-5 w-32 bg-gray-300 rounded mb-2 mx-auto" />
+                    <div className="h-6 w-48 bg-gray-300 rounded mx-auto" />
 
+                </div>
+                <div className="flex flex-col lg:flex-row justify-between gap-6 animate-pulse py-10 px-24˳`˳ mt-5">
+                    {/* Left: Contest Details */}
+
+                    <div className="w-full lg:w-1/3 space-y-8">
+                        <div className="h-6 w-3/4 bg-gray-300 rounded" />
+                        <div className="space-y-6">
+                            <div className="h-4 w-2/5 bg-gray-300 rounded" />
+                            <div className="h-4 w-1/2 bg-gray-300 rounded" />
+                            <div className="h-4 w-2/5 bg-gray-300 rounded" />
+                            <div className="h-4 w-1/2 bg-gray-300 rounded" />
+                            <div className="h-4 w-2/5 bg-gray-300 rounded" />
+                            <div className="h-4 w-1/2 bg-gray-300 rounded" />
+
+                        </div>
+                    </div>
+
+                    {/* Right: Player List */}
+                    <div className="w-full lg:w-2/3">
+                        {/* Header */}
+                        <div className="h-6 w-1/2 bg-gray-300 rounded mb-7 mx-auto" />
+
+                        {/* Player Rows */}
+                        {[...Array(5)].map((_, i) => (
+                            <div key={i} className="grid grid-cols-4 gap-4 mb-3 w-2/3 mx-auto">
+                                <div className="h-4 w-full bg-gray-300 rounded" />
+                                <div className="h-4 w-full bg-gray-300 rounded" />
+                                <div className="h-4 w-full bg-gray-300 rounded" />
+                                <div className="h-4 w-full bg-gray-300 rounded" />
+                            </div>
+                        ))}
+
+                        {/* Submit Button */}
+                        <div className="mt-16">
+                            <div className="h-10 w-32 bg-gray-300 rounded mx-auto" />
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
 
     return (
         <div className="container mx-auto ">
