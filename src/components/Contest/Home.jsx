@@ -14,10 +14,10 @@ const Home = () => {
 
 
     useEffect(() => {
-        setLoading(true);
         if (!localStorage.getItem('accessToken')) {
             navigate('/signin');
         }
+        setLoading(true);
         const fetchMatches = async () => {
             const response = await axios.get(`${API_URL}/match/all`);
             setLoading(false);
@@ -199,7 +199,7 @@ const Home = () => {
                                                 </>
                                             ) : timeLeft ? (
                                                 <div className="mb-1 flex bg-red-100 px-2 py-1 rounded-md items-center">
-                                                    <img src={clock} alt="" className='h-3 w-3 mr-1' />
+                                                    <img loading="lazy" src={clock} alt="" className='h-3 w-3 mr-1' />
                                                     <span className="font-extrabold ">
                                                         {timeLeft}
                                                     </span>
