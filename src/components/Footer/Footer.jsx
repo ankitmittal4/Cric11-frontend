@@ -38,6 +38,7 @@ const Footer = () => {
                     <div className="flex space-x-4 md:mb-0 justify-center mt-4">
                         <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
                             <img
+                                loading="lazy"
                                 src={facebook}
                                 alt="Facebook"
                                 className="w-8 h-8"
@@ -45,6 +46,7 @@ const Footer = () => {
                         </a>
                         <a href="https://x.com/AnkitMi02714408" target="_blank" rel="noopener noreferrer">
                             <img
+                                loading="lazy"
                                 src={Twitter}
                                 alt="Twitter"
                                 className="w-8 h-8"
@@ -52,6 +54,7 @@ const Footer = () => {
                         </a>
                         <a href="https://www.linkedin.com/in/ankit305/" target="_blank" rel="noopener noreferrer">
                             <img
+                                loading="lazy"
                                 src={LinkedIn}
                                 alt="LinkedIn"
                                 className="w-8 h-8"
