@@ -558,7 +558,7 @@ const UserContestDetails = () => {
                                             icon={faUser}
                                             className="text-green-800 text-3xl mb-1"
                                         />
-                                        <div className="w-14 h-3 bg-gray-300 rounded" />
+                                        <div className="w-14 h-4 bg-gray-300 rounded" />
                                     </div>
                                 ))}
                             </div>
@@ -570,7 +570,7 @@ const UserContestDetails = () => {
                                             icon={faUser}
                                             className="text-green-800 text-3xl mb-1"
                                         />
-                                        <div className="w-14 h-3 bg-gray-300 rounded" />
+                                        <div className="w-14 h-4 bg-gray-300 rounded" />
                                     </div>
                                 ))}
                             </div>
@@ -581,7 +581,7 @@ const UserContestDetails = () => {
                                             icon={faUser}
                                             className="text-green-800 text-3xl mb-1"
                                         />
-                                        <div className="w-14 h-3 bg-gray-300 rounded" />
+                                        <div className="w-14 h-4 bg-gray-300 rounded" />
                                     </div>
                                 ))}
                             </div>
@@ -592,7 +592,7 @@ const UserContestDetails = () => {
                                             icon={faUser}
                                             className="text-green-800 text-3xl mb-1"
                                         />
-                                        <div className="w-14 h-3 bg-gray-300 rounded" />
+                                        <div className="w-14 h-4 bg-gray-300 rounded" />
                                     </div>
                                 ))}
                             </div>
@@ -741,7 +741,7 @@ const UserContestDetails = () => {
 
                             <div className="bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
                                 <div
-                                    className={`relative bg-green-700 p-4 sm:p-6 rounded-lg w-full max-w-full sm:max-w-lg mx-4 my-4 bg-cover bg-center overflow-auto ${opponentPlayers?.length === 0 ? 'sm:w-[65%]' : 'sm:w-full'
+                                    className={`relative bg-green-700 p-4 sm:p-6 rounded-lg max-w-full sm:max-w-lg mx-4 my-4 bg-cover bg-center overflow-auto sm:w-[35%]'
                                         }`}
                                     style={{
                                         backgroundImage: `url(${ground})`,
@@ -1116,68 +1116,87 @@ const UserContestDetails = () => {
                         </div>
                     )}
 
-                    {opponentPlayers.length != 0 && (
-                        <div className="md:w-[55%]">
-                            <h2 className="text-xl font-bold text-center mb-1 text-gray-400">
-                                Opponent Points:{' '}
-                                <span className="text-3xl text-green-600">{opponentContest.points}</span>
+                    {opponentPlayers.length === 0 && isMatchStarted ? (
+                        <div className="md:w-[55%] animate-pulse">
+                            <h2 className="text-xl font-bold text-center text-gray-400">
+                                Opponent Points: {' '}
+                                < span className="text-3xl text-green-600">{0}</span>
                             </h2>
 
                             <div className="bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
                                 <div
-                                    className={`relative bg-green-700 p-4 sm:p-6 rounded-lg w-full max-w-full sm:max-w-lg mx-4 my-4 bg-cover bg-center overflow-auto ${opponentPlayers?.length === 0 ? 'sm:w-[65%]' : 'sm:w-full'
-                                        }`}
+                                    className="relative bg-green-700 p-4 sm:p-6 rounded-lg w-full sm:max-w-lg mx-4 my-4 bg-cover bg-center overflow-auto sm:w-full"
                                     style={{
                                         backgroundImage: `url(${ground})`,
                                         backgroundSize: '99% 96%',
                                     }}
                                 >
-                                    {/* First 2 Players */}
                                     <div className="flex justify-center gap-20 mt-4 mb-7 flex-wrap">
-                                        {sortedOpponentPlayers.slice(0, 2).map((player) => (
-                                            <div key={player.id} className="text-center">
+                                        {[...Array(2)].map((_, i) => (
+                                            <div key={i} className="text-center">
                                                 <div className="relative">
-                                                    {opponentContest.captain === player.id && (
-                                                        <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-0 sm:text-sm text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                            C
-                                                        </span>
-                                                    )}
-                                                    {opponentContest.viceCaptain === player.id && (
-                                                        <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-0 sm:text-xs text-[.67rem] text-white font-medium bg-gray-500 p-1 rounded-full">
-                                                            VC
-                                                        </span>
-                                                    )}
                                                     <FontAwesomeIcon
                                                         icon={faUser}
-                                                        className="text-green-900 text-3xl"
+                                                        className="text-green-800 text-3xl mb-1"
                                                     />
                                                 </div>
-                                                <span className="block text-white rounded-sm py-px bg-red-600 sm:text-sm sm:w-20 w-16 whitespace-nowrap overflow-hidden text-ellipsis mt-1 text-xs text-center">
-                                                    {formatName(player.name, 85)}
-                                                </span>
-                                                <span className="block text-white text-xs w-16 sm:w-20 mx-auto px-1 truncate">
-                                                    {player?.points} Pts
-                                                </span>
+                                                <div className="w-16 h-5 bg-gray-300 rounded mb-1 mx-auto" />
+                                                <div className="w-16 h-4 mx-auto" />
                                             </div>
                                         ))}
                                     </div>
 
-                                    {/* Remaining Players */}
-                                    {[2, 5, 8].map((startIdx, index) => (
+                                    {[...Array(3)].map((_, rowIdx) => (
                                         <div
-                                            key={index}
+                                            key={rowIdx}
                                             className="grid grid-cols-3 gap-16 mt-12 justify-items-center"
                                         >
-                                            {sortedOpponentPlayers.slice(startIdx, startIdx + 3).map((player) => (
+                                            {[...Array(3)].map((_, colIdx) => (
+                                                <div key={colIdx} className="text-center">
+                                                    <div className="relative">
+                                                        <FontAwesomeIcon
+                                                            icon={faUser}
+                                                            className="text-green-800 text-3xl mb-1"
+                                                        />
+                                                    </div>
+                                                    <div className="w-16 h-5 bg-gray-300 rounded mb-1 mx-auto" />
+                                                    <div className="w-16 h-3 mx-auto" />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
+                                    <div className='mt-1'></div>
+                                </div>
+                            </div>
+                        </div>
+                    ) :
+                        opponentPlayers.length > 0 &&
+                        (
+                            <div className="md:w-[55%]">
+                                <h2 className="text-xl font-bold text-center text-gray-400">
+                                    Opponent Points : {' '}
+                                    < span className="text-3xl text-green-600">{opponentContest?.points}</span>
+                                </h2>
+                                <div className="bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
+                                    <div
+                                        className={`relative bg-green-700 p-4 sm:p-6 rounded-lg  max-w-full sm:max-w-lg mx-4 my-4 bg-cover bg-center overflow-auto ${opponentPlayers?.length === 0 ? 'sm:w-[65%]' : 'sm:w-full'
+                                            }`}
+                                        style={{
+                                            backgroundImage: `url(${ground})`,
+                                            backgroundSize: '99% 96%',
+                                        }}
+                                    >
+                                        <div className="flex justify-center gap-20 mt-4 mb-7 flex-wrap">
+                                            {sortedOpponentPlayers.slice(0, 2).map((player) => (
                                                 <div key={player.id} className="text-center">
                                                     <div className="relative">
-                                                        {player.id === opponentContest.captain && (
-                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 -left-0 sm:left-2 sm:text-sm text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                        {opponentContest.captain === player.id && (
+                                                            <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-0 sm:text-sm text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                 C
                                                             </span>
                                                         )}
-                                                        {player.id === opponentContest.viceCaptain && (
-                                                            <span className="flex items-center justify-center w-6 h-6 absolute -top-3 -left-0 sm:left-2 sm:text-xs text-[.67rem] text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                        {opponentContest.viceCaptain === player.id && (
+                                                            <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-0 sm:text-xs text-[.67rem] text-white font-medium bg-gray-500 p-1 rounded-full">
                                                                 VC
                                                             </span>
                                                         )}
@@ -1195,13 +1214,47 @@ const UserContestDetails = () => {
                                                 </div>
                                             ))}
                                         </div>
-                                    ))}
-                                </div>
-                            </div>
 
-                        </div>
-                    )}
-                </div>
+                                        {[2, 5, 8].map((startIdx, index) => (
+                                            <div
+                                                key={index}
+                                                className="grid grid-cols-3 gap-16 mt-12 justify-items-center"
+                                            >
+                                                {sortedOpponentPlayers.slice(startIdx, startIdx + 3).map((player) => (
+                                                    <div key={player.id} className="text-center">
+                                                        <div className="relative">
+                                                            {player.id === opponentContest.captain && (
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 -left-0 sm:left-2 sm:text-sm text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                    C
+                                                                </span>
+                                                            )}
+                                                            {player.id === opponentContest.viceCaptain && (
+                                                                <span className="flex items-center justify-center w-6 h-6 absolute -top-3 -left-0 sm:left-2 sm:text-xs text-[.67rem] text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                    VC
+                                                                </span>
+                                                            )}
+                                                            <FontAwesomeIcon
+                                                                icon={faUser}
+                                                                className="text-green-900 text-3xl"
+                                                            />
+                                                        </div>
+                                                        <span className="block text-white rounded-sm py-px bg-red-600 sm:text-sm sm:w-20 w-16 whitespace-nowrap overflow-hidden text-ellipsis mt-1 text-xs text-center">
+                                                            {formatName(player.name, 85)}
+                                                        </span>
+                                                        <span className="block text-white text-xs w-16 sm:w-20 mx-auto px-1 truncate">
+                                                            {player?.points} Pts
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                            </div>
+                        )
+                    }
+                </div >
                 {
                     isPopupVisible && (
                         <Popup
