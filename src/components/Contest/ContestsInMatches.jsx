@@ -77,8 +77,11 @@ const ContestsInMatches = () => {
     if (!contests.length)
         return (
             <div className="container mx-auto p-4">
-                <h1 className="text-2xl font-bold mb-7 text-gray-600 text-center">
-                    <span className="sm:text-3xl text-xl text-slate-500">TeamA vs TeamB, 1st Match</span>
+                {/* <h1 className="text-2xl font-bold mb-7 text-gray-600 text-center">
+                    <span className="sm:text-3xl text-xl text-slate-500">Available Contests</span>
+                </h1> */}
+                <h1 className="text-xl sm:text-2xl font-bold mb-6 text-gray-500 sm:text-left text-center">
+                    Available Contests
                 </h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {[1, 2, 3, 4, 5].map((_, index) => (
@@ -117,8 +120,8 @@ const ContestsInMatches = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-7 text-gray-600 text-center">
-                <span className="sm:text-3xl text-xl text-slate-500"> {matchName}</span>
+            <h1 className="text-xl sm:text-2xl font-bold mb-6 text-gray-500 sm:text-left text-center">
+                Available Contests
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {' '}
@@ -138,8 +141,6 @@ const ContestsInMatches = () => {
                             <span className='uppercase'>{contest.match.matchType}</span> {" "}
                             Mega Contest
                         </div>
-
-
 
                         <div className="flex justify-between items-center mt-2 px-4">
                             <div className="flex items-center space-x-2">
