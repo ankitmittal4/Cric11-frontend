@@ -497,6 +497,12 @@ const ContestDetails = () => {
                             {contest.matchDetails.series}
                         </span>
                     </p>
+                    <p className="mt-4">
+                        Name:{' '}
+                        <span className="font-semibold text-fuchsia-600">
+                            {contest.matchDetails.name}
+                        </span>
+                    </p>
                     <p className="mt-4 ">
                         Match Type:{' '}
                         <span className="font-semibold uppercase text-blue-600">
