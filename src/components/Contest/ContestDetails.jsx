@@ -609,6 +609,7 @@ const ContestDetails = () => {
                                         <tr className="text-left border-b-2 text-sm sm:text-md">
                                             {/* <th className="py-2 text-md px-4 w-40">Role</th> */}
                                             <th className="px-4">Team</th>
+                                            <th className="py-2 px-4 text-center">Image</th>
                                             <th className="py-2 text-sm sm:text-md px-4 w-56">Player Name</th>
                                             <th className="py-2 px-4 text-center">C</th>
                                             <th className="py-2 px-4 text-center">VC</th>
@@ -626,8 +627,24 @@ const ContestDetails = () => {
                                                 }
                                                 onClick={() => handlePlayerSelection(player.id)}
                                             >
-                                                {/* <td className="py-2 px-4 border-b">{player.role}</td> */}
                                                 <td className="py-2 px-4 border-b">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym || contest.matchDetails.teamA : contest.matchDetails.teamBAcronym || contest.matchDetails.teamB}</td>
+                                                <td className="py-2 px-4 border-b text-center">
+                                                    {
+                                                        player.playerImg !== "https://h.cricapi.com/img/icon512.png" ? (
+                                                            <img
+                                                                src={player.playerImg}
+                                                                alt="playerImage"
+                                                                className="h-7 w-7 object-contain rounded-sm inline-block text-center"
+                                                            />
+                                                        ) : (
+                                                            <FontAwesomeIcon
+                                                                icon={faUser}
+                                                                className="text-green-900 h-7 w-7 rounded-sm inline-block align-middle"
+                                                            />
+                                                        )
+                                                    }
+                                                </td>
+
                                                 <td className="py-2 px-4 border-b">{player.name}</td>
 
                                                 <td className="py-2 px-4 border-b text-center">
@@ -751,10 +768,16 @@ const ContestDetails = () => {
                                                                     VC
                                                                 </span>
                                                             )}
-                                                        <FontAwesomeIcon
+                                                        <img
+                                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhWuGGY47fcsudLqcTD1hRWh_hAXQKrI4yoA&s"
+                                                            // src={player.playerImg}
+                                                            alt="Team B"
+                                                            className="h-10"
+                                                        />
+                                                        {/* <FontAwesomeIcon
                                                             icon={faUser}
                                                             className="text-green-900 text-3xl"
-                                                        />{' '}
+                                                        />{' '} */}
                                                     </div>
                                                     <span className="block text-white rounded-sm py-px bg-red-600 sm:text-sm sm:w-20 w-16 whitespace-nowrap overflow-hidden text-ellipsis mt-1 text-xs text-center">
                                                         {formatName(player.name, 85)}
