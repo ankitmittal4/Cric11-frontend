@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 import clock from "../../assets/clock.png";
 import warning from '../../assets/warning.png';
 import close from '../../assets/close.png';
+import hety from "../../assets/hety.png";
 import AddMoneyPopup from '../Payment/AddMoneyPopup';
 import { set } from 'date-fns';
 const API_URL = import.meta.env.VITE_API_URL;
@@ -609,6 +610,7 @@ const ContestDetails = () => {
                                         <tr className="text-left border-b-2 text-sm sm:text-md">
                                             {/* <th className="py-2 text-md px-4 w-40">Role</th> */}
                                             <th className="px-4">Team</th>
+                                            <th className="py-2 px-4 text-center">Image</th>
                                             <th className="py-2 text-sm sm:text-md px-4 w-56">Player Name</th>
                                             <th className="py-2 px-4 text-center">C</th>
                                             <th className="py-2 px-4 text-center">VC</th>
@@ -626,8 +628,24 @@ const ContestDetails = () => {
                                                 }
                                                 onClick={() => handlePlayerSelection(player.id)}
                                             >
-                                                {/* <td className="py-2 px-4 border-b">{player.role}</td> */}
                                                 <td className="py-2 px-4 border-b">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym || contest.matchDetails.teamA : contest.matchDetails.teamBAcronym || contest.matchDetails.teamB}</td>
+                                                <td className="py-2 px-4 border-b text-center">
+                                                    {
+                                                        player.playerImg !== "https://h.cricapi.com/img/icon512.png" ? (
+                                                            <img
+                                                                src={player.playerImg}
+                                                                alt="playerImage"
+                                                                className="h-7 w-7 object-contain rounded-sm inline-block text-center"
+                                                            />
+                                                        ) : (
+                                                            <FontAwesomeIcon
+                                                                icon={faUser}
+                                                                className="text-green-900 h-7 w-7 rounded-sm inline-block align-middle"
+                                                            />
+                                                        )
+                                                    }
+                                                </td>
+
                                                 <td className="py-2 px-4 border-b">{player.name}</td>
 
                                                 <td className="py-2 px-4 border-b text-center">
@@ -751,6 +769,12 @@ const ContestDetails = () => {
                                                                     VC
                                                                 </span>
                                                             )}
+                                                        {/* <img
+                                                            // src="https://h.cricapi.com/img/icon512.png"
+                                                            src={hety}
+                                                            alt="Team B"
+                                                            className="h-12 mx-auto"
+                                                        /> */}
                                                         <FontAwesomeIcon
                                                             icon={faUser}
                                                             className="text-green-900 text-3xl"
