@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 import clock from "../../assets/clock.png";
 import warning from '../../assets/warning.png';
 import close from '../../assets/close.png';
+import hety from "../../assets/hety.png";
 import AddMoneyPopup from '../Payment/AddMoneyPopup';
 import { set } from 'date-fns';
 const API_URL = import.meta.env.VITE_API_URL;
@@ -768,16 +769,16 @@ const ContestDetails = () => {
                                                                     VC
                                                                 </span>
                                                             )}
-                                                        <img
-                                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhWuGGY47fcsudLqcTD1hRWh_hAXQKrI4yoA&s"
-                                                            // src={player.playerImg}
+                                                        {/* <img
+                                                            // src="https://h.cricapi.com/img/icon512.png"
+                                                            src={hety}
                                                             alt="Team B"
-                                                            className="h-10"
-                                                        />
-                                                        {/* <FontAwesomeIcon
+                                                            className="h-12 mx-auto"
+                                                        /> */}
+                                                        <FontAwesomeIcon
                                                             icon={faUser}
                                                             className="text-green-900 text-3xl"
-                                                        />{' '} */}
+                                                        />{' '}
                                                     </div>
                                                     <span className="block text-white rounded-sm py-px bg-red-600 sm:text-sm sm:w-20 w-16 whitespace-nowrap overflow-hidden text-ellipsis mt-1 text-xs text-center">
                                                         {formatName(player.name, 85)}
