@@ -77,9 +77,6 @@ const ContestsInMatches = () => {
     if (!contests.length)
         return (
             <div className="container mx-auto p-4">
-                {/* <h1 className="text-2xl font-bold mb-7 text-gray-600 text-center">
-                    <span className="sm:text-3xl text-xl text-slate-500">Available Contests</span>
-                </h1> */}
                 <h1 className="text-xl sm:text-2xl font-bold mb-6 text-gray-500 sm:text-left text-center">
                     Available Contests
                 </h1>
