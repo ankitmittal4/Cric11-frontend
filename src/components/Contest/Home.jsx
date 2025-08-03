@@ -1,31 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { format, toZonedTime } from 'date-fns-tz';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMatches } from '../../features/matches/matchSlice';
 import clock from "../../assets/clock.png";
 import { formatDate } from 'date-fns';
-const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
     const navigate = useNavigate();
-    const [matches, setMatches] = useState([]);
-    const [loading, setLoading] = useState(false);
-
+    const dispatch = useDispatch();
+    const { matches, loading, error } = useSelector((state) => state.matches);
 
     useEffect(() => {
         if (!localStorage.getItem('accessToken')) {
             navigate('/signin');
+            return;
         }
-        setLoading(true);
-        const fetchMatches = async () => {
-            const response = await axios.get(`${API_URL}/match/all`);
-            setLoading(false);
-            setMatches(response.data.data);
-            // setMatches([]);
-        };
-        fetchMatches();
-    }, []);
+
+        // Fetch matches data
+        dispatch(fetchMatches());
+        console.log(matches);
+    }, [dispatch, navigate]);
+
     // console.log('###: ', contests);
     const date = new Date();
     const istDate = toZonedTime(date, 'Asia/Kolkata');
@@ -34,7 +31,6 @@ const Home = () => {
     const getTimeLeft = (matchDate, matchTime) => {
         const matchStart = new Date(`${matchDate}T${matchTime}:00`);
         const now = new Date();
-
 
         // const today = new Date();
         const tomorrow = new Date();
@@ -66,7 +62,6 @@ const Home = () => {
         hours = hours % 12 || 12;
         return `${hours}:${minutes} ${period}`;
     }
-
 
     if (loading) {
         return (
@@ -110,6 +105,23 @@ const Home = () => {
         );
     }
 
+    if (error) {
+        return (
+            <div className="container mx-auto p-4">
+                <div className="text-center text-red-600">
+                    <h2 className="text-xl font-bold mb-4">Error Loading Matches</h2>
+                    <p>{error}</p>
+                    <button
+                        onClick={() => dispatch(fetchMatches())}
+                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    >
+                        Retry
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-xl sm:text-2xl font-bold mb-6 text-gray-600 sm:text-left text-center">
@@ -117,7 +129,7 @@ const Home = () => {
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {matches
-                    .filter((match) => {
+                    ?.filter((match) => {
                         {
                             const date2 = new Date(
                                 `${match.date}T${match.startTime}`,
