@@ -4,7 +4,7 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Async thunk for fetching matches
-export const fetchMatches = createAsyncThunk(
+const fetchMatches = createAsyncThunk(
   "matches/fetchMatches",
   async (_, { rejectWithValue }) => {
     try {
@@ -17,16 +17,37 @@ export const fetchMatches = createAsyncThunk(
   }
 );
 
+const fetchBalance = createAsyncThunk(
+  "user/fetchBalance",
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      const token = getState().app.token;
+
+      const response = await axios.get(`${API_URL}/user/balance`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data.balance;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch balance");
+    }
+  }
+);
+
+
 const initialState = {
   matches: [],
   loading: false,
   error: null,
   token: null,
   name: null,
+  balance: null,
 };
 
-export const matchSlice = createSlice({
-  name: "matches",
+export const appSlice = createSlice({
+  name: "app",
   initialState,
   reducers: {
     setToken: (state, action) => {
@@ -37,6 +58,7 @@ export const matchSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // Fetch matches extra reducers builder
     builder
       .addCase(fetchMatches.pending, (state) => {
         state.loading = true;
@@ -46,14 +68,29 @@ export const matchSlice = createSlice({
         state.loading = false;
         state.matches = action.payload;
         state.error = null;
-        console.log("💾 Updated state matches:", state.matches);
+        // console.log("💾 Updated state matches:", state.matches);
       })
       .addCase(fetchMatches.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
+
+    // Fetch matches extra reducers builder
+    builder
+      .addCase(fetchBalance.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchBalance.fulfilled, (state, action) => {
+        state.loading = false;
+        state.balance = action.payload;
+      })
+      .addCase(fetchBalance.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 
-export const { setToken, setActiveUser } = matchSlice.actions;
-export default matchSlice.reducer;
+export const { setToken, setActiveUser } = appSlice.actions;
+export default appSlice.reducer;
+export { fetchMatches, fetchBalance };
