@@ -5,8 +5,11 @@ import PropTypes from 'prop-types';
 import { format, toZonedTime } from 'date-fns-tz';
 import AddMoneyPopup from './AddMoneyPopup';
 import WithdrawMoneyPopup from './WithrawMoneyPopup';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchTransactions } from '../../features/slice/appSlice';
 
 const Transactions = () => {
+    const dispatch = useDispatch();
     const addMoneyRef = useRef();
     const withdrawMoneyRef = useRef();
     const accessToken = localStorage.getItem('accessToken');
@@ -16,30 +19,44 @@ const Transactions = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
 
+    const { transactionData } = useSelector((state) => state.app);
     const limit = 10
 
-    const fetchTransactions = async () => {
-
+    const getTransactions = async () => {
         setLoading(true);
         try {
             const data = {
                 page: currentPage,
                 limit: limit,
             }
-            const response = await axios.post(
-                `${API_URL}/transactions/all`,
-                data,
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                },
-            );
-            setWalletBalance(response.data.data.walletBalance);
-            const startIndex = (response.data.data.pagination.page - 1) * limit;
-            const endIndex = startIndex + limit;
-            setTransactions(response.data.data.transactions);
-            setTotalPages(response.data.data.pagination.totalPages);
+            // const response = await axios.post(
+            //     `${API_URL}/transactions/all`,
+            //     data,
+            //     {
+            //         headers: {
+            //             Authorization: `Bearer ${accessToken}`,
+            //         },
+            //     },
+            // );
+            // setWalletBalance(response.data.data.walletBalance);
+            // console.log("-> ", walletBalance);
+            // const startIndex = (response.data.data.pagination.page - 1) * limit;
+            // const endIndex = startIndex + limit;
+            // setTransactions(response.data.data.transactions);
+            // setTotalPages(response.data.data.pagination.totalPages);
+
+            //Redux call
+            const res = await dispatch(fetchTransactions(data));
+
+            if (fetchTransactions.fulfilled.match(res)) {
+                const data = res.payload;
+                setWalletBalance(data.walletBalance);
+                setTransactions(data.transactions);
+                setTotalPages(data.pagination.totalPages);
+            }
+            else {
+                console.error("Failed to fetch transactions");
+            }
         } catch (error) {
             console.error('Error fetching transactions:', error);
         } finally {
@@ -47,9 +64,9 @@ const Transactions = () => {
         }
     };
     useEffect(() => {
-        fetchTransactions();
+        getTransactions();
         const handleMoneyAdded = () => {
-            fetchTransactions();
+            getTransactions();
         };
 
         window.addEventListener('moneyAdded', handleMoneyAdded);
@@ -164,14 +181,14 @@ const Transactions = () => {
                 API_URL={API_URL}
                 accessToken={accessToken}
                 walletBalance={walletBalance}
-                fetchTransactions={fetchTransactions}
+                fetchTransactions={getTransactions}
             />
             <WithdrawMoneyPopup
                 ref={withdrawMoneyRef}
                 API_URL={API_URL}
                 accessToken={accessToken}
                 walletBalance={walletBalance}
-                fetchTransactions={fetchTransactions}
+                fetchTransactions={getTransactions}
             />
 
 
