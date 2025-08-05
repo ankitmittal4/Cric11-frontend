@@ -23,7 +23,7 @@ const fetchBalance = createAsyncThunk(
   "user/fetchBalance",
   async (_, { rejectWithValue, getState }) => {
     try {
-      const token = getState().app.token;
+      // const token = getState().app.token;
       const response = await axios.get(`${API_URL}/users/get-balance`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -36,6 +36,25 @@ const fetchBalance = createAsyncThunk(
   }
 );
 
+// Async thunk for fetching transactions
+const fetchTransactions = createAsyncThunk(
+  "user/fetchTransactions",
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      // const token = getState().app.token;
+      const response = await axios.post(`${API_URL}/transactions/all`, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      // console.log("Transactions: ", response.data.data);
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch transactions");
+    }
+  }
+);
+
 
 const initialState = {
   matches: [],
@@ -44,6 +63,7 @@ const initialState = {
   token: null,
   name: null,
   balance: null,
+  transactionData: null,
 };
 
 export const appSlice = createSlice({
@@ -75,7 +95,7 @@ export const appSlice = createSlice({
         state.error = action.payload;
       });
 
-    // Fetch matches extra reducers builder
+    // Fetch balance extra reducers builder
     builder
       .addCase(fetchBalance.pending, (state) => {
         state.loading = true;
@@ -88,9 +108,23 @@ export const appSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+    // Fetch transactions extra reducers builder
+    builder
+      .addCase(fetchTransactions.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchTransactions.fulfilled, (state, action) => {
+        state.loading = false;
+        state.transactionData = action.payload;
+      })
+      .addCase(fetchTransactions.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 
 export const { setToken, setActiveUser } = appSlice.actions;
 export default appSlice.reducer;
-export { fetchMatches, fetchBalance };
+export { fetchMatches, fetchBalance, fetchTransactions };
