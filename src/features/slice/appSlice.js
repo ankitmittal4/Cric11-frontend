@@ -18,6 +18,21 @@ const fetchMatches = createAsyncThunk(
   }
 );
 
+// Async thunk for fetching contest in matches
+const fetchContestsInMatches = createAsyncThunk(
+  "matches/fetchContests",
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      // const token = getState().app.token;
+      const response = await axios.post(`${API_URL}/contests/all`, data);
+      // console.log("Transactions: ", response.data.data);
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch contests in matches");
+    }
+  }
+);
+
 // Async thunk for fetching wallet balance
 const fetchBalance = createAsyncThunk(
   "user/fetchBalance",
@@ -58,6 +73,7 @@ const fetchTransactions = createAsyncThunk(
 
 const initialState = {
   matches: [],
+  contests: [],
   loading: false,
   error: null,
   token: null,
@@ -95,6 +111,23 @@ export const appSlice = createSlice({
         state.error = action.payload;
       });
 
+    // Fetch contests in matches extra reducers builder
+    builder
+      .addCase(fetchContestsInMatches.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchContestsInMatches.fulfilled, (state, action) => {
+        state.loading = false;
+        state.contests = action.payload;
+        state.error = null;
+        // console.log("💾 Updated state matches:", state.matches);
+      })
+      .addCase(fetchContestsInMatches.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
     // Fetch balance extra reducers builder
     builder
       .addCase(fetchBalance.pending, (state) => {
@@ -127,4 +160,4 @@ export const appSlice = createSlice({
 
 export const { setToken, setActiveUser } = appSlice.actions;
 export default appSlice.reducer;
-export { fetchMatches, fetchBalance, fetchTransactions };
+export { fetchMatches, fetchBalance, fetchTransactions, fetchContestsInMatches };
