@@ -230,7 +230,7 @@ AddMoneyPopup.displayName = "AddMoneyPopup";
 AddMoneyPopup.propTypes = {
     API_URL: PropTypes.string.isRequired,
     accessToken: PropTypes.string.isRequired,
-    walletBalance: PropTypes.number.isRequired,
+    walletBalance: PropTypes.number,
     fetchTransactions: PropTypes.func,
     onMoneyAdded: PropTypes.func,
 };

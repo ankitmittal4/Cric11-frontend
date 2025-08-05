@@ -3,14 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { format, toZonedTime } from 'date-fns-tz';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMatches } from '../../features/matches/matchSlice';
+import { fetchMatches } from '../../features/slice/appSlice';
 import clock from "../../assets/clock.png";
-import { formatDate } from 'date-fns';
 
 const Home = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { matches, loading, error } = useSelector((state) => state.matches);
+    const { matches, loading, error } = useSelector((state) => state.app);
 
     useEffect(() => {
         if (!localStorage.getItem('accessToken')) {
