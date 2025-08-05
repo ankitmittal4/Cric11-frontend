@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import matchReducer from "../features/matches/matchSlice";
+import appReducer from "../features/slice/appSlice";
 
 export const store = configureStore({
   reducer: {
-    matches: matchReducer,
+    app: appReducer,
   },
 });

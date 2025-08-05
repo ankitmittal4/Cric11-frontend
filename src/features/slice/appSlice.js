@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
+const accessToken = localStorage.getItem('accessToken');
 
 // Async thunk for fetching matches
 const fetchMatches = createAsyncThunk(
@@ -17,19 +18,18 @@ const fetchMatches = createAsyncThunk(
   }
 );
 
+// Async thunk for fetching wallet balance
 const fetchBalance = createAsyncThunk(
   "user/fetchBalance",
   async (_, { rejectWithValue, getState }) => {
     try {
       const token = getState().app.token;
-
-      const response = await axios.get(`${API_URL}/user/balance`, {
+      const response = await axios.get(`${API_URL}/users/get-balance`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
-
-      return response.data.balance;
+      return response.data.data.walletBalance;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to fetch balance");
     }
