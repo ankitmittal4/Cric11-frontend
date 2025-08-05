@@ -19,7 +19,7 @@ const Home = () => {
 
         // Fetch matches data
         dispatch(fetchMatches());
-        console.log(matches);
+        // console.log(matches);
     }, [dispatch, navigate]);
 
     // console.log('###: ', contests);
