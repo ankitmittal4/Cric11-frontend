@@ -5,28 +5,32 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import clock from '../../assets/clock.png';
 import increase from '../../assets/increase.png';
-const API_URL = import.meta.env.VITE_API_URL;
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchContestsInMatches } from '../../features/slice/appSlice';
 
 const ContestsInMatches = () => {
+    const dispatch = useDispatch();
     const { id } = useParams();
     const navigate = useNavigate();
-    const [contests, setContests] = useState([]);
-    const [matchName, setMatchName] = useState('');
+    // const [contests, setContests] = useState([]);
+    const { contests } = useSelector((state) => state.app);
+
     useEffect(() => {
         if (!localStorage.getItem('accessToken')) {
             navigate('/signin');
         }
-
-        const fetchContests = async () => {
-            const response = await axios.post(`${API_URL}/contests/all`, {
-                id,
-            });
-            // console.log('response.data: ', response.data.data);
-            setMatchName(response?.data?.data[0]?.match?.name);
-            setContests(response?.data?.data);
-        };
-        fetchContests();
-    }, []);
+        dispatch(fetchContestsInMatches({ id }));
+        // const fetchContests = async () => {
+        // const response = await axios.post(`${API_URL}/contests/all`, {
+        //     id,
+        // });
+        // console.log('response.data: ', response.data.data);
+        // setMatchName(response?.data?.data[0]?.match?.name);
+        // setContests(response?.data?.data);
+        //     console.log("-> ", contests);
+        // };
+        // fetchContests();
+    }, [dispatch, id]);
 
     const [timeLeft, setTimeLeft] = useState("");
     const getTimeLeft = (matchDate, matchTime) => {
@@ -54,11 +58,12 @@ const ContestsInMatches = () => {
 
         return `${hours > 0 ? `${hours}h` : ''} ${minutes > 0 ? `${minutes}m` : ''} ${seconds}s`;
     };
+
     useEffect(() => {
         const interval = setInterval(() => {
             const updated = getTimeLeft(
-                contests[0].match.date,
-                contests[0].match.startTime
+                contests[0]?.match.date,
+                contests[0]?.match.startTime
             );
             setTimeLeft(updated);
         }, 1000);
