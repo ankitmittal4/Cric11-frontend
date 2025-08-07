@@ -13,12 +13,17 @@ import close from '../../assets/close.png';
 import hety from "../../assets/hety.png";
 import AddMoneyPopup from '../Payment/AddMoneyPopup';
 import { set } from 'date-fns';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchBalance, fetchContestDetail, createContest } from '../../features/slice/appSlice';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const ContestDetails = () => {
     const { id } = useParams(); // Get the contest ID from the URL
     const accessToken = localStorage.getItem('accessToken');
     const popupRef = useRef();
+
+    const dispatch = useDispatch();
+    const { balance, contestDetail } = useSelector((state) => state.app);
 
     const navigate = useNavigate();
     const [contest, setContest] = useState(null);
@@ -40,7 +45,7 @@ const ContestDetails = () => {
 
     const [loading, setLoading] = useState(false);
     const [walletSummaryPopup, setWalletSummaryPopup] = useState(false);
-    const [balance, setBalance] = useState(0);
+    // const [balance, setBalance] = useState(0);
     const [remBalance, setRemBalance] = useState(0);
 
     const [joinContestLoading, setJoinContestLoading] = useState(false);
@@ -200,14 +205,17 @@ const ContestDetails = () => {
         setLoading(true);
 
         try {
-            const response = await axios.get(`${API_URL}/users/get-balance`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
+            // const response = await axios.get(`${API_URL}/users/get-balance`, {
+            //     headers: {
+            //         Authorization: `Bearer ${accessToken}`,
+            //     },
+            // });
+            // setBalance(response.data.data.walletBalance);
+            // setRemBalance(response.data.data.walletBalance - contest.entryFee);
+            // setWalletSummaryPopup(true);
 
-            setBalance(response.data.data.walletBalance);
-            setRemBalance(response.data.data.walletBalance - contest.entryFee);
+            await dispatch(fetchBalance());
+            setRemBalance(balance - contest.entryFee)
             setWalletSummaryPopup(true);
         } catch (error) {
             console.error("Error fetching wallet balance", error);
@@ -239,30 +247,35 @@ const ContestDetails = () => {
         };
 
         try {
-            const response = await axios.post(
-                `${API_URL}/user-contest/create`,
-                contestData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                },
-            );
-            if (response.data.statusCode === 200) {
-                // navigate('/my-contests');
+            // const response = await axios.post(
+            //     `${API_URL}/user-contest/create`,
+            //     contestData,
+            //     {
+            //         headers: {
+            //             Authorization: `Bearer ${accessToken}`,
+            //         },
+            //     },
+            // );
+
+            const res = await dispatch(createContest(contestData));
+            if (createContest.fulfilled.match(res)) {
+                // console.log("===>", res.payload);
                 setPopupMessage('Contest Joined Successfully!');
                 setIsPopupVisible(true);
             }
             window.dispatchEvent(new CustomEvent('updateBalance'));
+            // if (response.data.statusCode === 200) {
+            // navigate('/my-contests');
+            // }
 
-            const opponentData = {
-                userContestId: response.data.data._id,
-                contestId: id,
-            };
-            const res = await axios.post(
-                `${API_URL}/opponent/create`,
-                opponentData,
-            );
+            // const opponentData = {
+            //     userContestId: response.data.data._id,
+            //     contestId: id,
+            // };
+            // const res = await axios.post(
+            //     `${API_URL}/opponent/create`,
+            //     opponentData,
+            // );
             // console.log('Create opponent res: ', res);
         } catch (error) {
             alert(
@@ -283,33 +296,43 @@ const ContestDetails = () => {
         navigate('/my-contests');
     };
 
-    useEffect(() => {
-        const fetchContestDetails = async () => {
-            const response = await axios.post(`${API_URL}/contests/get`, {
-                id,
-            });
-            setContest(response.data.data);
-            // setContest(null);
-            const playersResponse1 =
-                response.data.data.squadDetails.squad[0].players;
-            const updatedPlayersResponse1 = playersResponse1.map((player) => ({
-                ...player,
-                team: response.data.data.squadDetails.squad[0].teamName,
-            }));
 
-            const playersResponse2 =
-                response.data.data.squadDetails.squad[1].players;
-            const updatedPlayersResponse2 = playersResponse2.map((player) => ({
-                ...player,
-                team: response.data.data.squadDetails.squad[1].teamName,
-            }));
-            const combinedSquad = updatedPlayersResponse1.concat(
-                updatedPlayersResponse2,
-            );
-            setPlayers(combinedSquad);
+    useEffect(() => {
+
+        const fetchContestDetails = async () => {
+            // const response = await axios.post(`${API_URL}/contests/get`, {
+            //     id,
+            // });
+
+            const res = await dispatch(fetchContestDetail({ id }));
+            const contestDetail = res.payload;
+            // console.log("-> ", contestDetail);
+            if (fetchContestDetail.fulfilled.match(res)) {
+                setContest(contestDetail);
+                const playersResponse1 =
+                    contestDetail.squadDetails.squad[0].players;
+                const updatedPlayersResponse1 = playersResponse1.map((player) => ({
+                    ...player,
+                    team: contestDetail.squadDetails.squad[0].teamName,
+                }));
+
+                const playersResponse2 =
+                    contestDetail.squadDetails.squad[1].players;
+                const updatedPlayersResponse2 = playersResponse2.map((player) => ({
+                    ...player,
+                    team: contestDetail.squadDetails.squad[1].teamName,
+                }));
+                const combinedSquad = updatedPlayersResponse1.concat(
+                    updatedPlayersResponse2,
+                );
+                setPlayers(combinedSquad);
+            }
+            else {
+                console.log("Error in getting contest");
+            }
         };
         fetchContestDetails();
-    }, [id]);
+    }, [id, dispatch]);
 
 
     const sortedPlayers = players.sort((a, b) => {

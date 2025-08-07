@@ -3,36 +3,26 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import increase from '../../assets/increase.png';
 import clock from '../../assets/clock.png';
-const API_URL = import.meta.env.VITE_API_URL;
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMyContests } from '../../features/slice/appSlice';
+
 const UserTeams = () => {
-    const [contests, setContests] = useState([]);
+    const dispatch = useDispatch();
     const [activeTab, setActiveTab] = useState('Upcoming');
-    const [loading, setLoading] = useState(false);
+    const { myContests, loading, error } = useSelector((state) => state.app)
 
     useEffect(() => {
-        const fetchContests = async () => {
-            try {
-                setLoading(true);
-                const accessToken = localStorage.getItem('accessToken');
-                const response = await axios.get(`${API_URL}/user-contest/all`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                setContests(response.data.data);
-                // console.log('contests: ', response.data.data);
-            }
-            catch (err) {
-                console.log("Error: ", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchContests();
-    }, []);
-    const curTime = new Date();
+        dispatch(fetchMyContests());
+    }, [dispatch]);
 
-    const filteredContests = (contests || []).filter((contest) => {
+    useEffect(() => {
+        if (error) {
+            console.error("Error fetching my contests:", error);
+        }
+    }, [error]);
+
+    const curTime = new Date();
+    const filteredContests = (myContests || []).filter((contest) => {
         const status = contest.matchDetails.matchStarted
             ? contest.matchDetails.matchEnded
                 ? 'Completed'
