@@ -33,6 +33,55 @@ const fetchContestsInMatches = createAsyncThunk(
   }
 );
 
+// Async thunk for fetching contest detail in matches
+const fetchContestDetail = createAsyncThunk(
+  "matches/contestDetail",
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      // const token = getState().app.token;
+      const response = await axios.post(`${API_URL}/contests/all`, data);
+      // console.log("Transactions: ", response.data.data);
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch contests in matches");
+    }
+  }
+);
+
+// Async thunk for fetching my contest
+const fetchMyContests = createAsyncThunk(
+  "matches/myContests",
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      // const token = getState().app.token;
+      const response = await axios.get(`${API_URL}/user-contest/all`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("My Contests: ", response.data.data);
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch my contests");
+    }
+  }
+);
+
+// Async thunk for fetching contest detail in matches
+const fetchMyContestDetail = createAsyncThunk(
+  "matches/myContestDetail",
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      // const token = getState().app.token;
+      const response = await axios.post(`${API_URL}/contests/all`, data);
+      // console.log("Transactions: ", response.data.data);
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch contests in matches");
+    }
+  }
+);
+
 // Async thunk for fetching wallet balance
 const fetchBalance = createAsyncThunk(
   "user/fetchBalance",
@@ -74,6 +123,9 @@ const fetchTransactions = createAsyncThunk(
 const initialState = {
   matches: [],
   contests: [],
+  contestDetail: null,
+  myContests: [],
+  myContestDetail: null,
   loading: false,
   error: null,
   token: null,
@@ -128,6 +180,57 @@ export const appSlice = createSlice({
         state.error = action.payload;
       });
 
+    // Fetch contest detail extra reducers builder
+    builder
+      .addCase(fetchContestDetail.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchContestDetail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.contestDetail = action.payload;
+        state.error = null;
+        // console.log("💾 Updated state matches:", state.matches);
+      })
+      .addCase(fetchContestDetail.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    // Fetch my contests extra reducers builder
+    builder
+      .addCase(fetchMyContests.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchMyContests.fulfilled, (state, action) => {
+        state.loading = false;
+        state.myContests = action.payload;
+        state.error = null;
+        // console.log("💾 Updated state matches:", state.matches);
+      })
+      .addCase(fetchMyContests.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    // Fetch contest detail extra reducers builder
+    builder
+      .addCase(fetchMyContestDetail.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchMyContestDetail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.myContestDetail = action.payload;
+        state.error = null;
+        // console.log("💾 Updated state matches:", state.matches);
+      })
+      .addCase(fetchMyContestDetail.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
     // Fetch balance extra reducers builder
     builder
       .addCase(fetchBalance.pending, (state) => {
@@ -136,6 +239,7 @@ export const appSlice = createSlice({
       .addCase(fetchBalance.fulfilled, (state, action) => {
         state.loading = false;
         state.balance = action.payload;
+        state.error = null;
       })
       .addCase(fetchBalance.rejected, (state, action) => {
         state.loading = false;
@@ -146,10 +250,12 @@ export const appSlice = createSlice({
     builder
       .addCase(fetchTransactions.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(fetchTransactions.fulfilled, (state, action) => {
         state.loading = false;
         state.transactionData = action.payload;
+        state.error = null;
       })
       .addCase(fetchTransactions.rejected, (state, action) => {
         state.loading = false;
@@ -160,4 +266,4 @@ export const appSlice = createSlice({
 
 export const { setToken, setActiveUser } = appSlice.actions;
 export default appSlice.reducer;
-export { fetchMatches, fetchBalance, fetchTransactions, fetchContestsInMatches };
+export { fetchMatches, fetchBalance, fetchTransactions, fetchContestsInMatches, fetchMyContests };
