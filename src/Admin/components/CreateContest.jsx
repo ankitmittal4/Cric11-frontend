@@ -28,6 +28,12 @@ const CreateContest = () => {
         // Reset error message
         setErrorMessage('');
 
+        if (entryFee <= 0 || prizePool <= 0 || prizePool <= entryFee || prizePool > entryFee * 2) {
+            setErrorMessage('Entry Fee and Prize Pool must be valid numbers.');
+            setLoading(false);
+            return;
+        }
+
         const contestData = {
             matchId,
             entryFee,
