@@ -782,26 +782,30 @@ const ContestDetails = () => {
                                                     <div className="relative">
                                                         {captainId ===
                                                             player.id && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-1 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-4' : 'sm:-left-1 -left-3'}`}>
                                                                     C
                                                                 </span>
                                                             )}
                                                         {viceCaptainId ===
                                                             player.id && (
-                                                                <span className="flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 left-1 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-3' : 'sm:-left-1 -left-1'}`}>
                                                                     VC
                                                                 </span>
                                                             )}
-                                                        {/* <img
-                                                            // src="https://h.cricapi.com/img/icon512.png"
-                                                            src={hety}
-                                                            alt="Team B"
-                                                            className="h-12 mx-auto"
-                                                        /> */}
-                                                        <FontAwesomeIcon
-                                                            icon={faUser}
-                                                            className="text-green-900 text-3xl"
-                                                        />{' '}
+                                                        {player.playerImg !== "https://h.cricapi.com/img/icon512.png" ? (
+                                                            <img
+                                                                src={player.playerImg}
+                                                                alt={player.name}
+                                                                className="h-12 w-12 object-contain rounded-full mx-auto"
+                                                            />
+                                                        ) : (
+                                                            <div className="h-12 w-12 flex items-center justify-center mx-auto">
+                                                                <FontAwesomeIcon
+                                                                    icon={faUser}
+                                                                    className="text-green-900 text-4xl"
+                                                                />
+                                                            </div>
+                                                        )}
                                                     </div>
                                                     <span className="block text-white rounded-sm py-px bg-red-600 sm:text-sm sm:w-20 w-16 whitespace-nowrap overflow-hidden text-ellipsis mt-1 text-xs text-center">
                                                         {formatName(player.name, 85)}
@@ -825,20 +829,30 @@ const ContestDetails = () => {
                                                             <div className="relative">
                                                                 {captainId ===
                                                                     player.id && (
-                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 -left-5 text-sm text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                        <span className={`flex items-center justify-center w-6 h-6 absolute -top-3 text-sm text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-2' : '-left-5'}`}>
                                                                             C
                                                                         </span>
                                                                     )}
                                                                 {viceCaptainId ===
                                                                     player.id && (
-                                                                        <span className="flex items-center justify-center w-6 h-6 absolute -top-3 -left-5 text-xs text-white font-medium bg-gray-500 p-1 rounded-full">
+                                                                        <span className={`flex items-center justify-center w-6 h-6 absolute -top-3 text-xs text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-2' : '-left-5'}`}>
                                                                             VC
                                                                         </span>
                                                                     )}
-                                                                <FontAwesomeIcon
-                                                                    icon={faUser}
-                                                                    className="text-green-900 text-3xl"
-                                                                />
+                                                                {player.playerImg !== "https://h.cricapi.com/img/icon512.png" ? (
+                                                                    <img
+                                                                        src={player.playerImg}
+                                                                        alt={player.name}
+                                                                        className="h-12 w-12 object-contain rounded-full"
+                                                                    />
+                                                                ) : (
+                                                                    <div className="h-12 w-12 flex items-center justify-center">
+                                                                        <FontAwesomeIcon
+                                                                            icon={faUser}
+                                                                            className="text-green-900 text-[2.5rem]"
+                                                                        />
+                                                                    </div>
+                                                                )}
                                                             </div>
                                                             <span className="block text-white rounded-sm py-px bg-red-600 sm:text-sm sm:w-20 w-16 whitespace-nowrap overflow-hidden text-ellipsis mt-1 text-xs text-center">
                                                                 {formatName(player.name, 85)}
@@ -872,17 +886,19 @@ const ContestDetails = () => {
                 </div >
             </div >
 
-            {joinContestLoading ?
-                (<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
-                </div>)
-                :
-                isPopupVisible && (
-                    <Popup
-                        message={popupMessage}
-                        onClose={closePopup}
-                    />
-                )}
+            {
+                joinContestLoading ?
+                    (<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                        <div className="w-10 h-10 border-4 border-gray-300 border-t-white rounded-full animate-spin"></div>
+                    </div>)
+                    :
+                    isPopupVisible && (
+                        <Popup
+                            message={popupMessage}
+                            onClose={closePopup}
+                        />
+                    )
+            }
             {
                 loading ? (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
