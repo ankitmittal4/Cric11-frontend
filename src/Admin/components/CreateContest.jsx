@@ -28,6 +28,15 @@ const CreateContest = () => {
         // Reset error message
         setErrorMessage('');
 
+        if (entryFee <= 0 || prizePool <= 0 || prizePool <= entryFee || prizePool > entryFee * 2) {
+            setErrorMessage('Entry Fee and Prize Pool must be valid numbers.');
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 1500);
+            setLoading(false);
+            return;
+        }
+
         const contestData = {
             matchId,
             entryFee,
@@ -136,12 +145,15 @@ const CreateContest = () => {
                         />
                     </div>
                     */}
-                    {errorMessage && (
-                        <div className="text-red-500">{errorMessage}</div>
-                    )}
+                    <div className="text-red-500 min-h-6">
+                        {errorMessage && (
+                            <div className="text-red-500 ">{errorMessage}</div>
+                        )}
+
+                    </div>
                     <button
                         type="submit"
-                        className="w-full py-2 bg-blue-600 hover:bg-blue-700 rounded-md"
+                        className="w-full py-2 bg-blue-600 hover:bg-blue-700 rounded-md "
                     >
                         Create Contest
                     </button>
