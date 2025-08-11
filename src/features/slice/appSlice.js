@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
-const accessToken = localStorage.getItem('accessToken');
+
 
 // Async thunk for fetching matches
 const fetchMatches = createAsyncThunk(
@@ -54,6 +54,7 @@ const fetchMyContests = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     try {
       // const token = getState().app.token;
+      const accessToken = localStorage.getItem('accessToken');
       const response = await axios.get(`${API_URL}/user-contest/all`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -73,6 +74,7 @@ const fetchUserContestDetail = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     try {
       // const token = getState().app.token;
+      const accessToken = localStorage.getItem('accessToken');
       const response = await axios.post(`${API_URL}/user-contest/get`, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -92,6 +94,7 @@ const fetchBalance = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     try {
       // const token = getState().app.token;
+      const accessToken = localStorage.getItem('accessToken');
       const response = await axios.get(`${API_URL}/users/get-balance`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -110,6 +113,7 @@ const fetchTransactions = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     try {
       // const token = getState().app.token;
+      const accessToken = localStorage.getItem('accessToken');
       const response = await axios.post(`${API_URL}/transactions/all`, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -129,6 +133,7 @@ const createContest = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     try {
       // const token = getState().app.token;
+      const accessToken = localStorage.getItem('accessToken');
       const response = await axios.post(`${API_URL}/user-contest/create`, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
