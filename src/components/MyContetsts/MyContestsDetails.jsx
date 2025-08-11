@@ -181,6 +181,8 @@ const UserContestDetails = () => {
                                     userRes.data.data.updatedOpponentContest[0]
                                         .user11,
                                 );
+                                // console.log("->>>: ", contest);
+
                             } catch {
                                 console.log('Error: Opponent data not found');
                             }
@@ -629,10 +631,13 @@ const UserContestDetails = () => {
                 return (
                     <div className="text-center text-sm text-red-500 font-semibold">
                         <div className="mb-1 flex px-2 py-1 rounded-md items-center text-center justify-center">
-                            <img src={clock} alt="" className='h-3 w-3 mr-1' />
+                            {(timeLeft !== "Match Started" || (timeLeft === "Match Started" && contest?.matchDetails?.matchEnded)) && <img src={clock} alt="" className='h-3 w-3 mr-1' />}
+
                             {contest?.matchDetails?.matchEnded ? "Match Ended" : (
                                 <span className="font-bold">
-                                    {timeLeft}{timeLeft === "Match Started" ? "" : " left"}
+                                    {timeLeft === "Match Started" ?
+                                        <span className='text-green-600'>Match Live</span>
+                                        : `${timeLeft} left`}
                                 </span>
                             )}
                         </div>
