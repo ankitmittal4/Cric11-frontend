@@ -782,13 +782,13 @@ const ContestDetails = () => {
                                                     <div className="relative">
                                                         {captainId ===
                                                             player.id && (
-                                                                <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-4' : 'sm:-left-1 -left-3'}`}>
+                                                                <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-4' : 'sm:-left-[0.3rem] -left-3'}`}>
                                                                     C
                                                                 </span>
                                                             )}
                                                         {viceCaptainId ===
                                                             player.id && (
-                                                                <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-3' : 'sm:-left-1 -left-1'}`}>
+                                                                <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-3' : 'sm:-left-[0.3rem] -left-1'}`}>
                                                                     VC
                                                                 </span>
                                                             )}
