@@ -138,7 +138,7 @@ const UserTeams = () => {
                                                     )}
 
                                                     <p className="text-center font-bold text-stone-500">
-                                                        {contest.matchDetails.teamBAcronym}
+                                                        {contest.matchDetails.teamBAcronym || contest.matchDetails.teamB.slice(0, 3).toUpperCase()}
                                                     </p>
                                                 </div>
                                                 <div className="text-center font-semibold text-xs text-red-600 sm:font-bold">
@@ -157,7 +157,7 @@ const UserTeams = () => {
                                                 </div>
                                                 <div className="flex items-center space-x-2">
                                                     <p className="text-center font-bold text-stone-500">
-                                                        {contest.matchDetails.teamAAcronym}
+                                                        {contest.matchDetails.teamAAcronym || contest.matchDetails.teamA.slice(0, 3).toUpperCase()}
                                                     </p>
                                                     {contest.matchDetails.teamAImg && (
                                                         <img

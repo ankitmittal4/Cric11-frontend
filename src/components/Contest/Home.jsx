@@ -188,7 +188,7 @@ const Home = () => {
                                     )}
 
                                     <p className="text-center font-bold text-stone-500">
-                                        {match.teamBAcronym}
+                                        {match.teamBAcronym || match.teamB.slice(0, 3).toUpperCase()}
                                     </p>
                                 </div>
 
@@ -230,7 +230,7 @@ const Home = () => {
 
                                 <div className="flex items-center space-x-2">
                                     <p className="text-center font-bold text-stone-500">
-                                        {match.teamAAcronym}
+                                        {match.teamAAcronym || match.teamA.slice(0, 3).toUpperCase()}
                                     </p>
                                     {match.teamAImg && (
                                         <img
