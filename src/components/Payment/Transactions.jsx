@@ -121,9 +121,9 @@ const Transactions = () => {
                 <div>
                     {[...Array(4)].map((_, index) => (
                         <div key={index} className="bg-slate-100 p-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-shadow mb-2 animate-pulse">
-                            <div className="flex justify-between items-start gap-4">
+                            <div className="flex justify-center items-start gap-4">
 
-                                <div className="flex flex-col space-y-2">
+                                <div className="flex flex-col space-y-4">
                                     <div className="h-5 w-24 bg-gray-300 rounded mb-3"></div>
                                     <div className="h-4 w-40 bg-gray-300 rounded"></div>
                                 </div>
