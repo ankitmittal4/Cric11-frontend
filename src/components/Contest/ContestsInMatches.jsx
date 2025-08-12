@@ -155,7 +155,7 @@ const ContestsInMatches = () => {
                                 )}
 
                                 <p className="text-center font-bold text-stone-500">
-                                    {contest.match.teamBAcronym}
+                                    {contest.match.teamBAcronym || contest.match.teamB.slice(0, 3).toUpperCase()}
                                 </p>
                             </div>
 
@@ -197,7 +197,7 @@ const ContestsInMatches = () => {
 
                             <div className="flex items-center space-x-2">
                                 <p className="text-center font-bold text-stone-500">
-                                    {contest.match.teamAAcronym}
+                                    {contest.match.teamAAcronym || contest.match.teamA.slice(0, 3).toUpperCase()}
                                 </p>
                                 {contest.match.teamAImg && (
                                     <img
