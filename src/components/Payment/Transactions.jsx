@@ -60,7 +60,7 @@ const Transactions = () => {
         } catch (error) {
             console.error('Error fetching transactions:', error);
         } finally {
-            // setLoading(false);
+            setLoading(false);
         }
     };
     useEffect(() => {
