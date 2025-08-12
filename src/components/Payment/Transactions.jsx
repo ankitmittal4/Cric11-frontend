@@ -60,7 +60,7 @@ const Transactions = () => {
         } catch (error) {
             console.error('Error fetching transactions:', error);
         } finally {
-            setLoading(false);
+            // setLoading(false);
         }
     };
     useEffect(() => {
@@ -121,7 +121,7 @@ const Transactions = () => {
                 <div>
                     {[...Array(4)].map((_, index) => (
                         <div key={index} className="bg-slate-100 p-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-shadow mb-2 animate-pulse">
-                            <div className="flex justify-center items-start gap-4">
+                            <div className="flex sm:justify-between justify-center items-start gap-4">
 
                                 <div className="flex flex-col space-y-4">
                                     <div className="h-5 w-24 bg-gray-300 rounded mb-3"></div>
