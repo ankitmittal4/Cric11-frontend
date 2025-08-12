@@ -588,7 +588,7 @@ const ContestDetails = () => {
                                                 alt="Team A"
                                                 className="h-9 object-contain"
                                             />
-                                            <p className='text-lg sm:text-xl text-gray-600'>{contest.matchDetails.teamAAcronym}</p>
+                                            <p className='text-lg sm:text-xl text-gray-600'>{contest.matchDetails.teamAAcronym || contest.matchDetails.teamA.slice(0, 3).toUpperCase()}</p>
                                             <p>{" : "}</p>
                                             <p className='text-xl sm:text-2xl text-red-500'>{count}</p>
 
@@ -596,7 +596,7 @@ const ContestDetails = () => {
                                         : <div className="flex items-center gap-2">
                                             <p className='text-xl sm:text-2xl text-red-500'>{count}</p>
                                             <p>{" : "}</p>
-                                            <p className='text-lg sm:text-xl text-gray-600'>{contest.matchDetails.teamBAcronym}</p>
+                                            <p className='text-lg sm:text-xl text-gray-600'>{contest.matchDetails.teamBAcronym || contest.matchDetails.teamB.slice(0, 3).toUpperCase()}</p>
                                             <img
                                                 src={contest.matchDetails.teamBImg}
                                                 alt="Team B"
@@ -633,10 +633,10 @@ const ContestDetails = () => {
                                         <tr className="text-left border-b-2 text-sm sm:text-md">
                                             {/* <th className="py-2 text-md px-4 w-40">Role</th> */}
                                             <th className="px-4">Team</th>
-                                            <th className="py-2 px-4 text-center">Image</th>
-                                            <th className="py-2 text-sm sm:text-md px-4 w-56">Player Name</th>
-                                            <th className="py-2 px-4 text-center">C</th>
-                                            <th className="py-2 px-4 text-center">VC</th>
+                                            <th className="py-2 sm:px-4 px-0 text-center">Image</th>
+                                            <th className="py-2 sm:px-4 px-2 text-sm sm:text-md w-56 sm:text-left text-center">Name</th>
+                                            <th className="py-2 sm:px-4 px-2 text-center">C</th>
+                                            <th className="py-2 sm:px-4 px-2 text-center">VC</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -651,8 +651,8 @@ const ContestDetails = () => {
                                                 }
                                                 onClick={() => handlePlayerSelection(player.id)}
                                             >
-                                                <td className="py-2 px-4 border-b">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym || contest.matchDetails.teamA : contest.matchDetails.teamBAcronym || contest.matchDetails.teamB}</td>
-                                                <td className="py-2 px-4 border-b text-center">
+                                                <td className="py-2 px-4 border-b">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym || contest.matchDetails.teamA.slice(0, 3).toUpperCase() : contest.matchDetails.teamBAcronym || contest.matchDetails.team.slice(0, 3).toUpperCase()}</td>
+                                                <td className="py-2 sm:px-4 px-1 border-b text-center">
                                                     {
                                                         player.playerImg !== "https://h.cricapi.com/img/icon512.png" ? (
                                                             <img
@@ -669,9 +669,9 @@ const ContestDetails = () => {
                                                     }
                                                 </td>
 
-                                                <td className="py-2 px-4 border-b">{player.name}</td>
+                                                <td className="py-2 sm:px-4 px-2 border-b">{player.name}</td>
 
-                                                <td className="py-2 px-4 border-b text-center">
+                                                <td className="py-2 sm:px-4 px-2 border-b text-center">
                                                     <label
                                                         onClick={(e) => e.stopPropagation()}
                                                         className={`cursor-pointer inline-block w-10 h-6 leading-6 text-center rounded-full ${captainId === player.id ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'
@@ -695,7 +695,7 @@ const ContestDetails = () => {
                                                         2x
                                                     </label>
                                                 </td>
-                                                <td className="py-2 px-4 border-b text-center">
+                                                <td className="py-2 sm:px-4 px-2 border-b text-center">
                                                     <label
                                                         onClick={(e) => e.stopPropagation()}
                                                         className={`cursor-pointer inline-block w-10 h-6 leading-6 text-center rounded-full ${viceCaptainId === player.id ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'
