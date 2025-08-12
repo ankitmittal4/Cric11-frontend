@@ -520,7 +520,7 @@ const UserContestDetails = () => {
         return () => clearInterval(interval);
     }, [contest?.matchDetails?.date, contest?.matchDetails?.startTime]);
 
-    if (!contest)
+    if (contest)
         return (
             <>
                 <div className="flex-col justify-start items-center px-4 animate-pulse">
@@ -528,7 +528,7 @@ const UserContestDetails = () => {
                     <div className="h-6 w-48 bg-gray-300 rounded mx-auto" />
 
                 </div>
-                <div className="flex flex-col lg:flex-row justify-between gap-6 animate-pulse px-24 py-6 mt-5">
+                <div className="flex flex-col lg:flex-row justify-between gap-6 animate-pulse px-4 py-6 mt-5">
                     {/* Left: Contest Details */}
 
                     <div className="w-full lg:w-1/3 space-y-8">
