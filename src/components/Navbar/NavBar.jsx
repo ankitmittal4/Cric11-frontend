@@ -108,8 +108,8 @@ const NavBar = () => {
 
                 {/* Mobile Menu */}
                 {isMobileMenuOpen && (
-                    <>
-                        <div className="md:hidden mt- flex flex-col bg-[#b81a1e] px-4 pb-4 font-medium space-y-3 ">
+                    <div className='fixed inset-0 bg-black bg-opacity-30 z-40 top-[61px]' onClick={() => setIsMobileMenuOpen(false)} >
+                        <div className="md:hidden mt- flex flex-col bg-[#b81a1e] px-4 pb-4 font-medium space-y-3 " onClick={(e) => e.stopPropagation()}>
                             <NavLinks onClick={() => setIsMobileMenuOpen(false)} />
 
                             <button
@@ -134,141 +134,147 @@ const NavBar = () => {
 
                             </button>
                         </div>
-                    </>
+                    </div>
                 )}
-            </nav>
+            </nav >
 
             {/* Logout Confirmation Modal */}
 
-            {showLogoutConfirm && (
-                <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center" onClick={() => setShowLogoutConfirm(false)}>
-                    <div className="bg-white p-6 rounded-lg shadow-xl text-center sm:w-80 w-70" onClick={(e) => e.stopPropagation()}>
-                        <h2 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">Logout</h2>
-                        <p className="text-gray-600 mb-6 text-sm sm:text-base">Are you sure you want to logout?</p>
-                        <div className="flex justify-center gap-4 text-sm sm:text-base">
+            {
+                showLogoutConfirm && (
+                    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center" onClick={() => setShowLogoutConfirm(false)}>
+                        <div className="bg-white p-6 rounded-lg shadow-xl text-center sm:w-80 w-70" onClick={(e) => e.stopPropagation()}>
+                            <h2 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">Logout</h2>
+                            <p className="text-gray-600 mb-6 text-sm sm:text-base">Are you sure you want to logout?</p>
+                            <div className="flex justify-center gap-4 text-sm sm:text-base">
+                                <button
+                                    onClick={handleLogout}
+                                    className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded"
+                                >
+                                    Log out
+                                </button>
+                                <button
+                                    onClick={() => setShowLogoutConfirm(false)}
+                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+
+            {/* Profile menu Modal */}
+            {
+                showProfileMenu && (
+                    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-end">
+                        <div className="absolute right-6 top-16 bg-white border rounded-lg shadow-lg w-54 z-50 py-2"
+                            ref={menuRef}>
+                            <div className="px-4 text-base text-gray-700 font-medium ">Hi, {name}</div>
+                            <div className="px-4 py-2 text-xs text-gray-500 font-medium border-b">{email}</div>
                             <button
-                                onClick={handleLogout}
-                                className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded"
+                                onClick={() => {
+                                    setShowAddBankAccountModal();
+                                    // navigate('/add-bank');
+                                }}
+                                className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100"
                             >
-                                Log out
+                                <span className="flex items-center gap-2">
+                                    <img src="https://www.svgrepo.com/show/438323/bank-account.svg" alt="bank-icon" className='h-6 w-6' />
+                                    Add Bank Account
+                                </span>
+
                             </button>
                             <button
-                                onClick={() => setShowLogoutConfirm(false)}
-                                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded"
+                                onClick={() => {
+                                    setShowProfileMenu(false);
+                                    setShowLogoutConfirm(true);
+                                }}
+                                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                             >
-                                Cancel
+                                <span className="flex items-center gap-2">
+                                    <img src="https://thumb.ac-illust.com/fc/fcf4d81871da64c22aca19fe3ee776af_t.jpeg" alt="logout" className='h-6 w-6' />
+                                    Logout
+
+                                </span>
                             </button>
                         </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
-            {/* Profile menu Modal */}
-            {showProfileMenu && (
-                <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-end">
-                    <div className="absolute right-6 top-16 bg-white border rounded-lg shadow-lg w-54 z-50 py-2"
-                        ref={menuRef}>
-                        <div className="px-4 text-base text-gray-700 font-medium ">Hi, {name}</div>
-                        <div className="px-4 py-2 text-xs text-gray-500 font-medium border-b">{email}</div>
-                        <button
-                            onClick={() => {
-                                setShowAddBankAccountModal();
-                                // navigate('/add-bank');
-                            }}
-                            className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                            <span className="flex items-center gap-2">
-                                <img src="https://www.svgrepo.com/show/438323/bank-account.svg" alt="bank-icon" className='h-6 w-6' />
+            {
+                showAddBankAccountForm && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                        <div className="bg-white rounded-xl shadow-xl w-96 p-6 relative">
+                            <button
+                                onClick={() => setShowAddBankAccountForm(false)}
+                                className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
+                            >
+                                <img className="h-5 w-5" src={close} alt="close" />
+                            </button>
+
+                            <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
                                 Add Bank Account
-                            </span>
+                            </h2>
 
-                        </button>
-                        <button
-                            onClick={() => {
-                                setShowProfileMenu(false);
-                                setShowLogoutConfirm(true);
-                            }}
-                            className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                        >
-                            <span className="flex items-center gap-2">
-                                <img src="https://thumb.ac-illust.com/fc/fcf4d81871da64c22aca19fe3ee776af_t.jpeg" alt="logout" className='h-6 w-6' />
-                                Logout
+                            <form
+                                onSubmit={handleAddBank}
+                                className="space-y-4"
+                            >
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Account Holder Name</label>
+                                    <input
+                                        type="text"
+                                        name="accountHolder"
+                                        required
+                                        className="w-full border border-gray-300 rounded px-3 py-2 outline-none"
+                                    />
+                                </div>
 
-                            </span>
-                        </button>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Account Number</label>
+                                    <input
+                                        type="text"
+                                        name="accountNumber"
+                                        required
+                                        className="w-full border border-gray-300 rounded px-3 py-2 outline-none"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">IFSC Code</label>
+                                    <input
+                                        type="text"
+                                        name="ifsc"
+                                        required
+                                        className="w-full border border-gray-300 rounded px-3 py-2 outline-none"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Bank Name</label>
+                                    <input
+                                        type="text"
+                                        name="bankName"
+                                        required
+                                        className="w-full border border-gray-300 rounded px-3 py-2 outline-none"
+                                    />
+                                </div>
+
+                                <div className="text-center">
+                                    <button
+                                        type="submit"
+                                        className="bg-[#ed2024] text-white px-6 py-2 rounded hover:bg-red-600"
+                                    >
+                                        Add Account
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            )}
-
-            {showAddBankAccountForm && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                    <div className="bg-white rounded-xl shadow-xl w-96 p-6 relative">
-                        <button
-                            onClick={() => setShowAddBankAccountForm(false)}
-                            className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
-                        >
-                            <img className="h-5 w-5" src={close} alt="close" />
-                        </button>
-
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-                            Add Bank Account
-                        </h2>
-
-                        <form
-                            onSubmit={handleAddBank}
-                            className="space-y-4"
-                        >
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Account Holder Name</label>
-                                <input
-                                    type="text"
-                                    name="accountHolder"
-                                    required
-                                    className="w-full border border-gray-300 rounded px-3 py-2 outline-none"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Account Number</label>
-                                <input
-                                    type="text"
-                                    name="accountNumber"
-                                    required
-                                    className="w-full border border-gray-300 rounded px-3 py-2 outline-none"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">IFSC Code</label>
-                                <input
-                                    type="text"
-                                    name="ifsc"
-                                    required
-                                    className="w-full border border-gray-300 rounded px-3 py-2 outline-none"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Bank Name</label>
-                                <input
-                                    type="text"
-                                    name="bankName"
-                                    required
-                                    className="w-full border border-gray-300 rounded px-3 py-2 outline-none"
-                                />
-                            </div>
-
-                            <div className="text-center">
-                                <button
-                                    type="submit"
-                                    className="bg-[#ed2024] text-white px-6 py-2 rounded hover:bg-red-600"
-                                >
-                                    Add Account
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+                )
+            }
         </>
     );
 };
