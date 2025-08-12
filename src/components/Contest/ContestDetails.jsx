@@ -634,7 +634,7 @@ const ContestDetails = () => {
                                             {/* <th className="py-2 text-md px-4 w-40">Role</th> */}
                                             <th className="px-4">Team</th>
                                             <th className="py-2 sm:px-4 px-0 text-center">Image</th>
-                                            <th className="py-2 sm:px-4 px-2 text-sm sm:text-md w-56 sm:text-left text-center">Name</th>
+                                            <th className="py-2 sm:px-4 px-2 text-sm sm:text-md w-56">Name</th>
                                             <th className="py-2 sm:px-4 px-2 text-center">C</th>
                                             <th className="py-2 sm:px-4 px-2 text-center">VC</th>
                                         </tr>
