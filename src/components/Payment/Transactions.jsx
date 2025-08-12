@@ -267,7 +267,7 @@ TransactionCard.propTypes = {
         _id: PropTypes.string.isRequired,
         transactionId: PropTypes.string,
         amount: PropTypes.number.isRequired,
-        transactionType: PropTypes.oneOf(['credit', 'debit', 'nothing']).isRequired,
+        transactionType: PropTypes.oneOf(['credit', 'debit', 'nothing', 'refund']).isRequired,
         message: PropTypes.string,
         transactionStatus: PropTypes.oneOf(['success', 'failed', 'pending'])
             .isRequired,
