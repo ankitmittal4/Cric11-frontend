@@ -520,10 +520,10 @@ const UserContestDetails = () => {
         return () => clearInterval(interval);
     }, [contest?.matchDetails?.date, contest?.matchDetails?.startTime]);
 
-    if (contest)
+    if (!contest)
         return (
             <>
-                <div className="flex-col justify-start items-center px-4 animate-pulse">
+                <div className="flex-col justify-start items-center px-4 animate-pulse mt-2">
                     <div className="h-5 w-32 bg-gray-300 rounded mb-2 mx-auto" />
                     <div className="h-6 w-48 bg-gray-300 rounded mx-auto" />
 
@@ -548,12 +548,12 @@ const UserContestDetails = () => {
                     <div className="w-full min-h-screen flex flex-col items-center">
                         <h2 className="text-2xl font-bold text-gray-500 mb-4">My Points: <span className="text-green-500">0</span></h2>
 
-                        <div className="bg-green-600 rounded-2xl w-[360px] h-[430px] relative p-4" style={{
+                        <div className="bg-green-600 rounded-2xl sm:w-[360px] w-[320px] h-[430px] relative p-4" style={{
                             backgroundImage: `url(${ground})`,
                             backgroundSize: '99% 96%',
                         }}>
 
-                            <div className="absolute top-6 left-1/2 -translate-x-1/2 flex gap-24 mt-4">
+                            <div className="absolute top-6 left-1/2 -translate-x-1/2 flex gap-20 mt-4">
                                 {[...Array(2)].map((_, i) => (
                                     <div key={i} className="flex flex-col items-center">
                                         <FontAwesomeIcon
@@ -565,7 +565,7 @@ const UserContestDetails = () => {
                                 ))}
                             </div>
 
-                            <div className="absolute top-[120px] left-1/2 -translate-x-1/2 flex gap-20 mt-2">
+                            <div className="absolute top-[120px] left-1/2 -translate-x-1/2 flex gap-16 mt-2">
                                 {[...Array(3)].map((_, i) => (
                                     <div key={i} className="flex flex-col items-center">
                                         <FontAwesomeIcon
@@ -576,7 +576,7 @@ const UserContestDetails = () => {
                                     </div>
                                 ))}
                             </div>
-                            <div className="absolute top-[220px] left-1/2 -translate-x-1/2 flex gap-20">
+                            <div className="absolute top-[220px] left-1/2 -translate-x-1/2 flex gap-16">
                                 {[...Array(3)].map((_, i) => (
                                     <div key={i} className="flex flex-col items-center">
                                         <FontAwesomeIcon
@@ -587,7 +587,7 @@ const UserContestDetails = () => {
                                     </div>
                                 ))}
                             </div>
-                            <div className="absolute top-[320px] left-1/2 -translate-x-1/2 flex gap-20">
+                            <div className="absolute top-[320px] left-1/2 -translate-x-1/2 flex gap-16">
                                 {[...Array(3)].map((_, i) => (
                                     <div key={i} className="flex flex-col items-center">
                                         <FontAwesomeIcon
