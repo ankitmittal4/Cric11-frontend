@@ -759,12 +759,12 @@ const UserContestDetails = () => {
                                             <div key={player.id} className="text-center">
                                                 <div className="relative">
                                                     {player.id === contest.captain && (
-                                                        <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 -top-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-4' : '-left-2'}`}>
+                                                        <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 -top-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? 'left-2' : '-left-2'}`}>
                                                             C
                                                         </span>
                                                     )}
                                                     {player.id === contest.viceCaptain && (
-                                                        <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 -top-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-3' : '-left-2'}`}>
+                                                        <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 -top-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? 'left-2' : '-left-2'}`}>
                                                             VC
                                                         </span>
                                                     )}
@@ -1254,7 +1254,7 @@ const UserContestDetails = () => {
                                                 <div key={player.id} className="text-center">
                                                     <div className="relative">
                                                         {opponentContest.captain === player.id && (
-                                                            <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-4' : 'sm:-left-2 -left-3'}`}>
+                                                            <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 text-sm text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-4' : 'sm:-left-1 -left-3'}`}>
                                                                 C
                                                             </span>
                                                         )}
