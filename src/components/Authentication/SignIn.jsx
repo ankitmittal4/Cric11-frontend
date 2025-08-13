@@ -245,7 +245,7 @@ const SignIn = () => {
                                         ref={(el) => (otpRefs.current[index] = el)}
                                         type="text"
                                         maxLength="1"
-                                        className="w-14 h-14 text-center border border-gray-300 rounded-md text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-14 h-14 text-center border border-gray-300 rounded-md text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-red-500"
                                         value={otp[index] || ""}
                                         onChange={(e) => handleOtpInput(e, index)}
                                         onKeyDown={(e) => handleBackspace(e, index)}
@@ -254,7 +254,7 @@ const SignIn = () => {
                             </div>
 
                             <button
-                                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-md"
+                                className="w-full bg-rose-700 hover:bg-rose-800 text-white font-semibold py-2 rounded-md"
                                 type='submit'
                             >
                                 Verify Account
@@ -265,14 +265,14 @@ const SignIn = () => {
                             {!isResendVisible ? (
                                 <p>
                                     Didn’t receive code?{' '}
-                                    <span className="text-blue-500">Resend in {formatTime(counter)}</span>
+                                    <span className="text-rose-500">Resend in {formatTime(counter)}</span>
                                 </p>
                             ) : (
                                 <p>
                                     Didn’t receive code?{' '}
                                     <button
                                         onClick={handleResendOtp}
-                                        className="text-blue-600 font-medium hover:underline"
+                                        className="text-rose-600 font-medium hover:underline"
                                     >
                                         Resend
                                     </button>
