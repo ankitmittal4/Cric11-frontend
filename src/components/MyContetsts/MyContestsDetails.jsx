@@ -1259,7 +1259,7 @@ const UserContestDetails = () => {
                                                             </span>
                                                         )}
                                                         {opponentContest.viceCaptain === player.id && (
-                                                            <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-3' : 'sm:-left-2 -left-1'}`}>
+                                                            <span className={`flex items-center justify-center w-6 h-6 absolute sm:-top-3 sm:left-2 -top-4 text-xs text-white font-medium bg-gray-500 p-1 rounded-full z-10 ${player.playerImg === "https://h.cricapi.com/img/icon512.png" ? '-left-3' : 'sm:-left-1 -left-1'}`}>
                                                                 VC
                                                             </span>
                                                         )}
