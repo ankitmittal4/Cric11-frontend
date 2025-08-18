@@ -1,7 +1,18 @@
 # <p align="center" >🏏Cric11 – Fantasy Cricket Web App (Frontend) </p>
 <p align="center"> <img src="https://img.shields.io/badge/React.js-18.2-blue?style=for-the-badge&logo=react" alt="React.js"/> <img src="https://img.shields.io/badge/TailwindCSS-3.4-38B2AC?style=for-the-badge&logo=tailwindcss" alt="Tailwind"/> <img src="https://img.shields.io/badge/Vite-Build-lightgreen?style=for-the-badge&logo=vite" alt="Vite"/> </p> <p align="center"> <b>Cric11 is a fantasy cricket web application where users can create their dream team, choose captain & vice-captain and join contests in real time.</b> </p>
 
+---
 
+## 🎥 Live Project Link  
+
+<p align="center">
+  <a href="https://cric11-fantasy.onrender.com/" target="_blank">
+    <img src="https://img.shields.io/badge/CRIC11-Click%20Here-blue?style=for-the-badge&logo=react" alt="Cric11"/>
+  </a>
+</p>
+
+
+---
 
 ## 🚀 Features
 
@@ -36,32 +47,41 @@
 1. Clone the Repo
 
 ```bash
-git clone https://github.com/ankitmittal4/skyapex-task.git
-cd skyapex-task
+git clone https://github.com/ankitmittal4/Cric11-frontend.git
+cd Cric11-frontend
 ```
 
-2. Install Backend
+2. Install dependencies
 
 ```bash
-cd Backend
 npm install
 ```
 
-3. Install Frontend
-
-```bash
-cd ../Frontend
-npm install
-```
-
-4. Start Backend
-
-```bash
-node index.js
-```
-
-4. Start Frontend
+4. Run the development server
 
 ```bash
 npm run dev
 ```
+
+4. Build for production
+
+```bash
+npm run build
+```
+
+
+---
+
+## 📧 Contact
+
+## Ankit Mittal
+
+Portfolio: https://ankit-dev.onrender.com
+
+LinkedIn: https://www.linkedin.com/in/ankit305
+
+Email: ankitmittal0814@gmail.com
+
+---
+
+✨ If you like this project, don’t forget to give it a star ⭐ on GitHub!
