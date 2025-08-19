@@ -109,7 +109,7 @@ const Home = () => {
             <div className="container mx-auto p-4">
                 <div className="text-center text-red-600">
                     <h2 className="text-xl font-bold mb-4">Error Loading Matches</h2>
-                    <p>{error}</p>
+                    <p>{typeof error === 'string' ? error : error?.message || 'Something went wrong'}</p>
                     <button
                         onClick={() => dispatch(fetchMatches())}
                         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"

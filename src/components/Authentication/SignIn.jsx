@@ -26,7 +26,7 @@ const SignIn = () => {
         if (localStorage.getItem('accessToken')) {
             navigate('/');
         }
-    }, []);
+    }, [navigate]);
 
     const RESEND_INTERVAL = 119;
     const [counter, setCounter] = useState(RESEND_INTERVAL);
@@ -150,6 +150,7 @@ const SignIn = () => {
             setTimeout(() => {
                 setOtpError('');
             }, 3 * 1000);
+            setLoading(false);
             return;
         }
         try {
@@ -157,13 +158,14 @@ const SignIn = () => {
                 email: values.email,
                 otp: code,
             });
-            navigate('/');
             setOtpError('')
             setOtp(["", "", "", ""]);
 
             localStorage.setItem('accessToken', res.data.data.accessToken);
             localStorage.setItem('email', res.data.data.user.email);
             localStorage.setItem('fullName', res.data.data.user.fullName);
+
+            navigate('/');
 
             try {
                 // const time = new Date().toLocaleString();
@@ -176,7 +178,6 @@ const SignIn = () => {
             } catch (error) {
                 console.error("Error sending email:", error);
             }
-            useFormik.action.resetForm();
             setShowOtpPage(false);
         } catch (err) {
             setOtpError(err.response?.data?.message || "OTP verification failed");
