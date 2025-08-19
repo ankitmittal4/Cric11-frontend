@@ -1,8 +1,13 @@
 # <p align="center" >🏏Cric11 – Fantasy Cricket Web App (Frontend) </p>
 <p align="center"> 
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:38B2AC,100:9333EA&height=200&section=header&text=Cric11%20Frontend&fontSize=40&fontColor=ffffff&animation=twinkling&fontAlignY=35" /> 
+</p> 
+<p align="center"> 
   <img src="https://img.shields.io/badge/React.js-18.2-blue?style=for-the-badge&logo=react" alt="React.js"/> 
   <img src="https://img.shields.io/badge/TailwindCSS-3.4-38B2AC?style=for-the-badge&logo=tailwindcss" alt="Tailwind"/> 
   <img src="https://img.shields.io/badge/Vite-Build-lightgreen?style=for-the-badge&logo=vite" alt="Vite"/> 
+  <img src="https://img.shields.io/badge/Redux%20Toolkit-State%20Management-764ABC?style=for-the-badge&logo=redux&logoColor=white" alt="Redux Toolkit"/> 
+  <img src="https://img.shields.io/badge/Axios-HTTP%20Client-5A29E4?style=for-the-badge&logo=axios&logoColor=white" alt="Axios"/> 
 </p> 
 <p align="center"> 
   <b>Cric11 is a fantasy cricket web application where users can create their dream team, choose captain & vice-captain and join contests in real time.</b> 
