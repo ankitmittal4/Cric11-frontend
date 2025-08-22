@@ -94,6 +94,7 @@ const UserContestDetails = () => {
         };
     }, [isPopupOpen]);
 
+    //if match started
     useEffect(() => {
         if (!hasFetchded.current) {
             hasFetchded.current = true;
