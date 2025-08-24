@@ -25,14 +25,14 @@ const Contests = () => {
             const data = response.data.data;
             // setContests(response.data.data);
             const today = new Date();
-            const threeDaysAgo = new Date();
-            threeDaysAgo.setDate(today.getDate() - 4);
+            const twentyDaysAgo = new Date();
+            twentyDaysAgo.setDate(today.getDate() - 20);
 
             const filteredContests = [];
 
             for (const contest of data) {
                 const matchDate = new Date(contest.match.date);
-                if (matchDate < threeDaysAgo) {
+                if (matchDate < twentyDaysAgo) {
                     try {
                         console.log(contest._id);
                         await axios.delete(`${API_URL}/contests/delete/`, {
