@@ -55,57 +55,56 @@ const Users = () => {
     //   }
     // };
     return (
-        // <>
-        //   <h2 className="text-2xl font-bold mb-5">All Users</h2>
-        //   <div className="bg-gray-800 w-full rounded-lg">
-        //     {loading ? (
-        //       <p>Loading...</p>
-        //     ) : (
-        //       <div>
-        //         <table className="min-w-full bg-gray-800 rounded-lg">
-        //           <thead>
-        //             <tr className="text-left ">
-        //               <th className="py-2 text-xl px-4 border-b">Name</th>
-        //               <th className="py-2 text-xl border-b">Email</th>
-        //               <th className="py-2 text-xl border-b">Added On</th>
-        //             </tr>
-        //           </thead>
-        //           <tbody>
-        //             {users.map((user) => (
-        //               <tr key={user.id} className="text-lg ">
-        //                 <td className="py-2 px-4">{user.name}</td>
-        //                 <td className="py-2">{user.email}</td>
-        //                 <td className="py-2">
-        //                   {new Date(user.addedOn).toLocaleDateString()}
-        //                 </td>
-        //               </tr>
-        //             ))}
-        //           </tbody>
-        //         </table>
-        //         <div className="flex justify-between items-center mt-5">
-        //           <button
-        //             onClick={() => handlePageChange(currentPage - 1)}
-        //             disabled={currentPage === 1}
-        //             className="px-4 py-2 ml-10 mb-8 mt-6 bg-gray-600 rounded disabled:opacity-50 "
-        //           >
-        //             Previous
-        //           </button>
-        //           <span className="text-black">
-        //             Page {currentPage} of {totalPages}
-        //           </span>
-        //           <button
-        //             onClick={() => handlePageChange(currentPage + 1)}
-        //             disabled={currentPage === totalPages}
-        //             className="px-4 py-2 mr-10 mb-8 mt-6 bg-gray-600 rounded disabled:opacity-50"
-        //           >
-        //             Next
-        //           </button>
-        //         </div>
-        //       </div>
-        //     )}
-        //   </div>
-        // </>
-        <></>
+        <>
+            <h2 className="text-2xl font-bold mb-5">All Cric Users</h2>
+            <div className="bg-gray-800 w-full rounded-lg">
+                {loading ? (
+                    <p>Loading...</p>
+                ) : (
+                    <div>
+                        <table className="min-w-full bg-gray-800 rounded-lg">
+                            <thead>
+                                <tr className="text-left ">
+                                    <th className="py-2 text-xl px-4 border-b">Name</th>
+                                    <th className="py-2 text-xl border-b">Email</th>
+                                    <th className="py-2 text-xl border-b">Added On</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users.map((user) => (
+                                    <tr key={user.id} className="text-lg ">
+                                        <td className="py-2 px-4">{user.name}</td>
+                                        <td className="py-2">{user.email}</td>
+                                        <td className="py-2">
+                                            {new Date(user.addedOn).toLocaleDateString()}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <div className="flex justify-between items-center mt-5">
+                            <button
+                                // onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className="px-4 py-2 ml-10 mb-8 mt-6 bg-gray-600 rounded disabled:opacity-50 "
+                            >
+                                Previous
+                            </button>
+                            <span className="text-black">
+                                Page {currentPage} of {totalPages}
+                            </span>
+                            <button
+                                // onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className="px-4 py-2 mr-10 mb-8 mt-6 bg-gray-600 rounded disabled:opacity-50"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </>
     );
 };
 
