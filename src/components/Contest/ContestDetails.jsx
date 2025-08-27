@@ -651,7 +651,7 @@ const ContestDetails = () => {
                                                 }
                                                 onClick={() => handlePlayerSelection(player.id)}
                                             >
-                                                <td className="py-2 px-4 border-b">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym || contest.matchDetails.teamA.slice(0, 3).toUpperCase() : contest.matchDetails.teamBAcronym || contest.matchDetails.team.slice(0, 3).toUpperCase()}</td>
+                                                <td className="py-2 px-4 border-b">{player.team === contest.matchDetails.teamA ? contest.matchDetails.teamAAcronym || contest.matchDetails.teamA?.slice(0, 3).toUpperCase() : contest.matchDetails.teamBAcronym || contest.matchDetails.teamB.slice(0, 3).toUpperCase()}</td>
                                                 <td className="py-2 sm:px-4 px-1 border-b text-center">
                                                     {
                                                         player.playerImg !== "https://h.cricapi.com/img/icon512.png" ? (
