@@ -27,7 +27,7 @@ const CreateContest = () => {
         setLoading(true);
         // Reset error message
         setErrorMessage('');
-
+        // console.log(typeof (entryFee));
         if (entryFee <= 0 || prizePool <= 0 || prizePool <= entryFee || prizePool > entryFee * 2) {
             setErrorMessage('Entry Fee and Prize Pool must be valid numbers.');
             setTimeout(() => {
@@ -107,7 +107,7 @@ const CreateContest = () => {
                             type="number"
                             id="entryFee"
                             value={entryFee}
-                            onChange={(e) => setEntryFee(e.target.value)}
+                            onChange={(e) => setEntryFee(Number(e.target.value))}
                             className="w-full p-2 bg-gray-700 border border-gray-600 rounded-md"
                             required
                         />
@@ -123,7 +123,7 @@ const CreateContest = () => {
                             type="number"
                             id="prizePool"
                             value={prizePool}
-                            onChange={(e) => setPrizePool(e.target.value)}
+                            onChange={(e) => setPrizePool(Number(e.target.value))}
                             className="w-full p-2 bg-gray-700 border border-gray-600 rounded-md"
                             required
                         />
