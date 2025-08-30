@@ -17,6 +17,7 @@ const DashboardRoutes = () => {
           <Routes>
             <Route path="/" element={<Users />} />
             <Route path="/matches" element={<Matches />} />
+            <Route path="/users" element={<Users />} />
             <Route
               path="/matches/create-contest/:matchId"
               element={<CreateContest />}
