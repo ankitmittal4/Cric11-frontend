@@ -53,6 +53,11 @@ const CreateContest = () => {
             const response = await axios.post(
                 `${API_URL}/contests/create`,
                 contestData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('adminAccessToken')}`,
+                    },
+                },
             );
             setLoading(false);
             if (response.data.statusCode === 200) {
