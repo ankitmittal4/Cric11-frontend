@@ -12,8 +12,8 @@ const CreateContest = () => {
     const location = useLocation();
     // console.log("Location", location);
     const { t1, t2, t1img, t2img, series } = location.state;
-    const [entryFee, setEntryFee] = useState('');
-    const [prizePool, setPrizePool] = useState('');
+    let [entryFee, setEntryFee] = useState('');
+    let [prizePool, setPrizePool] = useState('');
     const [totalSpots, setTotalSpots] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
@@ -23,11 +23,16 @@ const CreateContest = () => {
     const [popupMessage, setPopupMessage] = useState('');
 
     const handleSubmit = async (e) => {
+        entryFee = Number(entryFee);
+        prizePool = Number(prizePool);
+        // setEntryFee(Number(entryFee))
+        // setPrizePool(Number(prizePool))
+
         e.preventDefault();
         setLoading(true);
         // Reset error message
         setErrorMessage('');
-        // console.log(typeof (entryFee));
+        console.log(typeof (entryFee));
         if (entryFee <= 0 || prizePool <= 0 || prizePool <= entryFee || prizePool > entryFee * 2) {
             setErrorMessage('Entry Fee and Prize Pool must be valid numbers.');
             setTimeout(() => {
@@ -112,7 +117,7 @@ const CreateContest = () => {
                             type="number"
                             id="entryFee"
                             value={entryFee}
-                            onChange={(e) => setEntryFee(Number(e.target.value))}
+                            onChange={(e) => setEntryFee(e.target.value)}
                             className="w-full p-2 bg-gray-700 border border-gray-600 rounded-md"
                             required
                         />
@@ -128,7 +133,7 @@ const CreateContest = () => {
                             type="number"
                             id="prizePool"
                             value={prizePool}
-                            onChange={(e) => setPrizePool(Number(e.target.value))}
+                            onChange={(e) => setPrizePool(e.target.value)}
                             className="w-full p-2 bg-gray-700 border border-gray-600 rounded-md"
                             required
                         />
