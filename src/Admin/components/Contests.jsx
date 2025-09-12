@@ -84,7 +84,7 @@ const Contests = () => {
                     <Link
                         // to={`/${contest._id}`}
                         key={contest._id}
-                        className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-600 bg-slate-400 hover:bg-slate-500"
+                        className="mb-2 p-4 rounded-lg shadow-md border-2 border-gray-600 bg-slate-400 hover:bg-slate-300"
                     >
                         <h2 className="text-xl font-bold text-center text-gray-900 mb-1 ">
                             {contest.match.name}
